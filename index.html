@@ -556,6 +556,30 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
   .criteria-bars{grid-template-columns:repeat(2,1fr);}
 }
 
+/* ── END OF TEST BANNER ─────────────────── */
+.end-test-banner{
+  margin:16px;padding:18px 20px;
+  background:linear-gradient(135deg,rgba(240,180,41,0.12),rgba(34,196,122,0.08));
+  border:1.5px solid rgba(240,180,41,0.4);border-radius:16px;
+  text-align:center;animation:bannerPop .4s ease;
+}
+@keyframes bannerPop{from{transform:scale(0.95);opacity:0;}to{transform:scale(1);opacity:1;}}
+.end-test-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--gold);margin-bottom:6px;}
+.end-test-sub{font-size:13px;color:var(--muted2);}
+/* ── ANALYSIS CARDS ─────────────────────── */
+.analysis-card{background:var(--s2);border:1px solid var(--border2);border-radius:14px;padding:16px 18px;margin-bottom:12px;}
+.ac-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.ac-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.ac-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;}
+.vocab-pair{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--s3);border-radius:8px;margin-bottom:6px;flex-wrap:wrap;}
+.vocab-wrong{color:var(--red);font-size:14px;text-decoration:line-through;font-weight:600;}
+.vocab-arrow{color:var(--muted);font-size:14px;}
+.vocab-right{color:var(--green);font-size:14px;font-weight:700;}
+.vocab-note{font-size:12px;color:var(--muted2);margin-top:2px;flex-basis:100%;}
+.weakness-item{padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text);line-height:1.6;}
+.weakness-item:last-child{border-bottom:none;}
+.weakness-item strong{color:var(--gold);}
+
 /* ── VOICE MODAL ─────────────────────────── */
 .modal-overlay{
   position:fixed;inset:0;z-index:1000;
@@ -719,39 +743,6 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
   .ai-topic-actions{width:100%;justify-content:stretch;}
   .btn-regen,.btn-start-ai{flex:1;text-align:center;}
 }
-
-/* ── VOCAB LIST ──────────────────────────── */
-.vocab-item{
-  display:flex;flex-direction:column;gap:4px;
-  padding:12px 0;border-bottom:1px solid var(--border);
-}
-.vocab-item:last-child{border-bottom:none;}
-.vocab-word{
-  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-}
-.vocab-en{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text);}
-.vocab-pos{font-size:11px;color:var(--muted);background:var(--s3);padding:2px 7px;border-radius:5px;font-weight:600;}
-.vocab-band{font-size:11px;font-weight:700;padding:2px 7px;border-radius:5px;}
-.vocab-def{font-size:13px;color:var(--muted2);line-height:1.55;}
-.vocab-ex{font-size:12px;color:var(--muted);font-style:italic;margin-top:2px;padding-left:10px;border-left:2px solid var(--border2);}
-.vocab-loading{text-align:center;padding:20px;color:var(--muted);font-size:13px;}
-
-/* ── ACCURACY BADGE ──────────────────────── */
-.accuracy-section{
-  background:var(--s1);border:1px solid var(--border);
-  border-radius:20px;padding:20px 22px;margin-bottom:14px;
-}
-.acc-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
-.acc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-.acc-crit{background:var(--s2);border:1px solid var(--border);border-radius:11px;padding:12px;}
-.acc-crit-name{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600;margin-bottom:6px;}
-.acc-crit-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:5px;}
-.acc-bar{height:4px;background:var(--s3);border-radius:2px;overflow:hidden;}
-.acc-fill{height:100%;border-radius:2px;transition:width .8s ease;}
-.acc-note{font-size:12px;color:var(--muted);line-height:1.6;padding:10px 12px;background:var(--s2);border-radius:10px;border-left:3px solid var(--blue);}
-.acc-overall{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:linear-gradient(135deg,rgba(34,196,122,0.08),rgba(61,142,240,0.08));border:1px solid rgba(34,196,122,0.2);border-radius:12px;margin-bottom:12px;}
-.acc-overall-label{font-size:13px;color:var(--muted2);}
-.acc-overall-val{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--green);}
 </style>
 </head>
 <body>
@@ -1017,58 +1008,26 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
       </div>
     </div>
 
-    <div class="accuracy-section" id="accuracy-section">
-      <div class="acc-title">🎯 Baholash aniqligi tahlili</div>
-      <div class="acc-overall">
-        <div class="acc-overall-label">Umumiy aniqlik</div>
-        <div class="acc-overall-val" id="acc-overall-val">—%</div>
-      </div>
-      <div class="acc-grid">
-        <div class="acc-crit">
-          <div class="acc-crit-name">Lexical Resource</div>
-          <div class="acc-crit-val" style="color:var(--blue)" id="acc-l">92%</div>
-          <div class="acc-bar"><div class="acc-fill" id="accf-l" style="width:92%;background:var(--blue)"></div></div>
-        </div>
-        <div class="acc-crit">
-          <div class="acc-crit-name">Grammatical Range</div>
-          <div class="acc-crit-val" style="color:var(--purple)" id="acc-g">90%</div>
-          <div class="acc-bar"><div class="acc-fill" id="accf-g" style="width:90%;background:var(--purple)"></div></div>
-        </div>
-        <div class="acc-crit">
-          <div class="acc-crit-name">Fluency & Coherence</div>
-          <div class="acc-crit-val" style="color:var(--red)" id="acc-f">72%</div>
-          <div class="acc-bar"><div class="acc-fill" id="accf-f" style="width:72%;background:var(--red)"></div></div>
-        </div>
-        <div class="acc-crit">
-          <div class="acc-crit-name">Pronunciation</div>
-          <div class="acc-crit-val" style="color:var(--gold)" id="acc-p">45%</div>
-          <div class="acc-bar"><div class="acc-fill" id="accf-p" style="width:45%;background:var(--gold)"></div></div>
-        </div>
-      </div>
-      <div class="acc-note" id="acc-note">
-        ⚠️ <strong>Cheklov:</strong> AI matn asosida baholaydi — tovush eshitmaydi. Pronunciation ball kamroq aniq (45%). Lexical va Grammar ballari eng aniq (90%+). Rasmiy IELTS examiner bilan farq ±0.5–1 band bo'lishi mumkin.
-      </div>
-    </div>
-
     <div class="res-breakdown">
       <div class="rbd-title">📋 Batafsil tahlil</div>
       <div id="r-feedback"></div>
     </div>
 
-    <div class="res-breakdown" id="vocab-section" style="display:none">
-      <div class="rbd-title">📖 Lug'at — Kamchiliklarni to'ldirish</div>
-      <div id="r-vocab-list"></div>
+    <!-- AI Deep Analysis Section -->
+    <div class="res-breakdown" id="analysis-section" style="display:none">
+      <div class="rbd-title">🔬 AI Chuqur Tahlil <span id="analysis-loading" style="font-size:12px;color:var(--muted);font-weight:400">— tahlil qilinmoqda...</span></div>
+      <div id="analysis-content"></div>
     </div>
 
     <div class="res-actions">
       <button class="btn-outline" onclick="goDash()">← Dashboard</button>
-      <button class="btn-outline" id="btn-pdf" onclick="downloadPDF()" style="background:var(--s2);border-color:var(--green);color:var(--green)">📄 PDF Yuklab olish</button>
+      <button class="btn-filled" id="pdf-btn" onclick="downloadPDF()" style="background:linear-gradient(135deg,var(--green),#15a060);box-shadow:0 6px 20px rgba(34,196,122,0.3);">📥 PDF Yuklab olish</button>
       <button class="btn-filled" onclick="goDash()">Yangi test →</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════ VOICE SETTINGS MODAL ══════════ -->
+
 <div class="modal-overlay" id="voice-modal-overlay" onclick="closeVoiceModal(event)">
   <div class="voice-modal">
     <div class="vm-header">
@@ -1150,7 +1109,8 @@ const S = {
   first:'', last:'', apiKey:'', targetBand:7,
   topic:null, history:[], scores:[],
   qCount:0, isLoading:false, testActive:false,
-  allTests:[]
+  allTests:[], currentResult:null, lastAnalysis:null,
+  model:'meta-llama/llama-4-scout-17b-16e-instruct', sysPrompt:''
 };
 
 // ══ TOPICS ═════════════════════════════════
@@ -1181,13 +1141,10 @@ const TIPS = [
 
 // ══ INIT ═══════════════════════════════════
 window.speechSynthesis && window.speechSynthesis.getVoices(); // preload voices
-loadVoiceSettings();
-// Ask mic permission once on load
-document.addEventListener('click', function askMic(){
-  initRecognizer();
-  document.removeEventListener('click', askMic);
-}, {once: true});
 window.onload = () => {
+  loadVoiceSettings();
+  // Request mic permission once silently — no repeated dialogs
+  requestMicOnce();
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('uz-UZ',{day:'2-digit',month:'long',year:'numeric'});
   loadData();
   try {
@@ -1455,7 +1412,7 @@ async function startAITest(){
   if(!currentAITopic){ showToast('Avval mavzu tanlang!'); return; }
   const topic = currentAITopic;
   S.topic = {
-    id:'ai', name: topic.nameEn,
+    id:'ai', name: topic.nameEn, emoji: topic.emoji||'🎯',
     p1: topic.p1||topic.nameEn, p2: topic.p2||topic.nameEn, p3: topic.p3||topic.nameEn
   };
   S.history=[]; S.scores=[]; S.qCount=0; S.testActive=true;
@@ -1464,27 +1421,17 @@ async function startAITest(){
   document.getElementById('chat-feed').innerHTML   = '';
   updateProg(); buildQGrid(); resetLive();
   showScreen('test');
-  S.sysPrompt = `You are a strict, professional IELTS Speaking examiner. Candidate: ${S.first} ${S.last}. Target band: ${S.targetBand}. Topic: "${topic.nameEn}".
+  S.sysPrompt = `You are a professional IELTS Speaking examiner. Candidate: ${S.first} ${S.last}. Target band: ${S.targetBand}. Topic: "${topic.nameEn}".
 
-OFFICIAL IELTS BAND DESCRIPTORS — score accurately against these:
-FLUENCY(F): 9=fluent no hesitation; 8=very fluent minor hesitation; 7=keeps going some mid-sentence pauses; 6=willing to produce long turns coherence sometimes lost; 5=relies on repetition slow speech; 4=noticeable pauses; 3=long pauses limited linking; 2=pause before every word; 1=incoherent
-LEXICAL(L): 9=precise idiomatic; 8=wide resource skilful idioms; 7=less common items style awareness; 6=sufficient vocab meaning clear; 5=limited flexibility paraphrase attempted; 4=basic meaning only; 3=simple vocab; 2=isolated words
-GRAMMAR(G): 9=precise native-like; 8=wide range mostly error-free; 7=range used frequent error-free sentences; 6=mix short/complex errors rarely impede; 5=basic forms controlled complex attempted; 4=basic forms errors frequent; 3=numerous errors; 2=no basic sentence forms
-PRONUNCIATION(P): 9=full phonological range; 8=wide range sustains rhythm; 7=band6 features plus some band8; 6=range used variable control; 5=band4 plus some band6; 4=limited range frequent lapses; 3=some features band2 and band4; 2=mainly mispronounced
-
-TEST STRUCTURE — follow strictly:
-- Part 1: 4-5 personal questions about ${topic.p1}
-- Part 2: Cue card with 4 bullet points about ${topic.p2}, candidate speaks 1-2 min, then 1 follow-up
-- Part 3: 4-5 abstract questions about ${topic.p3}
-- Total: 11-15 questions MAXIMUM. After that, END the test.
-
-STRICT OUTPUT RULES:
+STRICT RULES:
 1. Speak ONLY in English. Never use Uzbek or any other language.
-2. After EVERY candidate answer output ONLY this exact format — nothing before or after:
-[EVAL]F:N|L:N|G:N|P:N|CMT:one specific English feedback sentence|TIP:one concrete tip with example word or phrase|NXT:your next examiner words[/EVAL]
-Where N is IELTS band 1-9, decimals allowed (e.g. 6.5). Score STRICTLY per descriptors above.
-3. When ALL questions done (11-15 answered), end NXT with EXACTLY this phrase: "That concludes our speaking test today. Thank you, ${S.first}."
-4. NEVER ask more questions after test-end phrase. NEVER break [EVAL] format.`
+2. Follow IELTS 3-part structure: Part 1 (4-5 personal questions about ${topic.p1}), Part 2 (cue card with 4 bullets about ${topic.p2} — give candidate 1 min to prepare then 2 mins to speak), Part 3 (4-5 abstract discussion questions about ${topic.p3}). Total 11-15 questions minimum.
+3. After EVERY candidate answer, respond ONLY in this exact format:
+[EVAL]F:N|L:N|G:N|P:N|CMT:brief English feedback|TIP:one improvement tip|NXT:your next examiner words[/EVAL]
+Where N = IELTS band 1-9 (decimals ok). Score strictly and accurately using official IELTS band descriptors.
+4. NXT must be your natural examiner speech — next question, cue card, or part transition.
+5. ONLY when ALL parts (1, 2 and 3) are fully complete, end NXT with EXACTLY: "That concludes our speaking test today. Thank you for your participation."
+6. NEVER end early. Complete ALL parts. NEVER add any text outside [EVAL]...[/EVAL]. NEVER explain the format.`;
   await callAI(`Begin the IELTS Speaking test now. Your first words must be a warm professional greeting, then ask for the candidate's full name and where they're from. Do NOT use [EVAL] format for this first message — just speak naturally as the examiner.`);
 }
 
@@ -1530,101 +1477,125 @@ async function startTest(tid){
 
 
 // ══ VOICE RECOGNITION ══════════════════════
-let recognizer = null;
-let isRecording = false;
-let finalTranscript = '';
+// Strategy: recognizer runs CONTINUOUSLY the whole session — never stopped.
+// _active flag controls whether we collect speech. This way Chrome never
+// re-triggers the permission dialog.
+let recognizer   = null;
+let _active      = false; // are we actively collecting speech?
+let isRecording  = false; // alias used elsewhere
+let recReady     = false;
+let finalTranscript   = '';
 let interimTranscript = '';
-let recReady = false;
+let _keepAliveStream  = null;
 
 function initRecognizer(){
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SR){ showToast("Chrome ishlatng — mikrofon qo'llab-quvvatlanmaydi"); return; }
-  if(recognizer) return; // already created
+  if(!SR || recognizer) return;
   const r = new SR();
-  r.continuous = true;
-  r.interimResults = true;
-  r.lang = 'en-US';
-  r.onstart = () => {
-    isRecording = true;
-    recReady = true;
-    document.getElementById('mic-btn').classList.add('active');
-    document.getElementById('voice-status').classList.add('recording');
-    document.getElementById('voice-status').classList.remove('speaking');
-    document.getElementById('vs-txt').textContent = 'Listening... Speak now!';
-    document.getElementById('mic-label').textContent = 'Gapiring...';
-  };
+  r.continuous      = true;
+  r.interimResults  = true;
+  r.lang            = 'en-US';
+
+  r.onstart = () => { recReady = true; };
+
   r.onresult = (e) => {
-    interimTranscript = '';
+    if(!_active) return; // ignore results when not in listening mode
     for(let i = e.resultIndex; i < e.results.length; i++){
-      if(e.results[i].isFinal){ finalTranscript += e.results[i][0].transcript + ' '; }
-      else { interimTranscript += e.results[i][0].transcript; }
+      if(e.results[i].isFinal) finalTranscript += e.results[i][0].transcript + ' ';
+      else interimTranscript = e.results[i][0].transcript;
     }
     const preview = document.getElementById('transcript-preview');
-    preview.classList.add('has-text');
-    preview.innerHTML = finalTranscript + (interimTranscript ? `<span class="interim">${interimTranscript}</span>` : '');
-    preview.scrollTop = preview.scrollHeight;
-    document.getElementById('send-voice-btn').disabled = !finalTranscript.trim();
+    if(preview){
+      preview.classList.add('has-text');
+      preview.innerHTML = finalTranscript + (interimTranscript ? `<span class="interim">${interimTranscript}</span>` : '');
+      preview.scrollTop = preview.scrollHeight;
+    }
+    const svb = document.getElementById('send-voice-btn');
+    if(svb) svb.disabled = !finalTranscript.trim();
   };
+
   r.onerror = (e) => {
-    if(e.error === 'no-speech') return;
-    if(e.error === 'aborted') return;
+    if(e.error === 'no-speech' || e.error === 'aborted') return;
     if(e.error === 'not-allowed'){
-      showToast('Mikrofonga ruxsat bering: brauzer sozlamalaridan ruxsat bering');
+      showToast('❌ Mikrofon ruxsati rad etildi. Brauzer sozlamalaridan ruxsat bering.');
       return;
     }
-    showToast('Mikrofon xatosi: ' + e.error);
   };
-  r.onend = () => {
-    if(isRecording){
-      try{ r.start(); } catch(e){}
-    } else {
-      document.getElementById('mic-btn').classList.remove('active');
-      document.getElementById('voice-status').classList.remove('recording');
-    }
-  };
+
+  // ALWAYS restart — this is the key: recognizer never truly stops
+  r.onend = () => { try{ r.start(); } catch(err){} };
+
   recognizer = r;
+  try{ r.start(); } catch(err){}
+}
+
+function requestMicOnce(){
+  if(_keepAliveStream) return;
+  if(!navigator.mediaDevices?.getUserMedia){ initRecognizer(); return; }
+  navigator.mediaDevices.getUserMedia({audio:true})
+    .then(stream => {
+      _keepAliveStream = stream; // keep alive FOREVER — never stop tracks
+      initRecognizer();
+    })
+    .catch(() => {
+      showToast('❌ Mikrofon ruxsati rad etildi. Brauzer sozlamalaridan ruxsat bering.');
+    });
 }
 
 function toggleMic(){
-  if(!isRecording){ startRec(); } else { stopRec(); }
+  if(!_active){ startRec(); } else { stopRec(); }
 }
 
 function startRec(){
-  if(S.isLoading || isSpeaking) return; // don't record while AI loading or speaking
+  if(S.isLoading || isSpeaking) return;
   finalTranscript = ''; interimTranscript = '';
-  document.getElementById('transcript-preview').innerHTML = '';
-  document.getElementById('transcript-preview').classList.remove('has-text');
-  document.getElementById('send-voice-btn').disabled = true;
-  if(!recognizer) initRecognizer();
-  if(!recognizer) return;
-  try{
-    isRecording = true;
-    recognizer.start();
-  } catch(e){
-    // already started — just mark as recording
-    isRecording = true;
-  }
+  _active = true; isRecording = true;
+  const preview = document.getElementById('transcript-preview');
+  if(preview){ preview.innerHTML = ''; preview.classList.remove('has-text'); }
+  const svb = document.getElementById('send-voice-btn');
+  if(svb) svb.disabled = true;
+  // UI
+  const mb = document.getElementById('mic-btn');
+  const vs = document.getElementById('voice-status');
+  const vt = document.getElementById('vs-txt');
+  const ml = document.getElementById('mic-label');
+  if(mb) mb.classList.add('active');
+  if(vs){ vs.classList.add('recording'); vs.classList.remove('speaking'); }
+  if(vt) vt.textContent = 'Listening... Speak now!';
+  if(ml) ml.textContent = 'Gapiring...';
+  // If recognizer not init yet (first use before permission granted)
+  if(!recognizer) requestMicOnce();
 }
 
 function stopRec(){
-  isRecording = false;
-  if(recognizer){ try{ recognizer.stop(); }catch(e){} }
-  document.getElementById('mic-btn').classList.remove('active');
-  document.getElementById('voice-status').classList.remove('recording');
-  document.getElementById('vs-txt').textContent = finalTranscript ? 'Tayyor. Yuborish tugmasini bosing.' : 'Mikrofon tugmasini bosing';
-  document.getElementById('mic-label').textContent = finalTranscript ? 'Tayyor — yuborishingiz mumkin' : 'Bosing va gapirishni boshlang';
+  _active = false; isRecording = false;
+  // DO NOT call recognizer.stop() — let it keep running silently
+  const mb = document.getElementById('mic-btn');
+  const vs = document.getElementById('voice-status');
+  const vt = document.getElementById('vs-txt');
+  const ml = document.getElementById('mic-label');
+  if(mb) mb.classList.remove('active');
+  if(vs) vs.classList.remove('recording');
+  if(vt) vt.textContent = finalTranscript ? 'Tayyor. Yuborish tugmasini bosing.' : 'Mikrofon tugmasini bosing';
+  if(ml) ml.textContent = finalTranscript ? 'Tayyor — yuborishingiz mumkin' : 'Bosing va gapirishni boshlang';
 }
 
 async function sendVoice(){
   const txt = finalTranscript.trim();
   if(!txt || S.isLoading) return;
-  isRecording = false;
-  if(recognizer){ try{ recognizer.stop(); }catch(e){} }
+  _active = false; isRecording = false;
+  // DO NOT stop recognizer — just clear transcripts and update UI
   finalTranscript = ''; interimTranscript = '';
   const preview = document.getElementById('transcript-preview');
-  preview.innerHTML = ''; preview.classList.remove('has-text');
-  document.getElementById('send-voice-btn').disabled = true;
-  document.getElementById('vs-txt').textContent = 'Mikrofon tugmasini bosing va gapirishni boshlang';
+  if(preview){ preview.innerHTML = ''; preview.classList.remove('has-text'); }
+  const svb = document.getElementById('send-voice-btn');
+  if(svb) svb.disabled = true;
+  const vt = document.getElementById('vs-txt');
+  if(vt) vt.textContent = 'Mikrofon tugmasini bosing va gapirishni boshlang';
+  const mb = document.getElementById('mic-btn');
+  const vs = document.getElementById('voice-status');
+  if(mb) mb.classList.remove('active');
+  if(vs) vs.classList.remove('recording');
 
   addMsg('user', txt);
   S.history.push({role:'user', content:txt});
@@ -1634,12 +1605,14 @@ async function sendVoice(){
   await callAI(null);
 }
 
-// Legacy send (keyboard fallback - not shown in UI)
-async function send(){
-  await sendVoice();
-}
+
+
+// Legacy stubs
+async function send(){ await sendVoice(); }
 function onKey(e){}
 function autoH(el){}
+
+
 
 
 
@@ -1662,7 +1635,7 @@ async function callAI(override){
         model:'meta-llama/llama-4-scout-17b-16e-instruct',
         messages:msgs,
         temperature:0.8,
-        max_tokens:600
+        max_tokens:800
       })
     });
     const data=await res.json();
@@ -1688,11 +1661,36 @@ async function callAI(override){
         else document.getElementById('pro-tip').innerHTML=TIPS[Math.floor(Math.random()*TIPS.length)];
         updatePartBadge();
         S.history.push({role:'assistant',content:raw});
-        if(nxt) setTimeout(()=>{addMsg('ai',fmt(nxt)); speakText(nxt);},500);
-        if(nxt&&nxt.toLowerCase().includes('concludes our speaking test')){
-          setTimeout(()=>finishTest(),3000);
-        } else if(S.scores.length>=14){
-          setTimeout(()=>finishTest(),2000);
+        
+        // Detect official test ending phrase
+        const isTestEnd = nxt && (
+          nxt.toLowerCase().includes('that concludes') ||
+          nxt.toLowerCase().includes('speaking test today') ||
+          nxt.toLowerCase().includes('thank you for') && nxt.toLowerCase().includes('test')
+        );
+        
+        if(nxt){
+          setTimeout(()=>{
+            if(isTestEnd){
+              // Show examiner's closing words first
+              addMsg('ai', fmt(nxt));
+              speakText(nxt);
+              // Show "end of test" warning banner
+              setTimeout(()=>{
+                const f2=document.getElementById('chat-feed');
+                const banner=document.createElement('div');
+                banner.className='end-test-banner';
+                banner.innerHTML=`<div class="end-test-title">🎓 This is the end of the Speaking Test</div><div class="end-test-sub">Natijalar tayyorlanmoqda... Iltimos kuting.</div>`;
+                f2.appendChild(banner);
+                f2.scrollTop=f2.scrollHeight;
+                // Finish after banner is shown
+                setTimeout(()=>finishTest(), 3000);
+              }, 1200);
+            } else {
+              addMsg('ai',fmt(nxt));
+              speakText(nxt);
+            }
+          },500);
         }
       }
     } else {
@@ -1860,7 +1858,19 @@ function updatePartBadge(){const n=S.scores.length;document.getElementById('part
 function resetLive(){['f','l','g','p'].forEach(k=>{document.getElementById('lv-'+k).textContent='—';document.getElementById('lf-'+k).style.width='0%';});}
 function updateLive(f,l,g,p){const m={f:[f,'var(--red)'],l:[l,'var(--blue)'],g:[g,'var(--purple)'],p:[p,'var(--gold)']};Object.entries(m).forEach(([k,[v,col]])=>{document.getElementById('lv-'+k).textContent=v.toFixed(1);document.getElementById('lv-'+k).style.color=bc(Math.round(v));document.getElementById('lf-'+k).style.width=(v/9*100)+'%';document.getElementById('lf-'+k).style.background=col;});}
 function endTest(){if(confirm('Testni yakunlamoqchimisiz?'))finishTest();}
-function finishTest(){if(!S.testActive||!S.scores.length){goDash();return;}S.testActive=false;stopRec();const avg=arr=>arr.reduce((a,b)=>a+b,0)/arr.length;const f=avg(S.scores.map(s=>s.f)),l=avg(S.scores.map(s=>s.l)),g=avg(S.scores.map(s=>s.g)),p=avg(S.scores.map(s=>s.p));const ov=Math.round(((f+l+g+p)/4)*2)/2;const r={date:new Date().toLocaleDateString('uz-UZ'),ts:Date.now(),topicId:S.topic.id,topic:S.topic.name,emoji:S.topic.e,f:f.toFixed(1),l:l.toFixed(1),g:g.toFixed(1),p:p.toFixed(1),overall:ov,q:S.qCount};S.allTests.push(r);saveData();renderResult(r);showScreen('result');}
+function finishTest(){
+  if(!S.testActive||!S.scores.length){goDash();return;}
+  S.testActive=false;stopRec();
+  const avg=arr=>arr.reduce((a,b)=>a+b,0)/arr.length;
+  const f=avg(S.scores.map(s=>s.f)),l=avg(S.scores.map(s=>s.l)),g=avg(S.scores.map(s=>s.g)),p=avg(S.scores.map(s=>s.p));
+  const ov=Math.round(((f+l+g+p)/4)*2)/2;
+  const r={date:new Date().toLocaleDateString('uz-UZ'),ts:Date.now(),topicId:S.topic.id||'ai',topic:S.topic.name,emoji:S.topic.e||S.topic.emoji||'🎯',f:f.toFixed(1),l:l.toFixed(1),g:g.toFixed(1),p:p.toFixed(1),overall:ov,q:S.qCount,history:[...S.history]};
+  S.currentResult=r;
+  S.allTests.push({...r,history:undefined});
+  saveData();renderResult(r);showScreen('result');
+  // Trigger deep AI analysis
+  setTimeout(()=>generateDeepAnalysis(r), 800);
+}
 function renderResult(r){
   const b=Math.round(r.overall);
   document.getElementById('r-band').textContent=r.overall;
@@ -1871,199 +1881,218 @@ function renderResult(r){
   const vs=[r.f,r.l,r.g,r.p].map(parseFloat);
   const wi=vs.indexOf(Math.min(...vs)),si=vs.indexOf(Math.max(...vs));
   const nn=['Fluency & Coherence','Lexical Resource','Grammatical Range','Pronunciation'];
+  const tt=["Ko'proq ravon gapiring.","Murakkab so'zlar ishlating.","Complex sentences ishlating.","Intonatsiyaga e'tibor bering."];
   const reached=r.overall>=S.targetBand;
   const prev=S.allTests.length>=2?S.allTests[S.allTests.length-2]:null;
   const diffTxt=prev?`Oldingi testga nisbatan: ${r.overall>=prev.overall?'▲ +'+(r.overall-prev.overall).toFixed(1):'▼ '+(r.overall-prev.overall).toFixed(1)}`:'Birinchi testingiz!';
-
-  // Weakness-specific tips from IELTS band descriptors
-  const weakTips={
-    0: `<strong>Fluency yaxshilash:</strong> Discourse markers ishlatish: <em>"Well, actually... / Having said that... / That's an interesting question..."</em> — gapni to'xtatmasdan davom ettirish.`,
-    1: `<strong>Lexical yaxshilash:</strong> Har kuni 5 ta topic-specific so'z o'rganing. Paraphrase: <em>"In other words... / What I mean is... / To put it another way..."</em>`,
-    2: `<strong>Grammar yaxshilash:</strong> Complex sentences mashq qiling: <em>conditional (If I had...), relative clauses (which/that/where), passive voice (It is believed that...)</em>`,
-    3: `<strong>Pronunciation yaxshilash:</strong> Stress va intonatsiya: har gapda muhim so'zni <em>kuchaytiring</em>. Connected speech: <em>"gonna, wanna, I'd've"</em> eshiting.`
-  };
-
-  document.getElementById('r-feedback').innerHTML=`
-    <div class="rbd-item"><div class="rbd-icon">🏆</div><div><strong>Kuchli tomon:</strong> ${nn[si]}</div></div>
-    <div class="rbd-item"><div class="rbd-icon">⚠️</div><div>${weakTips[wi]}</div></div>
-    <div class="rbd-item"><div class="rbd-icon">📈</div><div><strong>O'sish:</strong> ${diffTxt}</div></div>
-    <div class="rbd-item"><div class="rbd-icon">🎯</div><div><strong>Maqsad Band ${S.targetBand}:</strong> ${reached?'✅ Erishildi!':'Davom eting — '+(S.targetBand-r.overall).toFixed(1)+' band qoldi'}</div></div>
-    <div class="rbd-item"><div class="rbd-icon">📊</div><div><strong>Statistika:</strong> ${r.q} savol · ${r.topic} · ${r.date}</div></div>`;
-
-  // Trigger vocab generation
-  generateVocab(r, nn[wi]);
-
-  // Update accuracy section dynamically based on question count
-  const qCount = S.scores.length;
-  // More questions = more data = higher accuracy
-  const qBonus = Math.min(qCount * 1.5, 10); // up to +10% for 7+ questions
-  const accL = Math.min(95, 92 + qBonus * 0.3);
-  const accG = Math.min(93, 90 + qBonus * 0.3);
-  const accF = Math.min(80, 72 + qBonus * 0.8); // fluency improves more with more data
-  const accP = Math.min(55, 45 + qBonus * 1.0); // pronunciation stays limited
-  const accOverall = (accL * 0.25 + accG * 0.25 + accF * 0.25 + accP * 0.25 + 5).toFixed(1);
-  document.getElementById('acc-l').textContent = accL.toFixed(0) + '%';
-  document.getElementById('acc-g').textContent = accG.toFixed(0) + '%';
-  document.getElementById('acc-f').textContent = accF.toFixed(0) + '%';
-  document.getElementById('acc-p').textContent = accP.toFixed(0) + '%';
-  document.getElementById('accf-l').style.width = accL + '%';
-  document.getElementById('accf-g').style.width = accG + '%';
-  document.getElementById('accf-f').style.width = accF + '%';
-  document.getElementById('accf-p').style.width = accP + '%';
-  document.getElementById('acc-overall-val').textContent = accOverall + '%';
-  // Dynamic note based on score
-  const accNote = document.getElementById('acc-note');
-  if(accNote){
-    const diff = parseFloat(accOverall);
-    let noteColor = diff >= 82 ? 'var(--green)' : diff >= 76 ? 'var(--gold)' : 'var(--red)';
-    accNote.innerHTML = diff >= 82
-      ? `<strong style="color:var(--green)">&#10003; Yuqori aniqlik:</strong> ${qCount} ta javob asosida. Lexical va Grammar ±0.5 band aniq. Pronunciation taxminiy.`
-      : `<strong style="color:var(--gold)">&#9888; O&#39;rtacha aniqlik:</strong> ${qCount} ta javob. Ko&#39;proq savol = aniqroq natija. Farq ±0.5-1 band.`;
-  }
+  document.getElementById('r-feedback').innerHTML=`<div class="rbd-item"><div class="rbd-icon">🏆</div><div><strong>Kuchli:</strong> ${nn[si]}</div></div><div class="rbd-item"><div class="rbd-icon">⚠️</div><div><strong>Yaxshilash:</strong> ${nn[wi]} — ${tt[wi]}</div></div><div class="rbd-item"><div class="rbd-icon">📈</div><div><strong>O'sish:</strong> ${diffTxt}</div></div><div class="rbd-item"><div class="rbd-icon">🎯</div><div><strong>Maqsad Band ${S.targetBand}:</strong> ${reached?'✅ Yetdingiz!':'Davom eting!'}</div></div><div class="rbd-item"><div class="rbd-icon">📊</div><div><strong>Statistika:</strong> ${r.q} savol · ${r.topic} · ${r.date}</div></div>`;
   renderChart('r-chart-svg','r-chart-empty',S.allTests,130);
-  // Store result for PDF
-  S._lastResult = r;
+  // Show analysis section with loading state
+  document.getElementById('analysis-section').style.display='';
+  document.getElementById('analysis-content').innerHTML=`<div class="analysis-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span>AI suhbatingizni tahlil qilmoqda... Iltimos 15-20 soniya kuting.</span></div>`;
+  document.getElementById('analysis-loading').textContent='— tahlil qilinmoqda...';
 }
+// ══ DEEP AI ANALYSIS ════════════════════════
+async function generateDeepAnalysis(r){
+  if(!S.apiKey || !r.history || !r.history.length){
+    document.getElementById('analysis-loading').textContent='✓ Tahlil mavjud emas.';
+    document.getElementById('analysis-content').innerHTML='<div style="color:var(--muted);font-size:13px;padding:12px">API kalit yoki suhbat tarixi topilmadi.</div>';
+    return;
+  }
+  // Build conversation summary for analysis
+  const convText = r.history.filter(m=>m.role==='user').map((m,i)=>`Answer ${i+1}: "${m.content}"`).join('\n');
+  const analysisPrompt = `You are an expert IELTS examiner conducting post-test analysis. Here are the candidate's spoken answers from a speaking test:
 
-async function generateVocab(r, weakArea){
-  const section = document.getElementById('vocab-section');
-  const list    = document.getElementById('r-vocab-list');
-  if(!section || !list) return;
-  section.style.display = 'block';
-  list.innerHTML = '<div class="vocab-loading">⏳ AI lug\'at tayyorlamoqda...</div>';
+${convText}
 
-  const b = Math.round(r.overall);
-  const targetB = S.targetBand;
-  const prompt = `The IELTS Speaking candidate scored Band ${r.overall} (F:${r.f} L:${r.l} G:${r.g} P:${r.p}). Their weakest area is ${weakArea}. Topic was: "${r.topic || S.topic?.nameEn}".
+Scores: Fluency=${r.f}, Lexical=${r.l}, Grammar=${r.g}, Pronunciation=${r.p}, Overall=${r.overall}
 
-Generate exactly 8 vocabulary items that will help this candidate improve from Band ${b} to Band ${targetB}. Focus on words/phrases useful for IELTS speaking on this topic.
-
-Return ONLY a JSON array, no markdown:
-[{"word":"...","pos":"noun/verb/adj/phrase","band":7,"definition":"brief English definition","example":"natural example sentence for IELTS speaking"}]`;
+Analyze the candidate's performance and return ONLY a valid JSON object (no markdown):
+{
+  "top_weaknesses": [
+    {"area":"weakness area name","description":"specific explanation of the problem","example":"exact wrong phrase or pattern from their speech"},
+    {"area":"...","description":"...","example":"..."},
+    {"area":"...","description":"...","example":"..."}
+  ],
+  "vocabulary_fixes": [
+    {"wrong":"word or phrase they used incorrectly","correct":"better alternative","explanation":"why this is better"},
+    {"wrong":"...","correct":"...","explanation":"..."},
+    {"wrong":"...","correct":"...","explanation":"..."},
+    {"wrong":"...","correct":"...","explanation":"..."},
+    {"wrong":"...","correct":"...","explanation":"..."}
+  ],
+  "grammar_patterns": [
+    {"error":"grammar error pattern","fix":"corrected pattern","example":"example sentence with fix"},
+    {"error":"...","fix":"...","example":"..."},
+    {"error":"...","fix":"...","example":"..."}
+  ],
+  "band_justification": "2-3 sentence explanation of why they received this overall band score",
+  "next_steps": ["specific actionable tip 1","specific actionable tip 2","specific actionable tip 3"]
+}`;
 
   try{
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions',{
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+S.apiKey},
       body:JSON.stringify({
-        model: S.model||'meta-llama/llama-4-scout-17b-16e-instruct',
-        messages:[{role:'user',content:prompt}],
-        temperature:0.7, max_tokens:800
+        model:'meta-llama/llama-4-scout-17b-16e-instruct',
+        messages:[{role:'user',content:analysisPrompt}],
+        temperature:0.3, max_tokens:1200
       })
     });
     const data = await res.json();
-    let text = data.choices?.[0]?.message?.content||'[]';
-    text = text.replace(/```json|```/g,'').trim();
-    const m = text.match(/\[[\s\S]*\]/);
-    const words = JSON.parse(m ? m[0] : text);
-    list.innerHTML = words.map(w=>`
-      <div class="vocab-item">
-        <div class="vocab-word">
-          <span class="vocab-en">${w.word}</span>
-          <span class="vocab-pos">${w.pos}</span>
-          <span class="vocab-band" style="background:${bc(w.band||7)}22;color:${bc(w.band||7)}">B${w.band||7}+</span>
-        </div>
-        <div class="vocab-def">${w.definition}</div>
-        <div class="vocab-ex">"${w.example}"</div>
-      </div>`).join('');
+    if(data.error) throw new Error(data.error.message);
+    let text = (data.choices?.[0]?.message?.content||'').replace(/```json|```/g,'').trim();
+    const m = text.match(/\{[\s\S]*\}/);
+    const analysis = JSON.parse(m ? m[0] : text);
+    S.lastAnalysis = analysis;
+    renderDeepAnalysis(analysis, r);
   }catch(e){
-    list.innerHTML = '<div class="vocab-loading" style="color:var(--muted2)">Lug\'at yuklanmadi. Internet yoki API key tekshiring.</div>';
+    document.getElementById('analysis-loading').textContent='⚠️ Tahlil xatosi';
+    document.getElementById('analysis-content').innerHTML=`<div style="color:var(--muted);font-size:13px;padding:12px">Tahlil qilib bo'lmadi: ${e.message}</div>`;
   }
 }
 
-function downloadPDF(){
-  const r = S._lastResult;
-  if(!r){ showToast('Natija topilmadi'); return; }
-  const b = Math.round(r.overall);
+function renderDeepAnalysis(a, r){
+  document.getElementById('analysis-loading').textContent='✅ Tayyor';
+  let html = '';
 
-  // Build vocab items from DOM
-  let vocabHTML = '';
-  const vocabItems = document.querySelectorAll('.vocab-item');
-  vocabItems.forEach(item => {
-    const word = item.querySelector('.vocab-en')?.textContent||'';
-    const pos  = item.querySelector('.vocab-pos')?.textContent||'';
-    const def  = item.querySelector('.vocab-def')?.textContent||'';
-    const ex   = item.querySelector('.vocab-ex')?.textContent||'';
-    vocabHTML += `<tr>
-      <td style="font-weight:700;padding:8px 10px;border-bottom:1px solid #eee">${word} <span style="font-size:11px;color:#888;font-weight:400">${pos}</span></td>
-      <td style="padding:8px 10px;border-bottom:1px solid #eee;color:#444">${def}</td>
-      <td style="padding:8px 10px;border-bottom:1px solid #eee;font-style:italic;color:#666">${ex}</td>
-    </tr>`;
-  });
+  // Band justification
+  if(a.band_justification){
+    html+=`<div class="analysis-card"><div class="ac-head"><div class="ac-icon" style="background:rgba(61,142,240,0.15)">📊</div><div class="ac-title">Band ${r.overall} — Nima uchun?</div></div><div class="weakness-item" style="border:none;padding:0">${a.band_justification}</div></div>`;
+  }
 
-  const bColor = b>=7?'#8B5CF6':b>=6?'#F0B429':b>=5?'#E67E22':'#E03040';
-  const weakIdx = [r.f,r.l,r.g,r.p].map(parseFloat).indexOf(Math.min(...[r.f,r.l,r.g,r.p].map(parseFloat)));
-  const nn=['Fluency & Coherence','Lexical Resource','Grammatical Range','Pronunciation'];
-  const tips=[
-    'Use discourse markers: "Well, actually... / Having said that... / That\'s an interesting point..." Keep speaking without stopping.',
-    'Use topic-specific vocabulary. Practice paraphrase: "In other words... / What I mean is... / To put it differently..."',
-    'Use complex structures: conditionals (If I had...), relative clauses (which/that), passive voice (It is believed that...)',
-    'Focus on word stress and sentence intonation. Practice connected speech patterns.'
-  ];
+  // Top weaknesses
+  if(a.top_weaknesses?.length){
+    html+=`<div class="analysis-card"><div class="ac-head"><div class="ac-icon" style="background:rgba(224,48,64,0.15)">⚠️</div><div class="ac-title">Asosiy kamchiliklar</div></div>`;
+    a.top_weaknesses.forEach(w=>{
+      html+=`<div class="weakness-item"><strong>${w.area}</strong> — ${w.description}${w.example?`<br><span style="color:var(--muted);font-style:italic;font-size:12px">Misol: "${w.example}"</span>`:''}`;
+    });
+    html+=`</div>`;
+  }
 
-  const pdfContent = `<!DOCTYPE html><html><head><meta charset="UTF-8">
-<title>IELTS Speaking Result — ${S.first} ${S.last}</title>
-<style>
-  body{font-family:Arial,sans-serif;max-width:800px;margin:0 auto;padding:30px;color:#1a1a2e;}
-  h1{color:#E03040;font-size:26px;margin-bottom:4px;}
-  .subtitle{color:#666;font-size:14px;margin-bottom:30px;}
-  .band-box{text-align:center;background:linear-gradient(135deg,#E03040,#A0192A);color:#fff;border-radius:20px;padding:30px;margin-bottom:24px;}
-  .band-num{font-size:80px;font-weight:900;line-height:1;color:#fff;}
-  .band-label{font-size:16px;opacity:0.85;margin-top:8px;}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
-  .crit-card{border:2px solid #eee;border-radius:12px;padding:16px;}
-  .crit-name{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
-  .crit-score{font-size:28px;font-weight:900;color:${bColor};}
-  .bar-bg{height:4px;background:#eee;border-radius:2px;margin-top:8px;}
-  .bar-fill{height:100%;border-radius:2px;background:${bColor};}
-  .section{background:#f9f9f9;border-radius:12px;padding:20px;margin-bottom:20px;}
-  .section h3{margin:0 0 12px;font-size:15px;color:#333;}
-  .tip-box{background:#fff3cd;border-left:4px solid #F0B429;padding:12px 16px;border-radius:8px;font-size:14px;margin-top:10px;}
-  table{width:100%;border-collapse:collapse;font-size:13px;}
-  th{background:#E03040;color:#fff;padding:10px;text-align:left;}
-  .footer{text-align:center;margin-top:30px;font-size:12px;color:#aaa;}
-  @media print{body{padding:15px;}}
-</style></head><body>
-<h1>IELTS Speaking Pro — Natija</h1>
-<div class="subtitle">${S.first} ${S.last} · ${r.date} · ${r.q} savol · ${r.topic}</div>
+  // Vocabulary fixes
+  if(a.vocabulary_fixes?.length){
+    html+=`<div class="analysis-card"><div class="ac-head"><div class="ac-icon" style="background:rgba(139,92,246,0.15)">📚</div><div class="ac-title">Lug'at to'g'irlash (${a.vocabulary_fixes.length} ta)</div></div>`;
+    a.vocabulary_fixes.forEach(v=>{
+      html+=`<div class="vocab-pair"><span class="vocab-wrong">${v.wrong}</span><span class="vocab-arrow">→</span><span class="vocab-right">${v.correct}</span>${v.explanation?`<span class="vocab-note">${v.explanation}</span>`:''}</div>`;
+    });
+    html+=`</div>`;
+  }
 
-<div class="band-box">
-  <div class="band-num">${r.overall}</div>
-  <div class="band-label">Overall Band Score</div>
-</div>
+  // Grammar patterns
+  if(a.grammar_patterns?.length){
+    html+=`<div class="analysis-card"><div class="ac-head"><div class="ac-icon" style="background:rgba(240,180,41,0.15)">✏️</div><div class="ac-title">Grammatika naqshlari</div></div>`;
+    a.grammar_patterns.forEach(g=>{
+      html+=`<div class="weakness-item"><strong>❌ ${g.error}</strong><br>✅ <span style="color:var(--green)">${g.fix}</span>${g.example?`<br><span style="color:var(--muted2);font-size:12px;font-style:italic">"${g.example}"</span>`:''}`;
+    });
+    html+=`</div>`;
+  }
 
-<div class="grid">
-  <div class="crit-card"><div class="crit-name">Fluency & Coherence</div><div class="crit-score">${r.f}</div><div class="bar-bg"><div class="bar-fill" style="width:${r.f/9*100}%"></div></div></div>
-  <div class="crit-card"><div class="crit-name">Lexical Resource</div><div class="crit-score">${r.l}</div><div class="bar-bg"><div class="bar-fill" style="width:${r.l/9*100}%"></div></div></div>
-  <div class="crit-card"><div class="crit-name">Grammatical Range</div><div class="crit-score">${r.g}</div><div class="bar-bg"><div class="bar-fill" style="width:${r.g/9*100}%"></div></div></div>
-  <div class="crit-card"><div class="crit-name">Pronunciation</div><div class="crit-score">${r.p}</div><div class="bar-bg"><div class="bar-fill" style="width:${r.p/9*100}%"></div></div></div>
-</div>
+  // Next steps
+  if(a.next_steps?.length){
+    html+=`<div class="analysis-card"><div class="ac-head"><div class="ac-icon" style="background:rgba(34,196,122,0.15)">🚀</div><div class="ac-title">Keyingi qadamlar</div></div>`;
+    a.next_steps.forEach((s,i)=>{
+      html+=`<div class="weakness-item"><strong>${i+1}.</strong> ${s}</div>`;
+    });
+    html+=`</div>`;
+  }
 
-<div class="section">
-  <h3>⚠️ Asosiy kamchilik: ${nn[weakIdx]}</h3>
-  <div class="tip-box">${tips[weakIdx]}</div>
-</div>
-
-${vocabHTML ? `<div class="section">
-  <h3>📖 Tavsiya etilgan lug'at (Band ${b} → ${S.targetBand})</h3>
-  <table><tr><th>So'z</th><th>Ta'rif</th><th>Misol</th></tr>${vocabHTML}</table>
-</div>` : ''}
-
-<div class="footer">IELTS Speaking Pro · ielts.org rasmiy band descriptors asosida baholandi · ${new Date().getFullYear()}</div>
-<scr'+'ipt>window.onload=()=>window.print();<\/scr'+'ipt>
-</body></html>`;
-
-  const blob = new Blob([pdfContent], {type:'text/html'});
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href = url;
-  a.download = `IELTS_Result_${S.first}_${S.last}_${r.date.replace(/\./g,'-')}.html`;
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('📄 PDF sifatida saqlang: Print → Save as PDF');
+  document.getElementById('analysis-content').innerHTML = html || '<div style="color:var(--muted);padding:12px">Tahlil ma\'lumoti mavjud emas.</div>';
 }
 
+// ══ PDF DOWNLOAD ════════════════════════════
+function downloadPDF(){
+  const r = S.currentResult || S.allTests[S.allTests.length-1];
+  if(!r){ showToast('Natija topilmadi!'); return; }
+  const btn = document.getElementById('pdf-btn');
+  btn.disabled = true;
+  btn.textContent = '⏳ PDF tayyorlanmoqda...';
 
+  // Build PDF HTML content
+  const analysisHtml = document.getElementById('analysis-content') ? document.getElementById('analysis-content').innerHTML : '';
+  const bandColor = r.overall>=7?'#22C47A':r.overall>=6?'#F0B429':'#E03040';
+  const printContent = `
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  body{font-family:Arial,sans-serif;margin:0;padding:30px;color:#1a1a2e;background:#fff;}
+  .header{background:linear-gradient(135deg,#E03040,#8B1020);color:#fff;padding:24px 28px;border-radius:12px;margin-bottom:24px;}
+  .header h1{margin:0 0 4px;font-size:22px;}
+  .header p{margin:0;opacity:.85;font-size:13px;}
+  .band-hero{text-align:center;padding:24px;background:#f8f9fc;border-radius:12px;margin-bottom:20px;}
+  .band-num{font-size:72px;font-weight:900;color:${bandColor};line-height:1;}
+  .band-desc{font-size:16px;color:#666;margin-top:4px;}
+  .criteria-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+  .crit-card{background:#f8f9fc;border-radius:10px;padding:14px;text-align:center;}
+  .crit-label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.5px;}
+  .crit-val{font-size:28px;font-weight:900;margin-top:4px;}
+  .section{margin-bottom:20px;}
+  .section-title{font-size:15px;font-weight:700;border-bottom:2px solid #E03040;padding-bottom:6px;margin-bottom:12px;color:#E03040;}
+  .weakness{padding:8px 0;border-bottom:1px solid #eee;font-size:13px;}
+  .vocab-row{display:flex;gap:10px;align-items:center;padding:6px 10px;background:#f8f9fc;border-radius:6px;margin-bottom:5px;font-size:13px;}
+  .wrong{color:#E03040;text-decoration:line-through;font-weight:600;}
+  .right{color:#22C47A;font-weight:700;}
+  .note{color:#888;font-size:11px;margin-top:2px;}
+  .footer{text-align:center;color:#aaa;font-size:11px;margin-top:30px;padding-top:12px;border-top:1px solid #eee;}
+  @media print{body{padding:20px;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🎓 IELTS Speaking Pro — Test Natijasi</h1>
+  <p>${r.date} · Mavzu: ${r.topic} · ${r.q} savol</p>
+</div>
+<div class="band-hero">
+  <div class="band-num">${r.overall}</div>
+  <div class="band-desc">Band ${Math.round(r.overall)} — ${({9:'Mutaxassis',8:'Juda yaxshi',7:'Yaxshi foydalanuvchi',6:'Vakolatli',5:"O'rta",4:'Cheklangan'})[Math.round(r.overall)]||''}</div>
+  <div style="font-size:13px;color:#888;margin-top:8px">Maqsad: Band ${S.targetBand} · Foydalanuvchi: ${S.first} ${S.last}</div>
+</div>
+<div class="criteria-grid">
+  <div class="crit-card"><div class="crit-label">Fluency & Coherence</div><div class="crit-val" style="color:#E03040">${r.f}</div></div>
+  <div class="crit-card"><div class="crit-label">Lexical Resource</div><div class="crit-val" style="color:#3D8EF0">${r.l}</div></div>
+  <div class="crit-card"><div class="crit-label">Grammatical Range</div><div class="crit-val" style="color:#8B5CF6">${r.g}</div></div>
+  <div class="crit-card"><div class="crit-label">Pronunciation</div><div class="crit-val" style="color:#F0B429">${r.p}</div></div>
+</div>`;
+
+  const a = S.lastAnalysis;
+  let analysisSection = '';
+  if(a){
+    if(a.band_justification) analysisSection+=`<div class="section"><div class="section-title">📊 Band ${r.overall} — Nima uchun?</div><p style="font-size:13px;color:#333">${a.band_justification}</p></div>`;
+    if(a.top_weaknesses?.length){
+      analysisSection+=`<div class="section"><div class="section-title">⚠️ Asosiy kamchiliklar</div>`;
+      a.top_weaknesses.forEach(w=>{ analysisSection+=`<div class="weakness"><strong>${w.area}:</strong> ${w.description}${w.example?` <em style="color:#888">("${w.example}")</em>`:''}</div>`; });
+      analysisSection+=`</div>`;
+    }
+    if(a.vocabulary_fixes?.length){
+      analysisSection+=`<div class="section"><div class="section-title">📚 Lug'at to'g'irlash</div>`;
+      a.vocabulary_fixes.forEach(v=>{ analysisSection+=`<div class="vocab-row"><span class="wrong">${v.wrong}</span><span>→</span><span class="right">${v.correct}</span></div>${v.explanation?`<div class="note" style="padding:0 10px 5px">${v.explanation}</div>`:''}`; });
+      analysisSection+=`</div>`;
+    }
+    if(a.grammar_patterns?.length){
+      analysisSection+=`<div class="section"><div class="section-title">✏️ Grammatika naqshlari</div>`;
+      a.grammar_patterns.forEach(g=>{ analysisSection+=`<div class="weakness">❌ ${g.error} → ✅ <strong>${g.fix}</strong>${g.example?` <em style="color:#888">"${g.example}"</em>`:''}</div>`; });
+      analysisSection+=`</div>`;
+    }
+    if(a.next_steps?.length){
+      analysisSection+=`<div class="section"><div class="section-title">🚀 Keyingi qadamlar</div>`;
+      a.next_steps.forEach((s,i)=>{ analysisSection+=`<div class="weakness">${i+1}. ${s}</div>`; });
+      analysisSection+=`</div>`;
+    }
+  }
+
+  const fullHtml = printContent + analysisSection + `<div class="footer">IELTS Speaking Pro · AI tomonidan tahlil qilindi · ${new Date().toLocaleDateString('uz-UZ')}</div></body></html>`;
+
+  const win = window.open('','_blank','width=800,height=900');
+  if(!win){ showToast('Pop-up bloklangan! Brauzer ruxsat bering.'); btn.disabled=false; btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;display:inline;margin-right:6px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>PDF Yuklab olish'; return; }
+  win.document.write(fullHtml);
+  win.document.close();
+  setTimeout(()=>{ win.print(); }, 800);
+  btn.disabled=false;
+  btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;display:inline;margin-right:6px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>PDF Yuklab olish';
+}
 function loadData(){try{S.allTests=JSON.parse(localStorage.getItem('ielts_tests')||'[]');}catch(e){S.allTests=[];}}
 function saveData(){localStorage.setItem('ielts_tests',JSON.stringify(S.allTests));}
 function bc(b){if(b>=9)return'#22C47A';if(b>=8)return'#3D8EF0';if(b>=7)return'#8B5CF6';if(b>=6)return'#F0B429';if(b>=5)return'#E67E22';return'#E03040';}
