@@ -823,8 +823,40 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
       </div>
     </div>
 
-    <div class="section-hd">Mavzu tanlang</div>
-    <div class="topic-grid" id="topic-grid"></div>
+    <div class="section-hd">Test boshlash</div>
+    <div id="topic-start-area">
+      <div style="background:var(--s1);border:1.5px solid var(--border2);border-radius:20px;padding:28px 28px 22px;margin-bottom:20px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),var(--purple),var(--blue));"></div>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
+          <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--red),var(--purple));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🎲</div>
+          <div>
+            <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:2px;">AI Examiner</div>
+            <div style="font-size:12px;color:var(--muted2);">AI mavzu va savollarni o'zi tanlaydi — haqiqiy IELTS kabi</div>
+          </div>
+        </div>
+        <div id="ai-topic-preview" style="background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:16px;min-height:56px;display:flex;align-items:center;gap:12px;">
+          <span style="font-size:24px;" id="ai-topic-emoji">🎲</span>
+          <div>
+            <div style="font-size:13px;color:var(--muted);margin-bottom:2px;">Tanlangan mavzu</div>
+            <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text);" id="ai-topic-name">Yangi test boshlash uchun quyidagi tugmani bosing</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button onclick="generateAITopic()" id="btn-gen-topic"
+            style="flex:1;background:var(--s2);border:1.5px solid var(--border2);color:var(--muted3);border-radius:12px;padding:13px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;"
+            onmouseenter="this.style.borderColor='var(--purple)';this.style.color='var(--purple)'"
+            onmouseleave="this.style.borderColor='var(--border2)';this.style.color='var(--muted3)'">
+            🔀 Boshqa mavzu
+          </button>
+          <button onclick="startAITest()" id="btn-start-ai"
+            style="flex:2;background:linear-gradient(135deg,var(--red),#A0192A);color:#fff;border:none;border-radius:12px;padding:13px;font-family:'Syne',sans-serif;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 6px 24px rgba(224,48,64,0.35);transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;"
+            onmouseenter="this.style.transform='translateY(-2px)';this.style.boxShadow='0 10px 32px rgba(224,48,64,0.45)'"
+            onmouseleave="this.style.transform='none';this.style.boxShadow='0 6px 24px rgba(224,48,64,0.35)'">
+            ▶ Testni boshlash
+          </button>
+        </div>
+      </div>
+    </div>
 
     <div class="section-hd">So'nggi natijalar</div>
     <div id="history-list" class="history-list"></div>
@@ -1023,18 +1055,7 @@ const S = {
   allTests:[]
 };
 
-// ══ TOPICS ═════════════════════════════════
-const TOPICS = [
-  {id:'home',  e:'🏠', name:"Uy va mahalla",       desc:"Uy, qo'shni, yashash joyi",  col:'#E03040', p1:"your home and neighborhood",      p2:"a place where you feel at home", p3:"housing problems in modern cities"},
-  {id:'travel',e:'✈️', name:"Sayohat",              desc:"Safarlar, turizm, madaniyat", col:'#3D8EF0', p1:"your travel experiences",          p2:"a memorable journey",            p3:"tourism and its impact on society"},
-  {id:'tech',  e:'💻', name:"Texnologiya",          desc:"Internet, AI, ilovalar",      col:'#8B5CF6', p1:"your daily technology use",         p2:"a useful app or device",         p3:"technology's impact on modern work"},
-  {id:'edu',   e:'📚', name:"Ta'lim",               desc:"Maktab, universitet, o'qish", col:'#22C47A', p1:"your education background",         p2:"a teacher or lesson you remember", p3:"education systems and challenges"},
-  {id:'env',   e:'🌿', name:"Atrof-muhit",          desc:"Ekologiya, tabiat, iqlim",    col:'#06B6D4', p1:"your environmental habits",         p2:"a beautiful natural place",      p3:"climate change and global solutions"},
-  {id:'work',  e:'💼', name:"Ish va martaba",       desc:"Kasb, ish joyi, rejalari",    col:'#F0B429', p1:"your job or studies",               p2:"your ideal career",              p3:"work-life balance in modern society"},
-  {id:'health',e:'🏃', name:"Sog'liq va sport",    desc:"Sport, ovqat, hayot tarzi",   col:'#E67E22', p1:"your health and fitness habits",    p2:"a sport or activity you enjoy",  p3:"public health challenges today"},
-  {id:'culture',e:'🎭',name:"Madaniyat va san'at",  desc:"Musiqa, san'at, bayramlar",   col:'#FF6B74', p1:"music, art or culture you enjoy",   p2:"a cultural event or festival",   p3:"preserving traditional culture"},
-  {id:'family',e:'👨‍👩‍👧',name:"Oila",                desc:"Oila, do'stlar, an'analar",   col:'#4ECDC4', p1:"your family and relationships",    p2:"a family tradition or celebration", p3:"changing family values today"},
-];
+// Topics now generated dynamically by AI
 
 const TIPS = [
   "Gapni boshlash: <strong>Well, actually... / That's a great question...</strong>",
@@ -1060,7 +1081,6 @@ document.addEventListener('click', function askMic(){
 window.onload = () => {
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('uz-UZ',{day:'2-digit',month:'long',year:'numeric'});
   loadData();
-  renderTopics();
   try {
     const u = JSON.parse(localStorage.getItem('ielts_user')||'null');
     if (u?.first && u?.apiKey) {
@@ -1110,6 +1130,8 @@ function setErr(errId,inputId,show){
 
 // ══ DASHBOARD ══════════════════════════════
 function initDashboard(){
+  // Pre-generate a topic suggestion when dashboard loads
+  if(S.apiKey && !currentAITopic){ setTimeout(generateAITopic, 800); }
   const full=S.first+' '+S.last;
   document.getElementById('tb-name').textContent=full.trim();
   document.getElementById('tb-av').textContent=(S.first[0]+(S.last[0]||'')).toUpperCase();
@@ -1249,27 +1271,97 @@ function renderChart(svgId, emptyId, tests, h){
   });
 }
 
-// ══ TOPICS ═════════════════════════════════
-function renderTopics(){
-  document.getElementById('topic-grid').innerHTML=TOPICS.map(t=>`
-    <div class="topic-card" onclick="startTest('${t.id}')"
-      style="border-color:${t.col}18"
-      onmouseenter="this.style.borderColor='${t.col}55';this.style.boxShadow='0 8px 28px ${t.col}14'"
-      onmouseleave="this.style.borderColor='${t.col}18';this.style.boxShadow='none'">
-      <div class="tc-top">
-        <div class="tc-emoji-wrap" style="background:${t.col}18">${t.e}</div>
-        <div class="tc-badge">3 QISM</div>
-      </div>
-      <div class="tc-name">${t.name}</div>
-      <div class="tc-desc">${t.desc}</div>
-      <div class="tc-footer">
-        <div class="tc-parts">
-          <div class="tc-dot" style="background:${t.col}"></div> Part 1
-          <div class="tc-dot" style="background:${t.col}"></div> Part 2
-          <div class="tc-dot" style="background:${t.col}"></div> Part 3
-        </div>
-      </div>
-    </div>`).join('');
+// ══ AI TOPIC GENERATOR ══════════════════════
+// List of all possible IELTS topic areas for AI to pick from
+const TOPIC_POOL = [
+  'daily routines','hobbies','food and cooking','transportation','weather','shopping',
+  'music','sports and fitness','art and creativity','reading and books','cinema',
+  'social media','technology and gadgets','work and career','education','travel',
+  'family and relationships','friendship','health and medicine','environment',
+  'animals and nature','cities and urban life','countryside and rural life',
+  'architecture and buildings','history and traditions','languages','culture',
+  'fashion and clothing','money and economy','politics and government','media',
+  'science and innovation','space exploration','volunteering and charity',
+  'tourism','festivals and celebrations','dreams and ambitions','leadership',
+  'parenting','elderly care','youth and teenagers','global issues','local community',
+  'photography','gardening','cooking shows','online learning','mental health',
+  'public transport','recycling','renewable energy','street food','coffee culture'
+];
+
+let currentAITopic = null;
+
+async function generateAITopic(){
+  const btn = document.getElementById('btn-gen-topic');
+  const nameEl = document.getElementById('ai-topic-name');
+  const emojiEl = document.getElementById('ai-topic-emoji');
+  btn.textContent = '⏳ Yuklanmoqda...';
+  btn.disabled = true;
+  nameEl.textContent = 'AI mavzu tanlayapti...';
+  emojiEl.textContent = '⏳';
+
+  // Pick random pool hint to guide AI (AI can still surprise us)
+  const hint = TOPIC_POOL[Math.floor(Math.random() * TOPIC_POOL.length)];
+
+  if(!S.apiKey){ showToast('Avval API key kiriting!'); btn.disabled=false; btn.textContent='🔀 Boshqa mavzu'; return; }
+
+  try {
+    if(!S.model) S.model = await detectModel();
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${S.model}:generateContent?key=${S.apiKey}`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        contents:[{role:'user', parts:[{text:`Generate a creative and specific IELTS speaking test topic. Inspired by but not limited to: "${hint}". Return ONLY a JSON object with these fields:
+{
+  "name": "topic name in Uzbek (2-4 words, engaging)",
+  "emoji": "one relevant emoji",
+  "desc": "short description in Uzbek (4-6 words)",
+  "nameEn": "topic name in English"
+}
+No extra text, just the JSON.`}]}],
+        generationConfig:{temperature:1.1, maxOutputTokens:120}
+      })
+    });
+    const data = await res.json();
+    const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+    const clean = raw.replace(/```json|```/g,'').trim();
+    const parsed = JSON.parse(clean);
+    currentAITopic = parsed;
+    nameEl.textContent = parsed.name || hint;
+    emojiEl.textContent = parsed.emoji || '🎯';
+  } catch(e) {
+    // Fallback: just use a random topic from pool
+    currentAITopic = { name: hint, emoji: '🎯', desc: '', nameEn: hint };
+    nameEl.textContent = hint;
+    emojiEl.textContent = '🎯';
+  }
+  btn.disabled = false;
+  btn.textContent = '🔀 Boshqa mavzu';
+}
+
+async function startAITest(){
+  if(!currentAITopic){ showToast("Avval mavzu tanlang yoki generate qiling!"); return; }
+  if(!S.apiKey){ showToast('Avval API key kiriting!'); return; }
+  const topic = currentAITopic;
+  S.topic = { id:'ai_'+Date.now(), name: topic.name, e: topic.emoji||'🎯' };
+  S.history=[]; S.scores=[]; S.qCount=0; S.testActive=true;
+  document.getElementById('part-pill').textContent='PART 1';
+  document.getElementById('tt-topic').textContent=topic.name;
+  document.getElementById('chat-feed').innerHTML='';
+  updateProg(); buildQDots(); resetLive();
+  showScreen('test');
+
+  S.sysPrompt=`You are a professional IELTS Speaking examiner conducting a real test. Candidate: ${S.first} ${S.last}. Target band: ${S.targetBand}. Today's topic area: "${topic.nameEn || topic.name}".
+
+IMPORTANT RULES:
+- Speak ONLY in English at all times. Never use Uzbek.
+- You choose ALL questions freely — there is NO fixed number of questions. Continue as long as feels natural for a real IELTS test (typically 9-14 questions across 3 parts).
+- Follow real IELTS structure: Part 1 (personal/familiar questions), Part 2 (cue card — give candidate a card with 4 bullet points, ask them to speak for 1-2 min), Part 3 (abstract/analytical questions).
+- After EVERY candidate response, reply ONLY in this exact format:
+[EVAL]F:N|L:N|G:N|P:N|CMT:one sentence English feedback|TIP:one English improvement tip|NXT:your next examiner words[/EVAL]
+Where N = integer 1-9 score. Be accurate and strict with scoring.
+- Vary your question topics freely within and beyond the main topic. Natural IELTS examiners branch out.
+- When you feel the test is complete (after Part 3), end NXT with exactly: "That concludes our speaking test today. Thank you."`;
+
+  await callAI(`Start the test. Say: "Good morning/afternoon, ${S.first}. Welcome to your IELTS Speaking test. My name is [choose a professional British name]. Could you tell me your full name and where you're from?" Then naturally flow into Part 1 questions about the topic: ${topic.nameEn || topic.name}. Keep it natural and professional.`);
 }
 
 // ══ HISTORY ════════════════════════════════
@@ -1299,18 +1391,7 @@ function renderHistory(){
 }
 
 // ══ TEST FLOW ═══════════════════════════════
-async function startTest(tid){
-  const topic=TOPICS.find(t=>t.id===tid);
-  S.topic=topic; S.history=[]; S.scores=[]; S.qCount=0; S.testActive=true;
-  document.getElementById('part-pill').textContent='PART 1';
-  document.getElementById('tt-topic').textContent=topic.name;
-  document.getElementById('chat-feed').innerHTML='';
-  updateProg(); buildQGrid(); resetLive();
-  showScreen('test');
-  S.sysPrompt=`You are an IELTS Speaking examiner. Speak ONLY in English — never use Uzbek or any other language. Candidate: ${S.first} ${S.last}. Topic: ${topic.name}. Goal: Band ${S.targetBand}. Structure: Part1=3 personal questions about ${topic.p1}. Part2=cue card with 4 bullet points about ${topic.p2}. Part3=3 abstract questions about ${topic.p3}. After EVERY candidate answer, reply ONLY in this exact format: [EVAL]F:N|L:N|G:N|P:N|CMT:one English sentence feedback|TIP:one English improvement tip|NXT:your next examiner question in English[/EVAL] where N is integer 1-9. Keep responses concise. Always English only.`;
-  S.history=[];
-  await callAI(`Start with exactly: "Welcome to the IELTS Speaking Test, ${S.first}." Then introduce Part 1 briefly in English, then ask your first question about: ${topic.p1}. Speak ONLY in English throughout the entire test.`);
-}
+// (startAITest is the new entry point — see AI TOPIC GENERATOR section above)
 
 
 // ══ VOICE RECOGNITION ══════════════════════
@@ -1473,7 +1554,12 @@ async function callAI(override){
         updatePartBadge();
         S.history.push({role:'assistant',content:raw});
         if(nxt) setTimeout(()=>{addMsg('ai',fmt(nxt)); speakText(nxt);},500);
-        if(S.scores.length>=7) setTimeout(()=>finishTest(),2000);
+        // Check if examiner said test is complete
+        if(nxt && nxt.toLowerCase().includes('concludes our speaking test')){
+          setTimeout(()=>finishTest(),3000);
+        } else if(S.scores.length>=14){
+          setTimeout(()=>finishTest(),2000);
+        }
       }
     } else {
       addMsg('ai',fmt(raw));
@@ -1635,14 +1721,15 @@ async function speakText(text){
   };
   window.speechSynthesis.speak(utter);
 }
-function updateProg(){const pct=Math.min(S.qCount/9*100,100);document.getElementById('prog-fill').style.width=pct+'%';document.getElementById('pt').textContent=`${S.qCount}/9`;}
-function buildQGrid(){document.getElementById('q-grid').innerHTML=Array.from({length:9},(_,i)=>`<div class="qdot" id="qd${i}">${i+1}</div>`).join('');document.getElementById('qd0').classList.add('cur');}
-function advanceDot(){const prev=S.qCount-1;if(prev>=0){const d=document.getElementById('qd'+prev);if(d){d.classList.remove('cur');d.classList.add('done');d.innerHTML=`<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke="var(--green)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;}}if(S.qCount<9){const d=document.getElementById('qd'+S.qCount);if(d)d.classList.add('cur');}}
+function updateProg(){const pct=Math.min(S.qCount/14*100,100);document.getElementById('prog-fill').style.width=pct+'%';document.getElementById('pt').textContent=`${S.qCount} savol`;}
+function buildQDots(){document.getElementById('q-grid').innerHTML=Array.from({length:14},(_,i)=>`<div class="qdot" id="qd${i}">${i+1}</div>`).join('');document.getElementById('qd0').classList.add('cur');}
+function buildQGrid(){buildQDots();}
+function advanceDot(){const prev=S.qCount-1;if(prev>=0){const d=document.getElementById('qd'+prev);if(d){d.classList.remove('cur');d.classList.add('done');d.innerHTML=`<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke="var(--green)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;}}if(S.qCount<14){const d=document.getElementById('qd'+S.qCount);if(d)d.classList.add('cur');}}
 function updatePartBadge(){const n=S.scores.length;document.getElementById('part-pill').textContent=n<3?'PART 1':n===3?'PART 2':'PART 3';}
 function resetLive(){['f','l','g','p'].forEach(k=>{document.getElementById('lv-'+k).textContent='—';document.getElementById('lf-'+k).style.width='0%';});}
 function updateLive(f,l,g,p){const m={f:[f,'var(--red)'],l:[l,'var(--blue)'],g:[g,'var(--purple)'],p:[p,'var(--gold)']};Object.entries(m).forEach(([k,[v,col]])=>{document.getElementById('lv-'+k).textContent=v.toFixed(1);document.getElementById('lv-'+k).style.color=bc(Math.round(v));document.getElementById('lf-'+k).style.width=(v/9*100)+'%';document.getElementById('lf-'+k).style.background=col;});}
 function endTest(){if(confirm('Testni yakunlamoqchimisiz?'))finishTest();}
-function finishTest(){if(!S.testActive||!S.scores.length){goDash();return;}S.testActive=false;stopRec();const avg=arr=>arr.reduce((a,b)=>a+b,0)/arr.length;const f=avg(S.scores.map(s=>s.f)),l=avg(S.scores.map(s=>s.l)),g=avg(S.scores.map(s=>s.g)),p=avg(S.scores.map(s=>s.p));const ov=Math.round(((f+l+g+p)/4)*2)/2;const r={date:new Date().toLocaleDateString('uz-UZ'),ts:Date.now(),topicId:S.topic.id,topic:S.topic.name,emoji:S.topic.e,f:f.toFixed(1),l:l.toFixed(1),g:g.toFixed(1),p:p.toFixed(1),overall:ov,q:S.qCount};S.allTests.push(r);saveData();renderResult(r);showScreen('result');}
+function finishTest(){if(!S.testActive||!S.scores.length){goDash();return;}S.testActive=false;stopRec();window.speechSynthesis&&window.speechSynthesis.cancel();const avg=arr=>arr.reduce((a,b)=>a+b,0)/arr.length;const f=avg(S.scores.map(s=>s.f)),l=avg(S.scores.map(s=>s.l)),g=avg(S.scores.map(s=>s.g)),p=avg(S.scores.map(s=>s.p));const ov=Math.round(((f+l+g+p)/4)*2)/2;const r={date:new Date().toLocaleDateString('uz-UZ'),ts:Date.now(),topicId:(S.topic&&S.topic.id)||'ai',topic:(S.topic&&S.topic.name)||'AI Test',emoji:(S.topic&&S.topic.e)||'🎯',f:f.toFixed(1),l:l.toFixed(1),g:g.toFixed(1),p:p.toFixed(1),overall:ov,q:S.qCount};S.allTests.push(r);saveData();renderResult(r);showScreen('result');}
 function renderResult(r){const b=Math.round(r.overall);document.getElementById('r-band').textContent=r.overall;document.getElementById('r-band').style.color=bc(b);document.getElementById('r-desc').textContent=`Band ${b} — ${bdesc(b)}`;const crit=[['Fluency & Coherence',r.f,'var(--red)'],['Lexical Resource',r.l,'var(--blue)'],['Grammatical Range',r.g,'var(--purple)'],['Pronunciation',r.p,'var(--gold)']];document.getElementById('r-criteria').innerHTML=crit.map(([n,v,col])=>`<div class="rci"><div class="rci-name">${n}</div><div class="rci-score" style="color:${bc(Math.round(v))}">${v}</div><div class="rci-bar"><div class="rci-fill" style="width:${v/9*100}%;background:${bc(Math.round(v))}"></div></div></div>`).join('');const vs=[r.f,r.l,r.g,r.p].map(parseFloat);const wi=vs.indexOf(Math.min(...vs)),si=vs.indexOf(Math.max(...vs));const nn=['Fluency & Coherence','Lexical Resource','Grammatical Range','Pronunciation'];const tt=["Ko'proq ravon gapiring.","Murakkab so'zlar ishlating.","Complex sentences ishlating.","Intonatsiyaga e'tibor bering."];const reached=r.overall>=S.targetBand;const prev=S.allTests.length>=2?S.allTests[S.allTests.length-2]:null;const diffTxt=prev?`Oldingi testga nisbatan: ${r.overall>=prev.overall?'▲ +'+(r.overall-prev.overall).toFixed(1):'▼ '+(r.overall-prev.overall).toFixed(1)}`:'Birinchi testingiz!';document.getElementById('r-feedback').innerHTML=`<div class="rbd-item"><div class="rbd-icon">🏆</div><div><strong>Kuchli:</strong> ${nn[si]}</div></div><div class="rbd-item"><div class="rbd-icon">⚠️</div><div><strong>Yaxshilash:</strong> ${nn[wi]} — ${tt[wi]}</div></div><div class="rbd-item"><div class="rbd-icon">📈</div><div><strong>O'sish:</strong> ${diffTxt}</div></div><div class="rbd-item"><div class="rbd-icon">🎯</div><div><strong>Maqsad Band ${S.targetBand}:</strong> ${reached?'✅ Yetdingiz!':'Davom eting!'}</div></div><div class="rbd-item"><div class="rbd-icon">📊</div><div><strong>Statistika:</strong> ${r.q} savol · ${r.emoji} ${r.topic} · ${r.date}</div></div>`;renderChart('r-chart-svg','r-chart-empty',S.allTests,130);}
 function loadData(){try{S.allTests=JSON.parse(localStorage.getItem('ielts_tests')||'[]');}catch(e){S.allTests=[];}}
 function saveData(){localStorage.setItem('ielts_tests',JSON.stringify(S.allTests));}
