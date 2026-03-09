@@ -556,6 +556,86 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
   .criteria-bars{grid-template-columns:repeat(2,1fr);}
 }
 
+/* ── VOICE MODAL ─────────────────────────── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.voice-modal{
+  background:var(--s1);border:1px solid var(--border2);
+  border-radius:24px;padding:32px;width:100%;max-width:440px;
+  box-shadow:0 40px 100px rgba(0,0,0,0.6);
+  transform:translateY(20px);transition:transform .25s;
+  position:relative;overflow:hidden;
+}
+.modal-overlay.open .voice-modal{transform:translateY(0);}
+.voice-modal::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(61,142,240,0.6),transparent);
+}
+.vm-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
+.vm-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;display:flex;align-items:center;gap:10px;}
+.vm-title-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--bluesub);display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.vm-close{width:32px;height:32px;border-radius:8px;background:var(--s2);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .2s;}
+.vm-close:hover{color:var(--text);border-color:var(--border3);}
+.vm-close svg{width:14px;height:14px;stroke:currentColor;fill:none;}
+.vm-section{margin-bottom:22px;}
+.vm-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+.accent-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.accent-card{
+  background:var(--s2);border:1.5px solid var(--border2);
+  border-radius:14px;padding:16px 14px;cursor:pointer;
+  transition:all .2s;text-align:center;
+}
+.accent-card:hover{border-color:var(--border3);}
+.accent-card.sel{background:var(--bluesub);border-color:var(--blue);}
+.ac-flag{font-size:28px;margin-bottom:8px;line-height:1;}
+.ac-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:3px;}
+.ac-desc{font-size:11px;color:var(--muted2);}
+.accent-card.sel .ac-name{color:var(--blue);}
+.vm-slider-row{display:flex;align-items:center;gap:14px;}
+.vm-slider{flex:1;-webkit-appearance:none;height:4px;border-radius:2px;background:var(--s3);outline:none;cursor:pointer;}
+.vm-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--blue);border:2px solid var(--s1);box-shadow:0 2px 8px rgba(61,142,240,0.4);cursor:pointer;transition:transform .15s;}
+.vm-slider::-webkit-slider-thumb:hover{transform:scale(1.15);}
+.vm-slider-val{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--blue);min-width:36px;text-align:right;}
+.voice-preview-btn{
+  width:100%;background:var(--s2);border:1.5px solid var(--border2);
+  border-radius:12px;padding:12px;cursor:pointer;
+  font-family:'Manrope',sans-serif;font-size:13px;color:var(--muted2);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .2s;margin-bottom:16px;
+}
+.voice-preview-btn:hover{border-color:var(--blue);color:var(--blue);}
+.voice-preview-btn svg{width:16px;height:16px;fill:currentColor;}
+.vm-save{
+  width:100%;background:linear-gradient(135deg,var(--blue),#1A5FC0);
+  color:#fff;border:none;border-radius:12px;padding:14px;
+  font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
+  cursor:pointer;box-shadow:0 6px 20px rgba(61,142,240,0.3);
+  transition:transform .15s,box-shadow .2s;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.vm-save:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(61,142,240,0.4);}
+.vm-save svg{width:16px;height:16px;fill:#fff;}
+.voice-setting-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--bluesub);border:1px solid rgba(61,142,240,0.3);
+  border-radius:20px;padding:4px 10px;font-size:11px;color:var(--blue);
+  font-weight:600;cursor:pointer;transition:all .2s;
+}
+.voice-setting-badge:hover{background:rgba(61,142,240,0.2);}
+.no-voices-warn{
+  background:var(--goldsub);border:1px solid rgba(240,180,41,0.3);
+  border-radius:10px;padding:10px 14px;font-size:12px;color:var(--gold);
+  margin-bottom:14px;display:none;line-height:1.5;
+}
+.no-voices-warn.show{display:block;}
+
 /* VOICE INPUT */
 .chat-input-wrap{padding:14px 16px;border-top:1px solid var(--border);background:var(--s1);flex-shrink:0;}
 .voice-status{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:10px;margin-bottom:10px;background:var(--s2);border:1px solid var(--border);min-height:36px;transition:all .3s;}
@@ -625,14 +705,14 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
       <span class="field-error" id="err-last">Familiya kiritish majburiy</span>
     </div>
     <div class="field-group">
-      <label class="field-label">Gemini API Key <span class="field-required">*</span></label>
+      <label class="field-label">Groq API Key <span class="field-required">*</span></label>
       <div class="api-wrap">
-        <input type="password" id="inp-api" class="field-input" placeholder="AIzaSy..." autocomplete="off">
+        <input type="password" id="inp-api" class="field-input" placeholder="gsk_..." autocomplete="off">
         <button class="eye-btn" onclick="toggleEye()" title="Ko'rish/yashirish">
           <svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
         </button>
       </div>
-      <span class="field-error" id="err-api">To'g'ri API key kiriting</span>
+      <span class="field-error" id="err-api">To'g'ri Groq API key kiriting</span>
     </div>
     <div class="field-group">
       <label class="field-label">Maqsad Band Score</label>
@@ -649,7 +729,7 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
       <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       Boshlash
     </button>
-    <p class="setup-footer">Bepul API key: <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a></p>
+    <p class="setup-footer">Bepul API key: <a href="https://console.groq.com/keys" target="_blank">console.groq.com</a></p>
   </div>
 </div>
 
@@ -667,6 +747,9 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
         <div class="user-av" id="tb-av">A</div>
         <span class="user-name-pill" id="tb-name">Foydalanuvchi</span>
       </div>
+      <button class="btn-icon" onclick="openVoiceModal()" title="Ovoz sozlamalari" style="color:var(--blue);border-color:rgba(61,142,240,0.3);background:var(--bluesub);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      </button>
       <button class="btn-icon" onclick="showScreen('setup')" title="Sozlamalar">
         <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path fill-rule="evenodd" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" clip-rule="evenodd"/></svg>
       </button>
@@ -759,6 +842,10 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
       <span class="prog-txt" id="pt">0/9</span>
       <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
     </div>
+    <button class="btn-finish" style="margin-right:8px;background:var(--bluesub);color:var(--blue);border:1px solid rgba(61,142,240,0.3);" onclick="openVoiceModal()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+      Ovoz
+    </button>
     <button class="btn-finish" onclick="endTest()">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
       Tugatish
@@ -851,6 +938,80 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
   </div>
 </div>
 
+<!-- ══════════ VOICE SETTINGS MODAL ══════════ -->
+<div class="modal-overlay" id="voice-modal-overlay" onclick="closeVoiceModal(event)">
+  <div class="voice-modal">
+    <div class="vm-header">
+      <div class="vm-title">
+        <div class="vm-title-icon">🎙️</div>
+        Ovoz sozlamalari
+      </div>
+      <button class="vm-close" onclick="closeVoiceModalBtn()">
+        <svg viewBox="0 0 24 24" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="vm-section">
+      <div class="vm-label">🌍 Accent tanlang</div>
+      <div class="no-voices-warn" id="no-voices-warn">
+        ⚠️ Brauzeringizda ingliz ovozlari topilmadi. Chrome ishlatishni tavsiya qilamiz.
+      </div>
+      <div class="accent-grid">
+        <div class="accent-card sel" id="ac-gb" onclick="selectAccent('en-GB','ac-gb')">
+          <div class="ac-flag">🇬🇧</div>
+          <div class="ac-name">British</div>
+          <div class="ac-desc">RP accent · Daniel</div>
+        </div>
+        <div class="accent-card" id="ac-us" onclick="selectAccent('en-US','ac-us')">
+          <div class="ac-flag">🇺🇸</div>
+          <div class="ac-name">American</div>
+          <div class="ac-desc">US accent · Samantha</div>
+        </div>
+        <div class="accent-card" id="ac-au" onclick="selectAccent('en-AU','ac-au')">
+          <div class="ac-flag">🇦🇺</div>
+          <div class="ac-name">Australian</div>
+          <div class="ac-desc">AU accent · Karen</div>
+        </div>
+        <div class="accent-card" id="ac-in" onclick="selectAccent('en-IN','ac-in')">
+          <div class="ac-flag">🇮🇳</div>
+          <div class="ac-name">Indian</div>
+          <div class="ac-desc">IN accent · Rishi</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vm-section">
+      <div class="vm-label">⚡ Gapirish tezligi</div>
+      <div class="vm-slider-row">
+        <span style="font-size:12px;color:var(--muted)">Sekin</span>
+        <input type="range" class="vm-slider" id="speed-slider" min="0.6" max="1.3" step="0.05" value="0.88" oninput="updateSliderVal('speed-val',this.value,'x')">
+        <span style="font-size:12px;color:var(--muted)">Tez</span>
+        <span class="vm-slider-val" id="speed-val">0.88x</span>
+      </div>
+    </div>
+
+    <div class="vm-section">
+      <div class="vm-label">🎵 Ovoz toni (Pitch)</div>
+      <div class="vm-slider-row">
+        <span style="font-size:12px;color:var(--muted)">Past</span>
+        <input type="range" class="vm-slider" id="pitch-slider" min="0.7" max="1.3" step="0.05" value="1.0" oninput="updateSliderVal('pitch-val',this.value,'')">
+        <span style="font-size:12px;color:var(--muted)">Yuqori</span>
+        <span class="vm-slider-val" id="pitch-val">1.0</span>
+      </div>
+    </div>
+
+    <button class="voice-preview-btn" onclick="previewVoice()">
+      <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      Ovozni sinab ko'ring
+    </button>
+
+    <button class="vm-save" onclick="saveVoiceSettings()">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      Saqlash
+    </button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -890,11 +1051,9 @@ const TIPS = [
 
 // ══ INIT ═══════════════════════════════════
 window.speechSynthesis && window.speechSynthesis.getVoices(); // preload voices
-// Ask mic permission once on load
-document.addEventListener('click', function askMic(){
-  initRecognizer();
-  document.removeEventListener('click', askMic);
-}, {once: true});
+loadVoiceSettings();
+// Recognizer faqat birinchi startRec() chaqirilganda yaratiladi
+// va birinchi marta ruxsat so'raladi — keyin hech qachon qayta so'ralmaydi
 window.onload = () => {
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('uz-UZ',{day:'2-digit',month:'long',year:'numeric'});
   loadData();
@@ -1157,24 +1316,44 @@ let isRecording = false;
 let finalTranscript = '';
 let interimTranscript = '';
 let recReady = false;
+let micPermissionGranted = false;
+
+// Bir marta ruxsat olish va recognizer ni doim tayyor saqlash
+async function ensureMicPermission(){
+  if(micPermissionGranted) return true;
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    // Stream ni darhol yopamiz — faqat ruxsat olish uchun kerak edi
+    stream.getTracks().forEach(t => t.stop());
+    micPermissionGranted = true;
+    return true;
+  } catch(e){
+    showToast('❌ Mikrofonga ruxsat berilmadi. Brauzer manzili yonidagi 🔒 belgisini bosib ruxsat bering.');
+    return false;
+  }
+}
 
 function initRecognizer(){
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if(!SR){ showToast("Chrome ishlatng — mikrofon qo'llab-quvvatlanmaydi"); return; }
-  if(recognizer) return; // already created
+  if(recognizer) return; // bir marta yaratiladi, qayta yaratilmaydi
+
   const r = new SR();
-  r.continuous = true;
+  r.continuous = true;        // to'xtatmasdan ishlaydi
   r.interimResults = true;
   r.lang = 'en-US';
+  r.maxAlternatives = 1;
+
   r.onstart = () => {
     isRecording = true;
     recReady = true;
     document.getElementById('mic-btn').classList.add('active');
     document.getElementById('voice-status').classList.add('recording');
     document.getElementById('voice-status').classList.remove('speaking');
-    document.getElementById('vs-txt').textContent = 'Listening... Speak now!';
+    document.getElementById('vs-txt').textContent = '🎙️ Listening... Speak now!';
     document.getElementById('mic-label').textContent = 'Gapiring...';
   };
+
   r.onresult = (e) => {
     interimTranscript = '';
     for(let i = e.resultIndex; i < e.results.length; i++){
@@ -1187,23 +1366,32 @@ function initRecognizer(){
     preview.scrollTop = preview.scrollHeight;
     document.getElementById('send-voice-btn').disabled = !finalTranscript.trim();
   };
+
   r.onerror = (e) => {
-    if(e.error === 'no-speech') return;
-    if(e.error === 'aborted') return;
+    if(e.error === 'no-speech') return;   // gap bo'lmasa — ignore
+    if(e.error === 'aborted') return;     // biz to'xtatdik — ignore
     if(e.error === 'not-allowed'){
-      showToast('Mikrofonga ruxsat bering: brauzer sozlamalaridan ruxsat bering');
+      micPermissionGranted = false;
+      document.getElementById('mic-btn').classList.remove('active');
+      document.getElementById('voice-status').classList.remove('recording');
+      showToast('❌ Mikrofon ruxsati yo\'q. Sahifa yuqorisidagi 🔒 belgisidan ruxsat bering.');
       return;
     }
-    showToast('Mikrofon xatosi: ' + e.error);
+    if(e.error === 'network') return;     // tarmoq xatosi — ignore, qayta ulanadi
+    // boshqa xatolar uchun ham jimgina qayta boshlash
   };
+
   r.onend = () => {
+    // MUHIM: isRecording = true bo'lsa, ruxsat so'ramasdan avtomatik qayta boshlash
+    // Bu har gapda ruxsat so'ralmashini ta'minlaydi
     if(isRecording){
-      try{ r.start(); } catch(e){}
+      try{ r.start(); } catch(e){ /* allaqachon ishlayapti */ }
     } else {
       document.getElementById('mic-btn').classList.remove('active');
       document.getElementById('voice-status').classList.remove('recording');
     }
   };
+
   recognizer = r;
 }
 
@@ -1211,26 +1399,40 @@ function toggleMic(){
   if(!isRecording){ startRec(); } else { stopRec(); }
 }
 
-function startRec(){
-  if(S.isLoading || isSpeaking) return; // don't record while AI loading or speaking
+async function startRec(){
+  if(S.isLoading || isSpeaking) return;
+
+  // Birinchi marta ruxsat olish
+  if(!micPermissionGranted){
+    const ok = await ensureMicPermission();
+    if(!ok) return;
+  }
+
   finalTranscript = ''; interimTranscript = '';
   document.getElementById('transcript-preview').innerHTML = '';
   document.getElementById('transcript-preview').classList.remove('has-text');
   document.getElementById('send-voice-btn').disabled = true;
+
   if(!recognizer) initRecognizer();
   if(!recognizer) return;
+
+  isRecording = true;
   try{
-    isRecording = true;
     recognizer.start();
   } catch(e){
-    // already started — just mark as recording
-    isRecording = true;
+    // "already started" xatosi — recognizer ishlayapti, shunchaki flag ni set qilamiz
+    document.getElementById('mic-btn').classList.add('active');
+    document.getElementById('voice-status').classList.add('recording');
+    document.getElementById('vs-txt').textContent = '🎙️ Listening... Speak now!';
+    document.getElementById('mic-label').textContent = 'Gapiring...';
   }
 }
 
 function stopRec(){
   isRecording = false;
-  if(recognizer){ try{ recognizer.stop(); }catch(e){} }
+  // recognizer ni DESTROY QILMAYMIZ — faqat to'xtatamiz
+  // Shu sabab qayta boshlaganda brauzer ruxsat so'ramaydi
+  if(recognizer){ try{ recognizer.stop(); } catch(e){} }
   document.getElementById('mic-btn').classList.remove('active');
   document.getElementById('voice-status').classList.remove('recording');
   document.getElementById('vs-txt').textContent = finalTranscript ? 'Tayyor. Yuborish tugmasini bosing.' : 'Mikrofon tugmasini bosing';
@@ -1240,16 +1442,20 @@ function stopRec(){
 async function sendVoice(){
   const txt = finalTranscript.trim();
   if(!txt || S.isLoading) return;
+  // Mic ni to'xtatamiz — lekin recognizer destroy QILINMAYDI
   isRecording = false;
   if(recognizer){ try{ recognizer.stop(); }catch(e){} }
   finalTranscript = ''; interimTranscript = '';
   const preview = document.getElementById('transcript-preview');
   preview.innerHTML = ''; preview.classList.remove('has-text');
   document.getElementById('send-voice-btn').disabled = true;
-  document.getElementById('vs-txt').textContent = 'Mikrofon tugmasini bosing va gapirishni boshlang';
+  document.getElementById('mic-btn').classList.remove('active');
+  document.getElementById('voice-status').classList.remove('recording');
+  document.getElementById('vs-txt').textContent = '⏳ AI javob bermoqda...';
+  document.getElementById('mic-label').textContent = 'Bosing va gapirishni boshlang';
 
   addMsg('user', txt);
-  S.history.push({role:'user', parts:[{text:txt}]});
+  S.history.push({role:'user', content:txt});
   S.qCount++;
   updateProg();
   advanceDot();
@@ -1265,35 +1471,31 @@ function autoH(el){}
 
 
 
-// Auto-detect available model
-async function detectModel(){
-  const candidates = ['gemini-2.5-flash','gemini-2.0-flash','gemini-2.0-flash-lite','gemini-1.5-flash'];
-  try{
-    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${S.apiKey}`);
-    const d = await r.json();
-    if(d.models){
-      const names = d.models.map(m=>m.name.replace('models/',''));
-      for(const c of candidates){ if(names.includes(c)) return c; }
-    }
-  }catch(e){}
-  return 'gemini-2.5-flash'; // fallback
-}
-
-// ══ CALL AI ════════════════════════════════
+// ══ CALL AI (Groq API — openai/gpt-oss-120b) ════════════════════════════
 async function callAI(override){
   S.isLoading=true;
   const tid=showTyping();
   try{
-    const msgs=[...S.history];
-    if(override) msgs.push({role:'user',parts:[{text:override}]});
-    if(!S.model) S.model = await detectModel();
-    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${S.model}:generateContent?key=${S.apiKey}`,{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({system_instruction:{parts:[{text:S.sysPrompt||''}]},contents:msgs,generationConfig:{temperature:0.8,maxOutputTokens:600}})
+    // S.history is already in OpenAI format: {role:'user'|'assistant', content:'...'}
+    const msgs=[{role:'system',content:S.sysPrompt||''},...S.history];
+    if(override) msgs.push({role:'user',content:override});
+
+    const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer '+S.apiKey
+      },
+      body:JSON.stringify({
+        model:'openai/gpt-oss-120b',
+        messages:msgs,
+        temperature:0.8,
+        max_tokens:600
+      })
     });
     const data=await res.json();
-    if(data.error) throw new Error(data.error.message);
-    const raw=data.candidates?.[0]?.content?.parts?.[0]?.text||'Xatolik yuz berdi.';
+    if(data.error) throw new Error(data.error.message||JSON.stringify(data.error));
+    const raw=data.choices?.[0]?.message?.content||'Xatolik yuz berdi.';
     removeTyping(tid);
     if(raw.includes('[EVAL]')&&raw.includes('[/EVAL]')){
       const em=raw.match(/\[EVAL\]([\s\S]*?)\[\/EVAL\]/);
@@ -1313,13 +1515,13 @@ async function callAI(override){
         if(tip) document.getElementById('pro-tip').innerHTML=`<strong>💡</strong> ${tip}`;
         else document.getElementById('pro-tip').innerHTML=TIPS[Math.floor(Math.random()*TIPS.length)];
         updatePartBadge();
-        S.history.push({role:'model',parts:[{text:raw}]});
+        S.history.push({role:'assistant',content:raw});
         if(nxt) setTimeout(()=>{addMsg('ai',fmt(nxt)); speakText(nxt);},500);
         if(S.scores.length>=7) setTimeout(()=>finishTest(),2000);
       }
     } else {
       addMsg('ai',fmt(raw));
-      S.history.push({role:'model',parts:[{text:raw}]});
+      S.history.push({role:'assistant',content:raw});
       speakText(raw);
     }
   }catch(e){
@@ -1335,41 +1537,108 @@ function addMsg(role,content,html=false){const f=document.getElementById('chat-f
 function showTyping(){const f=document.getElementById('chat-feed');const id='ty'+Date.now();const d=document.createElement('div');d.className='msg ai';d.id=id;d.innerHTML=`<div class="msg-av">🎓</div><div class="msg-col"><div class="msg-sender">IELTS Examiner</div><div class="dots-bub"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;f.appendChild(d);f.scrollTop=f.scrollHeight;return id;}
 function removeTyping(id){const e=document.getElementById(id);if(e)e.remove();}
 
+// ══ VOICE SETTINGS ══════════════════════════
+const VS = {
+  accent: 'en-GB',
+  rate: 0.88,
+  pitch: 1.0,
+};
+
+function openVoiceModal(){
+  // populate both sliders from current VS
+  document.getElementById('speed-slider').value = VS.rate;
+  document.getElementById('pitch-slider').value = VS.pitch;
+  updateSliderVal('speed-val', VS.rate, 'x');
+  updateSliderVal('pitch-val', VS.pitch, '');
+  // mark selected accent
+  ['ac-gb','ac-us','ac-au','ac-in'].forEach(id=>document.getElementById(id).classList.remove('sel'));
+  const acMap={'en-GB':'ac-gb','en-US':'ac-us','en-AU':'ac-au','en-IN':'ac-in'};
+  const selId = acMap[VS.accent]||'ac-gb';
+  document.getElementById(selId).classList.add('sel');
+  // check available voices
+  const voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+  const hasEn = voices.some(v=>v.lang.startsWith('en'));
+  document.getElementById('no-voices-warn').classList.toggle('show', !hasEn);
+  document.getElementById('voice-modal-overlay').classList.add('open');
+}
+function closeVoiceModal(e){
+  if(e.target===document.getElementById('voice-modal-overlay'))
+    document.getElementById('voice-modal-overlay').classList.remove('open');
+}
+function closeVoiceModalBtn(){
+  document.getElementById('voice-modal-overlay').classList.remove('open');
+}
+function selectAccent(lang, cardId){
+  ['ac-gb','ac-us','ac-au','ac-in'].forEach(id=>document.getElementById(id).classList.remove('sel'));
+  document.getElementById(cardId).classList.add('sel');
+  VS.accent = lang;
+}
+function updateSliderVal(valId, val, suffix){
+  const n = parseFloat(val);
+  document.getElementById(valId).textContent = (Number.isInteger(n) ? n.toFixed(1) : n.toFixed(2).replace(/0+$/,'')) + suffix;
+}
+function previewVoice(){
+  // read BOTH sliders before preview
+  VS.rate = parseFloat(document.getElementById('speed-slider').value);
+  VS.pitch = parseFloat(document.getElementById('pitch-slider').value);
+  speakText("Hello! Welcome to your IELTS Speaking test. I am your examiner today. Please speak clearly and confidently.");
+}
+function saveVoiceSettings(){
+  // read BOTH sliders before saving
+  VS.rate = parseFloat(document.getElementById('speed-slider').value);
+  VS.pitch = parseFloat(document.getElementById('pitch-slider').value);
+  try{ localStorage.setItem('ielts_voice', JSON.stringify(VS)); }catch(e){}
+  closeVoiceModalBtn();
+  showToast('✅ Ovoz sozlamalari saqlandi!');
+}
+function loadVoiceSettings(){
+  try{
+    const saved = JSON.parse(localStorage.getItem('ielts_voice')||'null');
+    if(saved){ Object.assign(VS, saved); }
+  }catch(e){}
+}
+
 // ══ TEXT TO SPEECH ══════════════════════════
 let isSpeaking = false;
 function speakText(text){
   if(!window.speechSynthesis) return;
-  // Strip HTML tags
   const clean = text.replace(/<[^>]+>/g,'').replace(/[💬💡🎓]/g,'').trim();
   if(!clean) return;
   window.speechSynthesis.cancel();
   isSpeaking = true;
-  // Show speaking indicator
-  const micBtn = document.getElementById('mic-btn');
   const vsEl = document.getElementById('voice-status');
   const vsTxt = document.getElementById('vs-txt');
   if(vsTxt) vsTxt.textContent = '🔊 Examiner gapirmoqda...';
   if(vsEl) vsEl.classList.add('speaking');
   
   const utter = new SpeechSynthesisUtterance(clean);
-  utter.lang = 'en-GB';
-  utter.rate = 0.88;
-  utter.pitch = 1.0;
+  utter.lang = VS.accent;
+  utter.rate = VS.rate;
+  utter.pitch = VS.pitch;
   utter.volume = 1.0;
   
-  // Pick a good English voice
+  // Pick best voice for selected accent
   const voices = window.speechSynthesis.getVoices();
-  const preferred = voices.find(v => 
-    (v.lang === 'en-GB' || v.lang === 'en-US') && 
-    (v.name.includes('Daniel') || v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Karen'))
-  ) || voices.find(v => v.lang.startsWith('en')) || voices[0];
-  if(preferred) utter.voice = preferred;
+  const accentVoiceMap = {
+    'en-GB': ['Daniel','Google UK English Male','Google UK English Female','Arthur'],
+    'en-US': ['Samantha','Google US English','Alex','Tom','Google English'],
+    'en-AU': ['Karen','Google Australian English','Catherine'],
+    'en-IN': ['Rishi','Google हिन्दी','Veena'],
+  };
+  const preferred_names = accentVoiceMap[VS.accent] || accentVoiceMap['en-GB'];
+  let picked = null;
+  for(const name of preferred_names){
+    picked = voices.find(v => v.name.includes(name) && v.lang.startsWith(VS.accent.split('-')[0]));
+    if(picked) break;
+  }
+  if(!picked) picked = voices.find(v => v.lang === VS.accent);
+  if(!picked) picked = voices.find(v => v.lang.startsWith('en'));
+  if(picked) utter.voice = picked;
 
   utter.onend = () => {
     isSpeaking = false;
     if(vsTxt) vsTxt.textContent = 'Mikrofon tugmasini bosing va gapirishni boshlang';
     if(vsEl) vsEl.classList.remove('speaking');
-    // Auto-start mic after examiner finishes speaking
     if(S.testActive && !isRecording){
       setTimeout(() => startRec(), 400);
     }
