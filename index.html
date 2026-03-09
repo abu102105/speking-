@@ -1052,8 +1052,11 @@ const TIPS = [
 // ══ INIT ═══════════════════════════════════
 window.speechSynthesis && window.speechSynthesis.getVoices(); // preload voices
 loadVoiceSettings();
-// Recognizer faqat birinchi startRec() chaqirilganda yaratiladi
-// va birinchi marta ruxsat so'raladi — keyin hech qachon qayta so'ralmaydi
+// Ask mic permission once on load
+document.addEventListener('click', function askMic(){
+  initRecognizer();
+  document.removeEventListener('click', askMic);
+}, {once: true});
 window.onload = () => {
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('uz-UZ',{day:'2-digit',month:'long',year:'numeric'});
   loadData();
@@ -1316,44 +1319,24 @@ let isRecording = false;
 let finalTranscript = '';
 let interimTranscript = '';
 let recReady = false;
-let micPermissionGranted = false;
-
-// Bir marta ruxsat olish va recognizer ni doim tayyor saqlash
-async function ensureMicPermission(){
-  if(micPermissionGranted) return true;
-  try{
-    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
-    // Stream ni darhol yopamiz — faqat ruxsat olish uchun kerak edi
-    stream.getTracks().forEach(t => t.stop());
-    micPermissionGranted = true;
-    return true;
-  } catch(e){
-    showToast('❌ Mikrofonga ruxsat berilmadi. Brauzer manzili yonidagi 🔒 belgisini bosib ruxsat bering.');
-    return false;
-  }
-}
 
 function initRecognizer(){
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if(!SR){ showToast("Chrome ishlatng — mikrofon qo'llab-quvvatlanmaydi"); return; }
-  if(recognizer) return; // bir marta yaratiladi, qayta yaratilmaydi
-
+  if(recognizer) return; // already created
   const r = new SR();
-  r.continuous = true;        // to'xtatmasdan ishlaydi
+  r.continuous = true;
   r.interimResults = true;
   r.lang = 'en-US';
-  r.maxAlternatives = 1;
-
   r.onstart = () => {
     isRecording = true;
     recReady = true;
     document.getElementById('mic-btn').classList.add('active');
     document.getElementById('voice-status').classList.add('recording');
     document.getElementById('voice-status').classList.remove('speaking');
-    document.getElementById('vs-txt').textContent = '🎙️ Listening... Speak now!';
+    document.getElementById('vs-txt').textContent = 'Listening... Speak now!';
     document.getElementById('mic-label').textContent = 'Gapiring...';
   };
-
   r.onresult = (e) => {
     interimTranscript = '';
     for(let i = e.resultIndex; i < e.results.length; i++){
@@ -1366,32 +1349,23 @@ function initRecognizer(){
     preview.scrollTop = preview.scrollHeight;
     document.getElementById('send-voice-btn').disabled = !finalTranscript.trim();
   };
-
   r.onerror = (e) => {
-    if(e.error === 'no-speech') return;   // gap bo'lmasa — ignore
-    if(e.error === 'aborted') return;     // biz to'xtatdik — ignore
+    if(e.error === 'no-speech') return;
+    if(e.error === 'aborted') return;
     if(e.error === 'not-allowed'){
-      micPermissionGranted = false;
-      document.getElementById('mic-btn').classList.remove('active');
-      document.getElementById('voice-status').classList.remove('recording');
-      showToast('❌ Mikrofon ruxsati yo\'q. Sahifa yuqorisidagi 🔒 belgisidan ruxsat bering.');
+      showToast('Mikrofonga ruxsat bering: brauzer sozlamalaridan ruxsat bering');
       return;
     }
-    if(e.error === 'network') return;     // tarmoq xatosi — ignore, qayta ulanadi
-    // boshqa xatolar uchun ham jimgina qayta boshlash
+    showToast('Mikrofon xatosi: ' + e.error);
   };
-
   r.onend = () => {
-    // MUHIM: isRecording = true bo'lsa, ruxsat so'ramasdan avtomatik qayta boshlash
-    // Bu har gapda ruxsat so'ralmashini ta'minlaydi
     if(isRecording){
-      try{ r.start(); } catch(e){ /* allaqachon ishlayapti */ }
+      try{ r.start(); } catch(e){}
     } else {
       document.getElementById('mic-btn').classList.remove('active');
       document.getElementById('voice-status').classList.remove('recording');
     }
   };
-
   recognizer = r;
 }
 
@@ -1399,40 +1373,26 @@ function toggleMic(){
   if(!isRecording){ startRec(); } else { stopRec(); }
 }
 
-async function startRec(){
-  if(S.isLoading || isSpeaking) return;
-
-  // Birinchi marta ruxsat olish
-  if(!micPermissionGranted){
-    const ok = await ensureMicPermission();
-    if(!ok) return;
-  }
-
+function startRec(){
+  if(S.isLoading || isSpeaking) return; // don't record while AI loading or speaking
   finalTranscript = ''; interimTranscript = '';
   document.getElementById('transcript-preview').innerHTML = '';
   document.getElementById('transcript-preview').classList.remove('has-text');
   document.getElementById('send-voice-btn').disabled = true;
-
   if(!recognizer) initRecognizer();
   if(!recognizer) return;
-
-  isRecording = true;
   try{
+    isRecording = true;
     recognizer.start();
   } catch(e){
-    // "already started" xatosi — recognizer ishlayapti, shunchaki flag ni set qilamiz
-    document.getElementById('mic-btn').classList.add('active');
-    document.getElementById('voice-status').classList.add('recording');
-    document.getElementById('vs-txt').textContent = '🎙️ Listening... Speak now!';
-    document.getElementById('mic-label').textContent = 'Gapiring...';
+    // already started — just mark as recording
+    isRecording = true;
   }
 }
 
 function stopRec(){
   isRecording = false;
-  // recognizer ni DESTROY QILMAYMIZ — faqat to'xtatamiz
-  // Shu sabab qayta boshlaganda brauzer ruxsat so'ramaydi
-  if(recognizer){ try{ recognizer.stop(); } catch(e){} }
+  if(recognizer){ try{ recognizer.stop(); }catch(e){} }
   document.getElementById('mic-btn').classList.remove('active');
   document.getElementById('voice-status').classList.remove('recording');
   document.getElementById('vs-txt').textContent = finalTranscript ? 'Tayyor. Yuborish tugmasini bosing.' : 'Mikrofon tugmasini bosing';
@@ -1442,17 +1402,13 @@ function stopRec(){
 async function sendVoice(){
   const txt = finalTranscript.trim();
   if(!txt || S.isLoading) return;
-  // Mic ni to'xtatamiz — lekin recognizer destroy QILINMAYDI
   isRecording = false;
   if(recognizer){ try{ recognizer.stop(); }catch(e){} }
   finalTranscript = ''; interimTranscript = '';
   const preview = document.getElementById('transcript-preview');
   preview.innerHTML = ''; preview.classList.remove('has-text');
   document.getElementById('send-voice-btn').disabled = true;
-  document.getElementById('mic-btn').classList.remove('active');
-  document.getElementById('voice-status').classList.remove('recording');
-  document.getElementById('vs-txt').textContent = '⏳ AI javob bermoqda...';
-  document.getElementById('mic-label').textContent = 'Bosing va gapirishni boshlang';
+  document.getElementById('vs-txt').textContent = 'Mikrofon tugmasini bosing va gapirishni boshlang';
 
   addMsg('user', txt);
   S.history.push({role:'user', content:txt});
@@ -1600,7 +1556,23 @@ function loadVoiceSettings(){
 
 // ══ TEXT TO SPEECH ══════════════════════════
 let isSpeaking = false;
-function speakText(text){
+
+// Chrome loads voices asynchronously — wait until ready
+function getVoicesAsync(){
+  return new Promise(resolve => {
+    const voices = window.speechSynthesis.getVoices();
+    if(voices.length > 0){ resolve(voices); return; }
+    let done = false;
+    window.speechSynthesis.onvoiceschanged = () => {
+      if(done) return; done = true;
+      resolve(window.speechSynthesis.getVoices());
+    };
+    // Fallback if onvoiceschanged never fires (some browsers)
+    setTimeout(() => { if(done) return; done = true; resolve(window.speechSynthesis.getVoices()); }, 1500);
+  });
+}
+
+async function speakText(text){
   if(!window.speechSynthesis) return;
   const clean = text.replace(/<[^>]+>/g,'').replace(/[💬💡🎓]/g,'').trim();
   if(!clean) return;
@@ -1610,41 +1582,55 @@ function speakText(text){
   const vsTxt = document.getElementById('vs-txt');
   if(vsTxt) vsTxt.textContent = '🔊 Examiner gapirmoqda...';
   if(vsEl) vsEl.classList.add('speaking');
-  
+
+  const accent = (typeof VS !== 'undefined' && VS.accent) ? VS.accent : 'en-GB';
+  const rate   = (typeof VS !== 'undefined' && VS.rate)   ? VS.rate   : 0.88;
+  const pitch  = (typeof VS !== 'undefined' && VS.pitch)  ? VS.pitch  : 1.0;
+
   const utter = new SpeechSynthesisUtterance(clean);
-  utter.lang = VS.accent;
-  utter.rate = VS.rate;
-  utter.pitch = VS.pitch;
+  utter.lang   = accent;
+  utter.rate   = rate;
+  utter.pitch  = pitch;
   utter.volume = 1.0;
-  
-  // Pick best voice for selected accent
-  const voices = window.speechSynthesis.getVoices();
+
+  // Wait for voices (fixes Chrome async bug)
+  const voices = await getVoicesAsync();
   const accentVoiceMap = {
     'en-GB': ['Daniel','Google UK English Male','Google UK English Female','Arthur'],
     'en-US': ['Samantha','Google US English','Alex','Tom','Google English'],
     'en-AU': ['Karen','Google Australian English','Catherine'],
-    'en-IN': ['Rishi','Google हिन्दी','Veena'],
+    'en-IN': ['Rishi','Veena'],
   };
-  const preferred_names = accentVoiceMap[VS.accent] || accentVoiceMap['en-GB'];
+  const preferred_names = accentVoiceMap[accent] || accentVoiceMap['en-GB'];
   let picked = null;
   for(const name of preferred_names){
-    picked = voices.find(v => v.name.includes(name) && v.lang.startsWith(VS.accent.split('-')[0]));
+    picked = voices.find(v => v.name.includes(name) && v.lang.startsWith(accent.split('-')[0]));
     if(picked) break;
   }
-  if(!picked) picked = voices.find(v => v.lang === VS.accent);
+  if(!picked) picked = voices.find(v => v.lang === accent);
   if(!picked) picked = voices.find(v => v.lang.startsWith('en'));
   if(picked) utter.voice = picked;
 
+  // Chrome bug: long text stops mid-way — keepalive workaround
+  const keepAlive = setInterval(() => {
+    if(!isSpeaking){ clearInterval(keepAlive); return; }
+    window.speechSynthesis.pause();
+    window.speechSynthesis.resume();
+  }, 10000);
+
   utter.onend = () => {
     isSpeaking = false;
+    clearInterval(keepAlive);
     if(vsTxt) vsTxt.textContent = 'Mikrofon tugmasini bosing va gapirishni boshlang';
     if(vsEl) vsEl.classList.remove('speaking');
     if(S.testActive && !isRecording){
       setTimeout(() => startRec(), 400);
     }
   };
-  utter.onerror = () => {
+  utter.onerror = (e) => {
+    if(e.error === 'interrupted') return; // normal when cancel() is called
     isSpeaking = false;
+    clearInterval(keepAlive);
     if(vsEl) vsEl.classList.remove('speaking');
   };
   window.speechSynthesis.speak(utter);
