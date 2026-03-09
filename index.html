@@ -1,14 +1,9 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<script>if(window.Telegram&&window.Telegram.WebApp){window.Telegram.WebApp.expand();window.Telegram.WebApp.setHeaderColor("#06080F");window.Telegram.WebApp.setBackgroundColor("#06080F");}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IELTS Speaking Pro</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -25,7 +20,7 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min-height:100vh;overflow-x:hidden;}
-.screen{display:none;min-height:100vh;min-height:100dvh;}
+.screen{display:none;min-height:100vh;}
 .screen.active{display:flex;flex-direction:column;}
 
 /* ── SETUP ─────────────────────────────────── */
@@ -107,7 +102,6 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
   letter-spacing:.2px;transition:transform .15s,box-shadow .2s,opacity .2s;
   box-shadow:0 6px 24px rgba(224,48,64,0.35);margin-top:10px;
   display:flex;align-items:center;justify-content:center;gap:8px;
-  touch-action:manipulation;-webkit-tap-highlight-color:transparent;min-height:50px;
 }
 .btn-cta:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(224,48,64,0.45);}
 .btn-cta:active{transform:translateY(0);}
@@ -289,7 +283,7 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
 .empty-state p{font-size:14px;line-height:1.6;}
 
 /* ── TEST SCREEN ─────────────────────────────── */
-#screen-test{background:var(--bg);height:100dvh;display:flex;flex-direction:column;}
+#screen-test{background:var(--bg);}
 .test-topbar{
   display:flex;align-items:center;justify-content:space-between;
   padding:12px 20px;border-bottom:1px solid var(--border);background:var(--s1);
@@ -316,7 +310,7 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
 .btn-finish svg{width:14px;height:14px;fill:currentColor;}
 
 .test-layout{flex:1;display:flex;overflow:hidden;min-height:0;}
-.chat-panel{flex:1;display:flex;flex-direction:column;border-right:1px solid var(--border);min-height:0;overflow:hidden;}
+.chat-panel{flex:1;display:flex;flex-direction:column;border-right:1px solid var(--border);min-height:0;}
 .chat-feed{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px;scrollbar-width:thin;scrollbar-color:var(--s3) transparent;}
 .chat-feed::-webkit-scrollbar{width:3px;}
 .chat-feed::-webkit-scrollbar-thumb{background:var(--s3);border-radius:2px;}
@@ -543,197 +537,24 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
 }
 .toast.show{display:block;opacity:1;transform:translateX(-50%) translateY(0);}
 
-/* ── RESPONSIVE & MOBILE / TELEGRAM ──────── */
-/* ══ TABLET ══ */
+/* ── RESPONSIVE ───────────────────────────── */
 @media(max-width:900px){
   .stats-grid{grid-template-columns:repeat(2,1fr);}
-  .criteria-bars{grid-template-columns:repeat(2,1fr);}
+  .topic-grid{grid-template-columns:repeat(2,1fr);}
   .test-layout{flex-direction:column;}
   .side-col{width:100%;flex-direction:row;overflow-x:auto;border-right:none;border-top:1px solid var(--border);}
   .sp-block{border-bottom:none;border-right:1px solid var(--border);min-width:160px;}
+  .criteria-bars{grid-template-columns:repeat(2,1fr);}
 }
-
-/* ══ MOBILE (≤600px) — phones, Telegram WebApp ══ */
 @media(max-width:600px){
-  /* Base */
-  *{-webkit-tap-highlight-color:transparent;}
-  body{-webkit-text-size-adjust:100%;touch-action:manipulation;}
-  .screen{min-height:100dvh;}
-
-  /* ── Setup ── */
-  #screen-setup{
-    padding:max(20px,env(safe-area-inset-top)) 14px 24px;
-    align-items:stretch;justify-content:flex-start;
-  }
-  .setup-card{
-    max-width:100%;padding:24px 18px;border-radius:20px;
-    box-shadow:none;border:1px solid var(--border2);
-  }
-  .setup-heading{font-size:28px;letter-spacing:-0.5px;}
-  .brand{margin-bottom:24px;}
-  .band-grid{grid-template-columns:repeat(5,1fr);gap:6px;}
-  .band-opt{padding:10px 2px;font-size:15px;}
-  .btn-cta{padding:16px;font-size:15px;border-radius:14px;}
-  .field-input{font-size:16px;} /* prevent iOS zoom */
-
-  /* ── Dashboard ── */
-  .topbar{
-    padding:max(12px,env(safe-area-inset-top)) 14px 12px;
-    position:sticky;top:0;z-index:100;
-  }
-  .tb-title{font-size:14px;}
-  .dash-body{padding:14px 12px max(80px,calc(env(safe-area-inset-bottom)+70px));}
-  .dash-greet-row{flex-direction:column;gap:8px;}
-  .today-badge{text-align:left;}
-  .dash-greeting{font-size:22px;}
-  .stats-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
-  .stat-card{padding:14px 12px;}
-  .sc-val{font-size:22px;}
-  .sc-label{font-size:10px;}
-  .progress-section{padding:14px 12px;}
-  .criteria-bars{grid-template-columns:repeat(2,1fr);gap:8px;}
-  .cb-item{padding:10px;}
-  .h-item{padding:10px 12px;gap:8px;}
-  .h-topic-name{font-size:13px;}
-  .h-score-badge{font-size:16px;padding:3px 10px;}
-  .section-hd{font-size:13px;}
-
-  /* ── Test topbar ── */
-  .test-topbar{
-    padding:max(10px,env(safe-area-inset-top)) 12px 10px;
-    gap:8px;flex-wrap:wrap;
-  }
-  .tt-topic{display:none;}
-  .tt-mid{order:3;width:100%;justify-content:center;padding:4px 0 0;}
-  .prog-track{flex:1;width:auto;}
-  .btn-finish{padding:7px 12px;font-size:12px;}
-  .part-pill{font-size:10px;padding:4px 10px;}
-
-  /* ── Test layout — full screen chat, NO side panel ── */
-  .test-layout{
-    flex-direction:column;
-    height:calc(100dvh - 56px);
-  }
-  .chat-panel{
-    flex:1;min-height:0;
-    border-right:none;
-  }
-  .side-col{display:none!important;}
-
-  /* ── Chat messages ── */
-  .chat-feed{padding:12px 10px 8px;gap:10px;}
-  .msg.user{max-width:88%;}
-  .msg.ai{max-width:96%;}
-  .msg-bub{font-size:13.5px;padding:10px 13px;line-height:1.6;}
-  .msg-av{width:26px;height:26px;border-radius:8px;font-size:12px;}
-  .msg-sender{font-size:9px;}
-  .eval-card{padding:11px;}
-  .escore-val{font-size:14px;}
-
-  /* ── Voice input area ── */
-  .chat-input-wrap{
-    flex-shrink:0;
-    padding:10px 12px;
-    padding-bottom:max(12px,env(safe-area-inset-bottom));
-    background:var(--s1);
-    border-top:1px solid var(--border);
-  }
-  .voice-status{
-    padding:7px 10px;min-height:32px;border-radius:10px;margin-bottom:8px;
-  }
-  .vs-txt{font-size:11.5px;}
-  .vs-waves{gap:2px;}
-  .wave{width:2.5px;}
-
-  /* Big tap-friendly mic button */
-  .mic-btn{
-    width:56px;height:56px;
-    border-radius:50%;
-    flex-shrink:0;
-  }
-  .mic-hint{display:none;}
-  .mic-label{font-size:12.5px;}
-  .mic-center{flex:1;min-width:0;}
-
-  /* Large send button */
-  .send-voice-btn{
-    padding:12px 16px;font-size:14px;border-radius:14px;
-    min-height:48px;
-  }
-  .voice-controls{gap:10px;align-items:center;}
-
-  /* Text fallback input */
-  #msg-inp{font-size:16px;} /* prevent iOS zoom */
-  .chat-input-inner{border-radius:14px;}
-  .send-btn{width:40px;height:40px;border-radius:11px;}
-
-  /* Transcript preview */
-  .transcript-preview{font-size:13px;max-height:60px;}
-
-  /* ── Result ── */
-  #screen-result{
-    padding:max(16px,env(safe-area-inset-top)) 12px max(40px,env(safe-area-inset-bottom));
-    overflow-y:auto;
-  }
-  .result-wrap{max-width:100%;}
-  .res-hero{padding:22px 16px;border-radius:18px;}
-  .res-band-num{font-size:64px;letter-spacing:-3px;}
-  .res-band-desc{font-size:14px;}
-  .res-criteria{grid-template-columns:repeat(2,1fr);gap:8px;}
-  .rci{padding:12px;}
-  .rci-score{font-size:22px;}
-  .res-breakdown{padding:14px;border-radius:16px;}
-  .rbd-item{font-size:13px;padding:9px 0;gap:10px;}
-  .rbd-icon{font-size:16px;}
-  .res-progress-section{padding:14px;border-radius:16px;}
-  .res-actions{flex-direction:column;gap:8px;}
-  .btn-outline,.btn-filled{padding:14px;font-size:14px;border-radius:13px;}
-
-  /* ── Mobile score strip (replaces side panel) ── */
-  #mobile-score-strip{display:flex!important;}
+  .topic-grid{grid-template-columns:1fr;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .res-band-num{font-size:64px;}
+  .res-criteria{grid-template-columns:1fr;}
+  .dash-body{padding:20px 16px 32px;}
+  .setup-card{padding:28px 22px;}
+  .criteria-bars{grid-template-columns:repeat(2,1fr);}
 }
-
-/* ══ SMALL PHONES (≤380px) ══ */
-@media(max-width:380px){
-  .setup-heading{font-size:24px;}
-  .dash-greeting{font-size:19px;}
-  .stats-grid{gap:8px;}
-  .stat-card{padding:11px 10px;}
-  .sc-val{font-size:20px;}
-  .mic-btn{width:50px;height:50px;}
-  .send-voice-btn{padding:10px 13px;font-size:13px;}
-  .res-band-num{font-size:56px;}
-}
-
-/* ══ SAFE AREA (notch/dynamic island) ══ */
-@supports(padding:max(0px)){
-  .topbar{padding-top:max(14px,env(safe-area-inset-top));}
-  .test-topbar{padding-top:max(10px,env(safe-area-inset-top));}
-  #screen-setup{padding-top:max(24px,env(safe-area-inset-top));}
-  .chat-input-wrap{padding-bottom:max(12px,env(safe-area-inset-bottom));}
-  #screen-result{padding-bottom:max(40px,env(safe-area-inset-bottom));}
-}
-
-/* ══ MOBILE SCORE STRIP — shown only on mobile ══ */
-#mobile-score-strip{
-  display:none;
-  position:fixed;top:56px;left:0;right:0;z-index:90;
-  background:rgba(13,17,25,0.95);backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--border);
-  padding:8px 14px;
-  gap:0;
-  overflow-x:auto;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-}
-#mobile-score-strip::-webkit-scrollbar{display:none;}
-.mss-item{
-  display:flex;flex-direction:column;align-items:center;
-  padding:4px 12px;border-right:1px solid var(--border);flex-shrink:0;
-}
-.mss-item:last-child{border-right:none;}
-.mss-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;font-weight:700;margin-bottom:2px;}
-.mss-val{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;}
 
 /* ── VOICE MODAL ─────────────────────────── */
 .modal-overlay{
@@ -837,7 +658,7 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
 .transcript-preview.has-text{display:block;}
 .transcript-preview .interim{color:var(--muted2);font-style:italic;}
 .voice-controls{display:flex;align-items:center;gap:12px;}
-.mic-btn{width:56px;height:56px;border-radius:50%;flex-shrink:0;background:var(--s2);border:2px solid var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;transition:all .2s;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+.mic-btn{width:52px;height:52px;border-radius:50%;flex-shrink:0;background:var(--s2);border:2px solid var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;transition:all .2s;}
 .mic-btn:hover{border-color:var(--red);background:var(--redsub);}
 .mic-btn.active{background:var(--red);border-color:var(--red);animation:micPulse 1.5s infinite;}
 @keyframes micPulse{0%{box-shadow:0 0 0 0 rgba(224,48,64,0.5);}70%{box-shadow:0 0 0 12px rgba(224,48,64,0);}100%{box-shadow:0 0 0 0 rgba(224,48,64,0);}}
@@ -849,11 +670,55 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
 .mic-center{flex:1;}
 .mic-label{font-size:13px;font-weight:600;color:var(--muted3);margin-bottom:2px;}
 .mic-hint{font-size:11px;color:var(--muted);}
-.send-voice-btn{display:flex;align-items:center;gap:7px;background:var(--red);color:#fff;border:none;border-radius:12px;padding:10px 18px;cursor:pointer;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;transition:opacity .2s,transform .15s;flex-shrink:0;box-shadow:0 4px 14px rgba(224,48,64,0.3);touch-action:manipulation;-webkit-tap-highlight-color:transparent;min-height:44px;}
+.send-voice-btn{display:flex;align-items:center;gap:7px;background:var(--red);color:#fff;border:none;border-radius:12px;padding:10px 18px;cursor:pointer;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;transition:opacity .2s,transform .15s;flex-shrink:0;box-shadow:0 4px 14px rgba(224,48,64,0.3);}
 .send-voice-btn:disabled{opacity:.35;cursor:not-allowed;box-shadow:none;}
 .send-voice-btn:not(:disabled):hover{opacity:.85;transform:translateY(-1px);}
 .send-voice-btn svg{width:14px;height:14px;fill:#fff;}
 
+
+/* ── AI TOPIC CARD ─────────────────────── */
+.ai-topic-card{
+  background:var(--s1);border:1.5px solid var(--border2);
+  border-radius:20px;padding:22px 24px;margin-bottom:28px;
+  transition:border-color .2s;
+}
+.ai-topic-card:hover{border-color:var(--border3);}
+.ai-topic-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.ai-topic-left{display:flex;align-items:center;gap:16px;flex:1;min-width:0;}
+.ai-topic-emoji{
+  width:56px;height:56px;border-radius:16px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--redsub),var(--bluesub));
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;border:1px solid var(--border2);
+}
+.ai-topic-name{
+  font-family:'Syne',sans-serif;font-size:18px;font-weight:800;
+  margin-bottom:4px;color:var(--text);
+}
+.ai-topic-desc{font-size:13px;color:var(--muted2);line-height:1.5;}
+.ai-topic-actions{display:flex;gap:10px;flex-shrink:0;flex-wrap:wrap;}
+.btn-regen{
+  background:var(--s2);border:1px solid var(--border2);
+  color:var(--muted2);border-radius:10px;padding:10px 16px;
+  font-family:'Manrope',sans-serif;font-size:13px;font-weight:600;
+  cursor:pointer;transition:all .18s;white-space:nowrap;
+}
+.btn-regen:hover{border-color:var(--border3);color:var(--text);}
+.btn-regen:disabled{opacity:.4;cursor:not-allowed;}
+.btn-start-ai{
+  background:linear-gradient(135deg,var(--red),#A0192A);
+  color:#fff;border:none;border-radius:10px;padding:10px 20px;
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:700;
+  cursor:pointer;transition:transform .15s,box-shadow .2s,opacity .2s;
+  box-shadow:0 4px 16px rgba(224,48,64,0.3);white-space:nowrap;
+}
+.btn-start-ai:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(224,48,64,0.4);}
+.btn-start-ai:disabled{opacity:.35;cursor:not-allowed;box-shadow:none;transform:none;}
+@media(max-width:600px){
+  .ai-topic-inner{flex-direction:column;align-items:flex-start;}
+  .ai-topic-actions{width:100%;justify-content:stretch;}
+  .btn-regen,.btn-start-ai{flex:1;text-align:center;}
+}
 </style>
 </head>
 <body>
@@ -884,7 +749,7 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
       <span class="field-error" id="err-last">Familiya kiritish majburiy</span>
     </div>
     <div class="field-group">
-      <label class="field-label">Gemini API Key <span class="field-required">*</span></label>
+      <label class="field-label">Groq API Key <span class="field-required">*</span></label>
       <div class="api-wrap">
         <input type="password" id="inp-api" class="field-input" placeholder="gsk_..." autocomplete="off">
         <button class="eye-btn" onclick="toggleEye()" title="Ko'rish/yashirish">
@@ -1002,37 +867,19 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
       </div>
     </div>
 
-    <div class="section-hd">Test boshlash</div>
-    <div id="topic-start-area">
-      <div style="background:var(--s1);border:1.5px solid var(--border2);border-radius:20px;padding:28px 28px 22px;margin-bottom:20px;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),var(--purple),var(--blue));"></div>
-        <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
-          <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--red),var(--purple));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🎲</div>
+    <div class="section-hd">Mavzu tanlang</div>
+    <div class="ai-topic-card" id="ai-topic-card">
+      <div class="ai-topic-inner">
+        <div class="ai-topic-left">
+          <div class="ai-topic-emoji" id="ai-topic-emoji">🎲</div>
           <div>
-            <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:2px;">AI Examiner</div>
-            <div style="font-size:12px;color:var(--muted2);">AI mavzu va savollarni o'zi tanlaydi — haqiqiy IELTS kabi</div>
+            <div class="ai-topic-name" id="ai-topic-name">AI mavzu tayyorlamoqda...</div>
+            <div class="ai-topic-desc" id="ai-topic-desc">Bosing va yangi mavzu oling</div>
           </div>
         </div>
-        <div id="ai-topic-preview" style="background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:16px;min-height:56px;display:flex;align-items:center;gap:12px;">
-          <span style="font-size:24px;" id="ai-topic-emoji">🎲</span>
-          <div>
-            <div style="font-size:13px;color:var(--muted);margin-bottom:2px;">Tanlangan mavzu</div>
-            <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text);" id="ai-topic-name">Yangi test boshlash uchun quyidagi tugmani bosing</div>
-          </div>
-        </div>
-        <div style="display:flex;gap:10px;">
-          <button onclick="generateAITopic()" id="btn-gen-topic"
-            style="flex:1;background:var(--s2);border:1.5px solid var(--border2);color:var(--muted3);border-radius:12px;padding:13px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;"
-            onmouseenter="this.style.borderColor='var(--purple)';this.style.color='var(--purple)'"
-            onmouseleave="this.style.borderColor='var(--border2)';this.style.color='var(--muted3)'">
-            🔀 Boshqa mavzu
-          </button>
-          <button onclick="startAITest()" id="btn-start-ai"
-            style="flex:2;background:linear-gradient(135deg,var(--red),#A0192A);color:#fff;border:none;border-radius:12px;padding:13px;font-family:'Syne',sans-serif;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 6px 24px rgba(224,48,64,0.35);transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;"
-            onmouseenter="this.style.transform='translateY(-2px)';this.style.boxShadow='0 10px 32px rgba(224,48,64,0.45)'"
-            onmouseleave="this.style.transform='none';this.style.boxShadow='0 6px 24px rgba(224,48,64,0.35)'">
-            ▶ Testni boshlash
-          </button>
+        <div class="ai-topic-actions">
+          <button class="btn-regen" id="btn-gen-topic" onclick="generateAITopic()">🔀 Boshqa mavzu</button>
+          <button class="btn-start-ai" id="btn-start-ai" onclick="startAITest()" disabled>Boshlash →</button>
         </div>
       </div>
     </div>
@@ -1049,8 +896,8 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
       <div class="part-pill" id="part-pill">PART 1</div>
       <div class="tt-topic" id="tt-topic">—</div>
     </div>
-    <div class="tt-mid" id="tt-mid">
-      <span class="prog-txt" id="pt">0 savol</span>
+    <div class="tt-mid">
+      <span class="prog-txt" id="pt">0/9</span>
       <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
     </div>
     <button class="btn-finish" style="margin-right:8px;background:var(--bluesub);color:var(--blue);border:1px solid rgba(61,142,240,0.3);" onclick="openVoiceModal()">
@@ -1065,58 +912,23 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
   <div class="test-layout">
     <div class="chat-panel">
       <div class="chat-feed" id="chat-feed"></div>
-      <!-- Mobile-only live score strip -->
-      <div id="mobile-score-strip" style="display:none;padding:6px 10px;background:var(--s1);border-top:1px solid var(--border);gap:8px;align-items:center;flex-shrink:0;">
-        <div style="display:flex;gap:6px;flex:1;">
-          <div style="flex:1;text-align:center;">
-            <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">F</div>
-            <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--red);" id="ms-f">—</div>
-          </div>
-          <div style="flex:1;text-align:center;">
-            <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">L</div>
-            <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--blue);" id="ms-l">—</div>
-          </div>
-          <div style="flex:1;text-align:center;">
-            <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">G</div>
-            <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--purple);" id="ms-g">—</div>
-          </div>
-          <div style="flex:1;text-align:center;">
-            <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">P</div>
-            <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--gold);" id="ms-p">—</div>
-          </div>
-        </div>
-        <div style="width:1px;height:28px;background:var(--border);"></div>
-        <div id="mobile-part-badge" style="font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--red);background:var(--redsub);padding:3px 8px;border-radius:6px;letter-spacing:.5px;">PART 1</div>
-      </div>
       <div class="chat-input-wrap">
         <div class="voice-status" id="voice-status">
           <div class="vs-waves" id="vs-waves">
             <div class="wave"></div><div class="wave"></div><div class="wave"></div>
             <div class="wave"></div><div class="wave"></div>
           </div>
-          <div class="vs-txt" id="vs-txt">Yuklanmoqda...</div>
-        </div>
-        <!-- Text fallback for non-Chrome browsers -->
-        <div id="text-input-area" style="display:none;margin-bottom:10px;">
-          <div class="chat-input-inner">
-            <textarea id="msg-inp" class="field-input" placeholder="Javobingizni yozing..." rows="2"
-              style="background:none;border:none;outline:none;resize:none;min-height:42px;max-height:100px;flex:1;font-family:'Manrope',sans-serif;font-size:14px;color:var(--text);"
-              onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendText();}"></textarea>
-            <button onclick="sendText()" class="send-btn">
-              <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-            </button>
-          </div>
-          <div style="font-size:11px;color:var(--muted);margin-top:6px;text-align:center;">⌨️ Brauzeringiz mikrofon tanishmasligi sababli matn kiritish rejimi ishlatilmoqda</div>
+          <div class="vs-txt" id="vs-txt">Mikrofon tugmasini bosing va gapirishni boshlang</div>
         </div>
         <div class="transcript-preview" id="transcript-preview"></div>
-        <div class="voice-controls" id="voice-controls-area">
-          <button class="mic-btn" id="mic-btn" onclick="toggleMic()" ontouchstart="this._ts=Date.now()" ontouchend="if(Date.now()-this._ts<300)toggleMic();event.preventDefault();">
+        <div class="voice-controls">
+          <button class="mic-btn" id="mic-btn" onclick="toggleMic()">
             <div class="mic-ring" id="mic-ring"></div>
             <svg class="mic-svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
           </button>
           <div class="mic-center">
             <div class="mic-label" id="mic-label">Bosing va gapirishni boshlang</div>
-            <div class="mic-hint" id="mic-hint">Gapirib bo'lingach, yuborish tugmasini bosing</div>
+            <div class="mic-hint">Gapirib bo'lingach, yuborish tugmasini bosing</div>
           </div>
           <button class="send-voice-btn" id="send-voice-btn" onclick="sendVoice()" disabled>
             <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
@@ -1125,7 +937,7 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
         </div>
       </div>
     </div>
-    <div class="side-col" id="side-col">
+    <div class="side-col">
       <div class="sp-block">
         <div class="sp-title">Joriy balllar</div>
         <div class="lsr"><span class="lsr-name">Fluency</span><span class="lsr-val" id="lv-f" style="background:var(--redsub);color:var(--red)">—</span></div>
@@ -1174,18 +986,6 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
 
     <div class="res-breakdown">
       <div class="rbd-title">📋 Batafsil tahlil</div>
-      <!-- Accuracy badge -->
-      <div style="background:linear-gradient(135deg,rgba(34,196,122,0.08),rgba(61,142,240,0.08));border:1px solid rgba(34,196,122,0.2);border-radius:12px;padding:14px 16px;margin-bottom:16px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-          <div style="font-size:12px;color:var(--muted2);font-weight:600;">🎯 Baholash aniqligi</div>
-          <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--green);" id="r-accuracy">—%</div>
-        </div>
-        <div style="height:4px;background:var(--s3);border-radius:2px;overflow:hidden;margin-bottom:6px;">
-          <div id="r-accuracy-bar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--green),var(--blue));border-radius:2px;transition:width .8s ease;"></div>
-        </div>
-        <div style="font-size:11px;color:var(--muted);" id="r-eval-count">—</div>
-        <div style="font-size:11px;color:var(--muted);margin-top:3px;">Rasmiy IELTS band descriptors asosida baholanadi</div>
-      </div>
       <div id="r-feedback"></div>
     </div>
 
@@ -1281,7 +1081,18 @@ const S = {
   allTests:[]
 };
 
-// Topics now generated dynamically by AI
+// ══ TOPICS ═════════════════════════════════
+const TOPICS = [
+  {id:'home',  e:'🏠', name:"Uy va mahalla",       desc:"Uy, qo'shni, yashash joyi",  col:'#E03040', p1:"your home and neighborhood",      p2:"a place where you feel at home", p3:"housing problems in modern cities"},
+  {id:'travel',e:'✈️', name:"Sayohat",              desc:"Safarlar, turizm, madaniyat", col:'#3D8EF0', p1:"your travel experiences",          p2:"a memorable journey",            p3:"tourism and its impact on society"},
+  {id:'tech',  e:'💻', name:"Texnologiya",          desc:"Internet, AI, ilovalar",      col:'#8B5CF6', p1:"your daily technology use",         p2:"a useful app or device",         p3:"technology's impact on modern work"},
+  {id:'edu',   e:'📚', name:"Ta'lim",               desc:"Maktab, universitet, o'qish", col:'#22C47A', p1:"your education background",         p2:"a teacher or lesson you remember", p3:"education systems and challenges"},
+  {id:'env',   e:'🌿', name:"Atrof-muhit",          desc:"Ekologiya, tabiat, iqlim",    col:'#06B6D4', p1:"your environmental habits",         p2:"a beautiful natural place",      p3:"climate change and global solutions"},
+  {id:'work',  e:'💼', name:"Ish va martaba",       desc:"Kasb, ish joyi, rejalari",    col:'#F0B429', p1:"your job or studies",               p2:"your ideal career",              p3:"work-life balance in modern society"},
+  {id:'health',e:'🏃', name:"Sog'liq va sport",    desc:"Sport, ovqat, hayot tarzi",   col:'#E67E22', p1:"your health and fitness habits",    p2:"a sport or activity you enjoy",  p3:"public health challenges today"},
+  {id:'culture',e:'🎭',name:"Madaniyat va san'at",  desc:"Musiqa, san'at, bayramlar",   col:'#FF6B74', p1:"music, art or culture you enjoy",   p2:"a cultural event or festival",   p3:"preserving traditional culture"},
+  {id:'family',e:'👨‍👩‍👧',name:"Oila",                desc:"Oila, do'stlar, an'analar",   col:'#4ECDC4', p1:"your family and relationships",    p2:"a family tradition or celebration", p3:"changing family values today"},
+];
 
 const TIPS = [
   "Gapni boshlash: <strong>Well, actually... / That's a great question...</strong>",
@@ -1297,48 +1108,16 @@ const TIPS = [
 // band descriptors moved inline
 
 // ══ INIT ═══════════════════════════════════
-// Preload TTS voices
-if(window.speechSynthesis) window.speechSynthesis.getVoices();
+window.speechSynthesis && window.speechSynthesis.getVoices(); // preload voices
 loadVoiceSettings();
-// Mic is initialised in setupInputMode() called when test starts
+// Ask mic permission once on load
+document.addEventListener('click', function askMic(){
+  initRecognizer();
+  document.removeEventListener('click', askMic);
+}, {once: true});
 window.onload = () => {
-  // Telegram WebApp setup
-  if(window.Telegram && window.Telegram.WebApp){
-    const tg = window.Telegram.WebApp;
-    tg.expand();
-    tg.disableClosingConfirmation && tg.disableClosingConfirmation();
-    // Telegram provides user data
-    if(tg.initDataUnsafe && tg.initDataUnsafe.user){
-      const tgUser = tg.initDataUnsafe.user;
-      const savedFirst = tgUser.first_name || '';
-      const savedLast  = tgUser.last_name  || '';
-      document.getElementById('inp-first').value = savedFirst;
-      document.getElementById('inp-last').value  = savedLast;
-    }
-  }
-
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('uz-UZ',{day:'2-digit',month:'long',year:'numeric'});
   loadData();
-
-  // Fix mobile: prevent keyboard from pushing layout up
-  if(/Android/i.test(navigator.userAgent)){
-    window.addEventListener('resize', () => {
-      document.documentElement.style.setProperty('--vh', window.innerHeight * 0.01 + 'px');
-    });
-    document.documentElement.style.setProperty('--vh', window.innerHeight * 0.01 + 'px');
-  }
-
-  // Request mic permission once on page load
-  setupInputMode();
-
-  // Android keyboard fix: scroll chat to bottom when keyboard appears
-  if('visualViewport' in window){
-    window.visualViewport.addEventListener('resize', () => {
-      const feed = document.getElementById('chat-feed');
-      if(feed) setTimeout(()=>{ feed.scrollTop = feed.scrollHeight; }, 100);
-    });
-  }
-
   try {
     const u = JSON.parse(localStorage.getItem('ielts_user')||'null');
     if (u?.first && u?.apiKey) {
@@ -1388,8 +1167,7 @@ function setErr(errId,inputId,show){
 
 // ══ DASHBOARD ══════════════════════════════
 function initDashboard(){
-  // Pre-generate a topic suggestion when dashboard loads
-  if(S.apiKey && !currentAITopic){ setTimeout(generateAITopic, 800); }
+  if(S.apiKey && !currentAITopic) setTimeout(generateAITopic, 600);
   const full=S.first+' '+S.last;
   document.getElementById('tb-name').textContent=full.trim();
   document.getElementById('tb-av').textContent=(S.first[0]+(S.last[0]||'')).toUpperCase();
@@ -1529,56 +1307,53 @@ function renderChart(svgId, emptyId, tests, h){
   });
 }
 
+// ══ TOPICS ═════════════════════════════════
 // ══ AI TOPIC GENERATOR ══════════════════════
-// List of all possible IELTS topic areas for AI to pick from
-const TOPIC_POOL = [
-  'daily routines','hobbies','food and cooking','transportation','weather','shopping',
-  'music','sports and fitness','art and creativity','reading and books','cinema',
-  'social media','technology and gadgets','work and career','education','travel',
-  'family and relationships','friendship','health and medicine','environment',
-  'animals and nature','cities and urban life','countryside and rural life',
-  'architecture and buildings','history and traditions','languages','culture',
-  'fashion and clothing','money and economy','politics and government','media',
-  'science and innovation','space exploration','volunteering and charity',
-  'tourism','festivals and celebrations','dreams and ambitions','leadership',
-  'parenting','elderly care','youth and teenagers','global issues','local community',
-  'photography','gardening','cooking shows','online learning','mental health',
-  'public transport','recycling','renewable energy','street food','coffee culture'
-];
-
 let currentAITopic = null;
 
-async function generateAITopic(){
-  const btn = document.getElementById('btn-gen-topic');
-  const nameEl = document.getElementById('ai-topic-name');
-  const emojiEl = document.getElementById('ai-topic-emoji');
-  btn.textContent = '⏳ Yuklanmoqda...';
-  btn.disabled = true;
-  nameEl.textContent = 'AI mavzu yaratmoqda...';
-  emojiEl.textContent = '🤔';
+const TOPIC_POOL = [
+  'daily routines and habits','technology and social media','education systems',
+  'environmental challenges','travel and tourism','health and fitness',
+  'work and career','family relationships','food and culture','arts and music',
+  'city vs countryside living','sports and leisure','shopping habits',
+  'transportation and commuting','media and news','fashion and identity',
+  'volunteering and community','science and innovation','money and finance',
+  'language learning','friendship','childhood memories','future plans',
+  'books and reading','cooking and nutrition','mental health awareness',
+  'climate change','local customs and traditions','pets and animals',
+  'architecture and design','public holidays','photography','entrepreneurship',
+  'online learning','social issues','cultural exchange','time management',
+  'hobbies and creativity','gender roles','globalization'
+];
 
-  const hint = TOPIC_POOL[Math.floor(Math.random() * TOPIC_POOL.length)];
+async function generateAITopic(){
+  const btn    = document.getElementById('btn-gen-topic');
+  const nameEl = document.getElementById('ai-topic-name');
+  const descEl = document.getElementById('ai-topic-desc');
+  const emEl   = document.getElementById('ai-topic-emoji');
+  const startBtn = document.getElementById('btn-start-ai');
+  btn.disabled = true;
+  btn.textContent = '⏳ Yuklanmoqda...';
+  if(startBtn) startBtn.disabled = true;
+  nameEl.textContent = 'AI mavzu tanlayapti...';
+  descEl.textContent = '';
+  emEl.textContent = '🤔';
 
   if(!S.apiKey){ showToast('Avval API key kiriting!'); btn.disabled=false; btn.textContent='🔀 Boshqa mavzu'; return; }
 
-  try {
-    const prompt = `Generate a creative and specific IELTS speaking test topic. Inspired by but not limited to: "${hint}". Return ONLY a JSON object with these fields:
-{
-  "name": "topic name in Uzbek (short, 3-6 words)",
-  "nameEn": "topic name in English",
-  "emoji": "one relevant emoji",
-  "desc": "one sentence description in Uzbek"
-}
-No markdown, no explanation, just the JSON object.`;
+  const hint = TOPIC_POOL[Math.floor(Math.random()*TOPIC_POOL.length)];
+  const prompt = `Generate a creative IELTS Speaking test topic. Theme hint: "${hint}".
+Return ONLY a valid JSON object (no markdown, no extra text):
+{"nameEn":"topic in English (4-7 words)","emoji":"one emoji","desc":"one sentence description in English","p1":"part 1 personal questions theme","p2":"part 2 cue card theme","p3":"part 3 abstract discussion theme"}`;
 
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+  try{
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions',{
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+S.apiKey},
-      body: JSON.stringify({
+      body:JSON.stringify({
         model: S.model||'meta-llama/llama-4-scout-17b-16e-instruct',
         messages:[{role:'user',content:prompt}],
-        temperature:1.0,
-        max_tokens:200
+        temperature:1.1, max_tokens:250
       })
     });
     if(!res.ok) throw new Error('API '+res.status);
@@ -1586,47 +1361,52 @@ No markdown, no explanation, just the JSON object.`;
     if(data.error) throw new Error(data.error.message);
     let text = data.choices?.[0]?.message?.content||'';
     text = text.replace(/```json|```/g,'').trim();
-    const topic = JSON.parse(text);
+    const m = text.match(/\{[\s\S]*\}/);
+    const topic = JSON.parse(m ? m[0] : text);
     currentAITopic = topic;
-    nameEl.textContent = topic.name || hint;
-    emojiEl.textContent = topic.emoji || '🎯';
-  } catch(e) {
-    currentAITopic = { name: hint, emoji: '🎯', desc: '', nameEn: hint };
+    nameEl.textContent = topic.nameEn || hint;
+    descEl.textContent = topic.desc || '';
+    emEl.textContent   = topic.emoji || '🎯';
+    if(startBtn) startBtn.disabled = false;
+  }catch(e){
+    currentAITopic = {nameEn:hint, emoji:'🎯', desc:'', p1:hint, p2:hint, p3:hint};
     nameEl.textContent = hint;
-    emojiEl.textContent = '🎯';
+    descEl.textContent = 'IELTS Speaking test';
+    emEl.textContent   = '🎯';
+    if(startBtn) startBtn.disabled = false;
   }
   btn.disabled = false;
   btn.textContent = '🔀 Boshqa mavzu';
 }
 
 async function startAITest(){
-  if(!currentAITopic){ showToast("Avval mavzu tanlang yoki generate qiling!"); return; }
-  if(!S.apiKey){ showToast('Avval API key kiriting!'); return; }
+  if(!currentAITopic){ showToast('Avval mavzu tanlang!'); return; }
   const topic = currentAITopic;
-  S.topic = { id:'ai_'+Date.now(), name: topic.name, e: topic.emoji||'🎯' };
+  S.topic = {
+    id:'ai', name: topic.nameEn,
+    p1: topic.p1||topic.nameEn, p2: topic.p2||topic.nameEn, p3: topic.p3||topic.nameEn
+  };
   S.history=[]; S.scores=[]; S.qCount=0; S.testActive=true;
-  document.getElementById('part-pill').textContent='PART 1';
-  document.getElementById('tt-topic').textContent=topic.name;
-  document.getElementById('chat-feed').innerHTML='';
-  updateProg(); buildQDots(); resetLive();
+  document.getElementById('part-pill').textContent = 'PART 1';
+  document.getElementById('tt-topic').textContent  = topic.nameEn;
+  document.getElementById('chat-feed').innerHTML   = '';
+  updateProg(); buildQGrid(); resetLive();
   showScreen('test');
+  S.sysPrompt = `You are a professional IELTS Speaking examiner. Candidate: ${S.first} ${S.last}. Target band: ${S.targetBand}. Topic: "${topic.nameEn}".
 
-  S.sysPrompt=`You are a professional IELTS Speaking examiner conducting a real test. Candidate: ${S.first} ${S.last}. Target band: ${S.targetBand}. Today's topic area: "${topic.nameEn || topic.name}".
-
-IMPORTANT RULES:
-- Speak ONLY in English at all times. Never use Uzbek.
-- You choose ALL questions freely — there is NO fixed number of questions. Continue as long as feels natural for a real IELTS test (typically 9-14 questions across 3 parts).
-- Follow real IELTS structure: Part 1 (personal/familiar questions), Part 2 (cue card — give candidate a card with 4 bullet points, ask them to speak for 1-2 min), Part 3 (abstract/analytical questions).
-- After EVERY candidate response, reply ONLY in this exact format:
-[EVAL]F:N|L:N|G:N|P:N|CMT:one sentence English feedback|TIP:one English improvement tip|NXT:your next examiner words[/EVAL]
-Where N = integer 1-9 score. Be accurate and strict with scoring.
-- Vary your question topics freely within and beyond the main topic. Natural IELTS examiners branch out.
-- When you feel the test is complete (after Part 3), end NXT with exactly: "That concludes our speaking test today. Thank you."`;
-
-  await callAI(`Start the test. Say: "Good morning/afternoon, ${S.first}. Welcome to your IELTS Speaking test. My name is [choose a professional British name]. Could you tell me your full name and where you're from?" Then naturally flow into Part 1 questions about the topic: ${topic.nameEn || topic.name}. Keep it natural and professional.`);
+STRICT RULES:
+1. Speak ONLY in English. Never use Uzbek or any other language.
+2. Follow IELTS 3-part structure: Part 1 (4-5 personal questions about ${topic.p1}), Part 2 (cue card with 4 bullets about ${topic.p2}), Part 3 (4-5 abstract questions about ${topic.p3}). Total 11-15 questions.
+3. After EVERY candidate answer, respond ONLY in this exact format:
+[EVAL]F:N|L:N|G:N|P:N|CMT:brief English feedback|TIP:one improvement tip|NXT:your next examiner words[/EVAL]
+Where N = IELTS band 1-9 (decimals ok). Score strictly and accurately.
+4. NXT must be your natural examiner speech — next question, cue card, or part transition.
+5. When test is complete after Part 3, end NXT with exactly: "That concludes our speaking test today. Thank you."
+6. NEVER add any text outside [EVAL]...[/EVAL]. NEVER explain the format. NEVER break character.`;
+  await callAI(`Begin the IELTS Speaking test now. Your first words must be a warm professional greeting, then ask for the candidate's full name and where they're from. Do NOT use [EVAL] format for this first message — just speak naturally as the examiner.`);
 }
 
-// ══ HISTORY ════════════════════════════════
+
 function renderHistory(){
   const all=S.allTests;
   const el=document.getElementById('history-list');
@@ -1653,127 +1433,73 @@ function renderHistory(){
 }
 
 // ══ TEST FLOW ═══════════════════════════════
-// (startAITest is the new entry point — see AI TOPIC GENERATOR section above)
+async function startTest(tid){
+  const topic=TOPICS.find(t=>t.id===tid);
+  S.topic=topic; S.history=[]; S.scores=[]; S.qCount=0; S.testActive=true;
+  document.getElementById('part-pill').textContent='PART 1';
+  document.getElementById('tt-topic').textContent=topic.name;
+  document.getElementById('chat-feed').innerHTML='';
+  updateProg(); buildQGrid(); resetLive();
+  showScreen('test');
+  S.sysPrompt=`You are an IELTS Speaking examiner. Speak ONLY in English — never use Uzbek or any other language. Candidate: ${S.first} ${S.last}. Topic: ${topic.name}. Goal: Band ${S.targetBand}. Structure: Part1=3 personal questions about ${topic.p1}. Part2=cue card with 4 bullet points about ${topic.p2}. Part3=3 abstract questions about ${topic.p3}. After EVERY candidate answer, reply ONLY in this exact format: [EVAL]F:N|L:N|G:N|P:N|CMT:one English sentence feedback|TIP:one English improvement tip|NXT:your next examiner question in English[/EVAL] where N is integer 1-9. Keep responses concise. Always English only.`;
+  S.history=[];
+  await callAI(`Start with exactly: "Welcome to the IELTS Speaking Test, ${S.first}." Then introduce Part 1 briefly in English, then ask your first question about: ${topic.p1}. Speak ONLY in English throughout the entire test.`);
+}
 
 
 // ══ VOICE RECOGNITION ══════════════════════
-let recognizer   = null;
-let isRecording  = false;
-let finalTranscript   = '';
+let recognizer = null;
+let isRecording = false;
+let finalTranscript = '';
 let interimTranscript = '';
-let useTextMode  = false;  // fallback for non-Chrome
-let micPermGranted = false;
-
-// ══ MIC & SPEECH RECOGNITION SETUP ════════════════════════════
-// Called ONCE on page load — requests mic permission, sets up recognizer
-
-async function setupInputMode(){
-  // Detect Speech Recognition support (Chrome/Edge = native, others = not supported)
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-  // Try requesting mic permission silently (one-time on page load)
-  // Browsers cache this permission — subsequent calls won't show a dialog
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    micPermGranted = true;
-    stream.getTracks().forEach(t => t.stop()); // release immediately
-  } catch(e) {
-    micPermGranted = false;
-  }
-
-  if(SR && micPermGranted){
-    // Native Speech Recognition available (Chrome, Edge, Opera, Samsung Browser)
-    useTextMode = false;
-    applyVoiceUI();
-    initRecognizer();
-  } else if(!SR){
-    // Firefox, Safari — no Speech Recognition API at all → text mode
-    useTextMode = true;
-    applyTextUI('⌨️ Brauzeringiz ovozni taniy olmaydi — matn rejimi');
-    showToast('Mikrofon uchun Chrome yoki Edge ishlatish tavsiya etiladi');
-  } else {
-    // Has SR but mic denied
-    useTextMode = true;
-    applyTextUI('🚫 Mikrofonga ruxsat berilmadi — matn rejimi');
-  }
-}
-
-function applyVoiceUI(){
-  const vca = document.getElementById('voice-controls-area');
-  const tia = document.getElementById('text-input-area');
-  if(vca) vca.style.display = 'flex';
-  if(tia) tia.style.display = 'none';
-  const vt = document.getElementById('vs-txt');
-  if(vt) vt.textContent = 'Mikrofon tugmasini bosing va gapirishni boshlang';
-}
-
-function applyTextUI(msg){
-  const vca = document.getElementById('voice-controls-area');
-  const tia = document.getElementById('text-input-area');
-  if(vca) vca.style.display = 'none';
-  if(tia) tia.style.display = 'block';
-  const vt = document.getElementById('vs-txt');
-  if(vt) vt.textContent = msg;
-}
+let recReady = false;
 
 function initRecognizer(){
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SR || recognizer) return;
+  if(!SR){ showToast("Chrome ishlatng — mikrofon qo'llab-quvvatlanmaydi"); return; }
+  if(recognizer) return; // already created
   const r = new SR();
-  r.continuous     = true;
+  r.continuous = true;
   r.interimResults = true;
-  r.lang           = 'en-US';
-
+  r.lang = 'en-US';
   r.onstart = () => {
     isRecording = true;
-    const mb = document.getElementById('mic-btn');
-    const vs = document.getElementById('voice-status');
-    const vt = document.getElementById('vs-txt');
-    const ml = document.getElementById('mic-label');
-    if(mb) mb.classList.add('active');
-    if(vs){ vs.classList.add('recording'); vs.classList.remove('speaking'); }
-    if(vt) vt.textContent = '🎤 Listening...';
-    if(ml) ml.textContent = 'Gapiring...';
+    recReady = true;
+    document.getElementById('mic-btn').classList.add('active');
+    document.getElementById('voice-status').classList.add('recording');
+    document.getElementById('voice-status').classList.remove('speaking');
+    document.getElementById('vs-txt').textContent = 'Listening... Speak now!';
+    document.getElementById('mic-label').textContent = 'Gapiring...';
   };
-
   r.onresult = (e) => {
     interimTranscript = '';
     for(let i = e.resultIndex; i < e.results.length; i++){
-      if(e.results[i].isFinal) finalTranscript += e.results[i][0].transcript + ' ';
-      else interimTranscript += e.results[i][0].transcript;
+      if(e.results[i].isFinal){ finalTranscript += e.results[i][0].transcript + ' '; }
+      else { interimTranscript += e.results[i][0].transcript; }
     }
     const preview = document.getElementById('transcript-preview');
-    if(preview){
-      preview.classList.add('has-text');
-      preview.innerHTML = finalTranscript + (interimTranscript ? `<span class="interim">${interimTranscript}</span>` : '');
-      preview.scrollTop = preview.scrollHeight;
-    }
-    const svb = document.getElementById('send-voice-btn');
-    if(svb) svb.disabled = !finalTranscript.trim();
+    preview.classList.add('has-text');
+    preview.innerHTML = finalTranscript + (interimTranscript ? `<span class="interim">${interimTranscript}</span>` : '');
+    preview.scrollTop = preview.scrollHeight;
+    document.getElementById('send-voice-btn').disabled = !finalTranscript.trim();
   };
-
   r.onerror = (e) => {
-    if(e.error === 'no-speech' || e.error === 'aborted') return;
+    if(e.error === 'no-speech') return;
+    if(e.error === 'aborted') return;
     if(e.error === 'not-allowed'){
-      useTextMode = true;
-      applyTextUI('🚫 Ruxsat rad etildi — matn rejimiga o\'tildi');
+      showToast('Mikrofonga ruxsat bering: brauzer sozlamalaridan ruxsat bering');
       return;
     }
-    console.warn('Speech error:', e.error);
+    showToast('Mikrofon xatosi: ' + e.error);
   };
-
   r.onend = () => {
-    // Auto-restart if we're still in recording mode (keeps mic open)
     if(isRecording){
-      try{ r.start(); }catch(_){}
+      try{ r.start(); } catch(e){}
     } else {
-      const mb = document.getElementById('mic-btn');
-      const vs = document.getElementById('voice-status');
-      if(mb) mb.classList.remove('active');
-      if(vs) vs.classList.remove('recording');
+      document.getElementById('mic-btn').classList.remove('active');
+      document.getElementById('voice-status').classList.remove('recording');
     }
   };
-
   recognizer = r;
 }
 
@@ -1782,29 +1508,29 @@ function toggleMic(){
 }
 
 function startRec(){
-  if(S.isLoading || isSpeaking || useTextMode) return;
+  if(S.isLoading || isSpeaking) return; // don't record while AI loading or speaking
   finalTranscript = ''; interimTranscript = '';
-  const preview = document.getElementById('transcript-preview');
-  const svb     = document.getElementById('send-voice-btn');
-  if(preview){ preview.innerHTML = ''; preview.classList.remove('has-text'); }
-  if(svb) svb.disabled = true;
+  document.getElementById('transcript-preview').innerHTML = '';
+  document.getElementById('transcript-preview').classList.remove('has-text');
+  document.getElementById('send-voice-btn').disabled = true;
   if(!recognizer) initRecognizer();
-  if(!recognizer){ applyTextUI('⌨️ Mikrofon tayyor emas — matn rejimi'); useTextMode=true; return; }
-  try{ isRecording = true; recognizer.start(); }
-  catch(_){ isRecording = true; } // may already be running — that's fine
+  if(!recognizer) return;
+  try{
+    isRecording = true;
+    recognizer.start();
+  } catch(e){
+    // already started — just mark as recording
+    isRecording = true;
+  }
 }
 
 function stopRec(){
   isRecording = false;
-  if(recognizer){ try{ recognizer.stop(); }catch(_){} }
-  const mb = document.getElementById('mic-btn');
-  const vs = document.getElementById('voice-status');
-  const vt = document.getElementById('vs-txt');
-  const ml = document.getElementById('mic-label');
-  if(mb) mb.classList.remove('active');
-  if(vs) vs.classList.remove('recording');
-  if(vt) vt.textContent  = finalTranscript ? 'Tayyor. Yuborish tugmasini bosing.' : 'Mikrofon tugmasini bosing';
-  if(ml) ml.textContent = finalTranscript ? 'Tayyor — yuborishingiz mumkin' : 'Bosing va gapirishni boshlang';
+  if(recognizer){ try{ recognizer.stop(); }catch(e){} }
+  document.getElementById('mic-btn').classList.remove('active');
+  document.getElementById('voice-status').classList.remove('recording');
+  document.getElementById('vs-txt').textContent = finalTranscript ? 'Tayyor. Yuborish tugmasini bosing.' : 'Mikrofon tugmasini bosing';
+  document.getElementById('mic-label').textContent = finalTranscript ? 'Tayyor — yuborishingiz mumkin' : 'Bosing va gapirishni boshlang';
 }
 
 async function sendVoice(){
@@ -1813,35 +1539,25 @@ async function sendVoice(){
   isRecording = false;
   if(recognizer){ try{ recognizer.stop(); }catch(e){} }
   finalTranscript = ''; interimTranscript = '';
-  document.getElementById('transcript-preview').innerHTML = '';
-  document.getElementById('transcript-preview').classList.remove('has-text');
+  const preview = document.getElementById('transcript-preview');
+  preview.innerHTML = ''; preview.classList.remove('has-text');
   document.getElementById('send-voice-btn').disabled = true;
   document.getElementById('vs-txt').textContent = 'Mikrofon tugmasini bosing va gapirishni boshlang';
-  await submitAnswer(txt);
-}
 
-// Text mode send
-async function sendText(){
-  const inp = document.getElementById('msg-inp');
-  const txt = inp ? inp.value.trim() : '';
-  if(!txt || S.isLoading) return;
-  inp.value = '';
-  inp.style.height = '';
-  await submitAnswer(txt);
-}
-
-// Common: submit answer to AI
-async function submitAnswer(txt){
   addMsg('user', txt);
-  S.history.push({role:'user', parts:[{text:txt}]});
+  S.history.push({role:'user', content:txt});
   S.qCount++;
   updateProg();
   advanceDot();
   await callAI(null);
 }
 
-function onKey(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendText();} }
-function autoH(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,90)+'px'; }
+// Legacy send (keyboard fallback - not shown in UI)
+async function send(){
+  await sendVoice();
+}
+function onKey(e){}
+function autoH(el){}
 
 
 
@@ -1850,6 +1566,7 @@ async function callAI(override){
   S.isLoading=true;
   const tid=showTyping();
   try{
+    // S.history is already in OpenAI format: {role:'user'|'assistant', content:'...'}
     const msgs=[{role:'system',content:S.sysPrompt||''},...S.history];
     if(override) msgs.push({role:'user',content:override});
 
@@ -1860,21 +1577,12 @@ async function callAI(override){
         'Authorization':'Bearer '+S.apiKey
       },
       body:JSON.stringify({
-        model:S.model||'meta-llama/llama-4-scout-17b-16e-instruct',
+        model:'meta-llama/llama-4-scout-17b-16e-instruct',
         messages:msgs,
         temperature:0.8,
-        max_tokens:700
+        max_tokens:600
       })
     });
-    if(!res.ok){
-      const errText=await res.text();
-      if(errText.trim().startsWith('<')){
-        throw new Error('API xatosi: HTML javob keldi. API key tekshiring.');
-      }
-      let errJson={};
-      try{errJson=JSON.parse(errText);}catch(e){}
-      throw new Error(errJson.error?.message||'API xatosi: '+res.status);
-    }
     const data=await res.json();
     if(data.error) throw new Error(data.error.message||JSON.stringify(data.error));
     const raw=data.choices?.[0]?.message?.content||'Xatolik yuz berdi.';
@@ -1899,11 +1607,7 @@ async function callAI(override){
         updatePartBadge();
         S.history.push({role:'assistant',content:raw});
         if(nxt) setTimeout(()=>{addMsg('ai',fmt(nxt)); speakText(nxt);},500);
-        if(nxt && nxt.toLowerCase().includes('concludes our speaking test')){
-          setTimeout(()=>finishTest(),3000);
-        } else if(S.scores.length>=14){
-          setTimeout(()=>finishTest(),2000);
-        }
+        if(S.scores.length>=7) setTimeout(()=>finishTest(),2000);
       }
     } else {
       addMsg('ai',fmt(raw));
@@ -1917,7 +1621,6 @@ async function callAI(override){
   }
   S.isLoading=false;
 }
-
 function eChip(lbl,val){return `<div class="escore"><span class="escore-lbl">${lbl}</span><span class="escore-val" style="color:${bc(Math.round(val))}">${val}</span></div>`;}
 function fmt(t){return t.replace(/\[EVAL\][\s\S]*?\[\/EVAL\]/g,'').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em style="color:var(--gold);font-style:normal">$1</em>').replace(/•\s*/g,'<br>• ').replace(/\n/g,'<br>');}
 function addMsg(role,content,html=false){const f=document.getElementById('chat-feed');const d=document.createElement('div');d.className=`msg ${role}`;d.innerHTML=`<div class="msg-av">${role==='ai'?'🎓':'👤'}</div><div class="msg-col"><div class="msg-sender">${role==='ai'?'IELTS Examiner':S.first+' '+S.last}</div><div class="msg-bub">${html?content:fmt(content)}</div></div>`;f.appendChild(d);f.scrollTop=f.scrollHeight;}
@@ -1987,135 +1690,92 @@ function loadVoiceSettings(){
 
 // ══ TEXT TO SPEECH ══════════════════════════
 let isSpeaking = false;
+function speakText(text){
+  if(!window.speechSynthesis){ _autoMicAfterSpeak(); return; }
+  const clean = text.replace(/<[^>]+>/g,'').replace(/[\u{1F4AC}\u{1F4A1}\u{1F393}]/gu,'').trim();
+  if(!clean){ _autoMicAfterSpeak(); return; }
 
-// Chrome loads voices asynchronously — wait until ready
-function getVoicesAsync(){
-  return new Promise(resolve => {
-    const voices = window.speechSynthesis.getVoices();
-    if(voices.length > 0){ resolve(voices); return; }
-    let done = false;
-    window.speechSynthesis.onvoiceschanged = () => {
-      if(done) return; done = true;
-      resolve(window.speechSynthesis.getVoices());
-    };
-    // Fallback if onvoiceschanged never fires (some browsers)
-    setTimeout(() => { if(done) return; done = true; resolve(window.speechSynthesis.getVoices()); }, 1500);
-  });
-}
-
-async function speakText(text){
-  if(!window.speechSynthesis) return;
-  const clean = text.replace(/<[^>]+>/g,'').replace(/[💬💡🎓]/g,'').trim();
-  if(!clean) return;
   window.speechSynthesis.cancel();
-  isSpeaking = true;
-  const vsEl = document.getElementById('voice-status');
-  const vsTxt = document.getElementById('vs-txt');
-  if(vsTxt) vsTxt.textContent = '🔊 Examiner gapirmoqda...';
-  if(vsEl) vsEl.classList.add('speaking');
 
-  const accent = (typeof VS !== 'undefined' && VS.accent) ? VS.accent : 'en-GB';
-  const rate   = (typeof VS !== 'undefined' && VS.rate)   ? VS.rate   : 0.88;
-  const pitch  = (typeof VS !== 'undefined' && VS.pitch)  ? VS.pitch  : 1.0;
+  // Small delay so cancel() settles (needed on iOS/Android)
+  setTimeout(() => {
+    const utter = new SpeechSynthesisUtterance(clean);
+    utter.lang   = (typeof VS !== 'undefined' && VS.accent) ? VS.accent : 'en-GB';
+    utter.rate   = (typeof VS !== 'undefined' && VS.rate)   ? VS.rate   : 0.88;
+    utter.pitch  = (typeof VS !== 'undefined' && VS.pitch)  ? VS.pitch  : 1.0;
+    utter.volume = 1.0;
 
-  const utter = new SpeechSynthesisUtterance(clean);
-  utter.lang   = accent;
-  utter.rate   = rate;
-  utter.pitch  = pitch;
-  utter.volume = 1.0;
-
-  // Wait for voices (fixes Chrome async bug)
-  const voices = await getVoicesAsync();
-  const accentVoiceMap = {
-    'en-GB': ['Daniel','Google UK English Male','Google UK English Female','Arthur'],
-    'en-US': ['Samantha','Google US English','Alex','Tom','Google English'],
-    'en-AU': ['Karen','Google Australian English','Catherine'],
-    'en-IN': ['Rishi','Veena'],
-  };
-  const preferred_names = accentVoiceMap[accent] || accentVoiceMap['en-GB'];
-  let picked = null;
-  for(const name of preferred_names){
-    picked = voices.find(v => v.name.includes(name) && v.lang.startsWith(accent.split('-')[0]));
-    if(picked) break;
-  }
-  if(!picked) picked = voices.find(v => v.lang === accent);
-  if(!picked) picked = voices.find(v => v.lang.startsWith('en'));
-  if(picked) utter.voice = picked;
-
-  // Chrome bug: long text stops mid-way — keepalive workaround
-  const keepAlive = setInterval(() => {
-    if(!isSpeaking){ clearInterval(keepAlive); return; }
-    window.speechSynthesis.pause();
-    window.speechSynthesis.resume();
-  }, 10000);
-
-  utter.onend = () => {
-    isSpeaking = false;
-    clearInterval(keepAlive);
-    if(vsTxt) vsTxt.textContent = 'Mikrofon tugmasini bosing va gapirishni boshlang';
-    if(vsEl) vsEl.classList.remove('speaking');
-    if(S.testActive && !isRecording){
-      setTimeout(() => startRec(), 400);
+    // Pick best English voice — works on iOS, Android, Chrome, Firefox
+    const voices = window.speechSynthesis.getVoices();
+    const lang = utter.lang;
+    const preferred = ['Daniel','Google UK English Male','Google UK English','Samantha',
+                       'Karen','Google US English','Microsoft David','Alex',
+                       'en-GB','en-US'];
+    let picked = null;
+    for(const n of preferred){
+      picked = voices.find(v => v.name.includes(n) || v.lang === n);
+      if(picked) break;
     }
-  };
-  utter.onerror = (e) => {
-    if(e.error === 'interrupted') return; // normal when cancel() is called
-    isSpeaking = false;
-    clearInterval(keepAlive);
-    if(vsEl) vsEl.classList.remove('speaking');
-  };
-  window.speechSynthesis.speak(utter);
+    if(!picked) picked = voices.find(v => v.lang === lang);
+    if(!picked) picked = voices.find(v => v.lang.startsWith('en'));
+    if(!picked && voices.length) picked = voices[0];
+    if(picked) utter.voice = picked;
+
+    isSpeaking = true;
+    const vsEl  = document.getElementById('voice-status');
+    const vsTxt = document.getElementById('vs-txt');
+    if(vsTxt) vsTxt.textContent = '\uD83D\uDD0A Examiner gapirmoqda...';
+    if(vsEl)  vsEl.classList.add('speaking');
+
+    // Chrome keepalive — prevents silence on long utterances
+    let keepAlive;
+    utter.onstart = () => {
+      keepAlive = setInterval(() => {
+        if(!window.speechSynthesis.speaking){ clearInterval(keepAlive); return; }
+        window.speechSynthesis.pause();
+        window.speechSynthesis.resume();
+      }, 10000);
+    };
+    utter.onend = () => {
+      clearInterval(keepAlive);
+      isSpeaking = false;
+      if(vsEl)  vsEl.classList.remove('speaking');
+      if(vsTxt) vsTxt.textContent = 'Mikrofon tugmasini bosing va gapirishni boshlang';
+      _autoMicAfterSpeak();
+    };
+    utter.onerror = (e) => {
+      clearInterval(keepAlive);
+      if(e.error === 'interrupted' || e.error === 'canceled') return;
+      isSpeaking = false;
+      if(vsEl) vsEl.classList.remove('speaking');
+      _autoMicAfterSpeak();
+    };
+    window.speechSynthesis.speak(utter);
+  }, 150);
 }
-function updateProg(){const pct=Math.min(S.qCount/14*100,100);document.getElementById('prog-fill').style.width=pct+'%';document.getElementById('pt').textContent=`${S.qCount} savol`;}
-function buildQDots(){document.getElementById('q-grid').innerHTML=Array.from({length:14},(_,i)=>`<div class="qdot" id="qd${i}">${i+1}</div>`).join('');document.getElementById('qd0').classList.add('cur');}
-function buildQGrid(){buildQDots();}
-function advanceDot(){const prev=S.qCount-1;if(prev>=0){const d=document.getElementById('qd'+prev);if(d){d.classList.remove('cur');d.classList.add('done');d.innerHTML=`<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke="var(--green)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;}}if(S.qCount<14){const d=document.getElementById('qd'+S.qCount);if(d)d.classList.add('cur');}}
-function updatePartBadge(){
-  const n=S.scores.length;
-  const part=n<3?'PART 1':n===3?'PART 2':'PART 3';
-  document.getElementById('part-pill').textContent=part;
-  const mb=document.getElementById('mobile-part-badge');
-  if(mb) mb.textContent=part;
+
+function _autoMicAfterSpeak(){
+  if(S.testActive && !isRecording){
+    setTimeout(() => startRec(), 400);
+  }
 }
-function resetLive(){
-  ['f','l','g','p'].forEach(k=>{
-    const lv=document.getElementById('lv-'+k);
-    const lf=document.getElementById('lf-'+k);
-    const ms=document.getElementById('ms-'+k);
-    if(lv) lv.textContent='—';
-    if(lf) lf.style.width='0%';
-    if(ms) ms.textContent='—';
-  });
-  const strip=document.getElementById('mobile-score-strip');
-  if(strip) strip.style.display='none';
+
+// Preload voices (async on Chrome, instant on iOS/Safari)
+if(window.speechSynthesis){
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
 }
-function updateLive(f,l,g,p){
-  const m={f:[f,'var(--red)'],l:[l,'var(--blue)'],g:[g,'var(--purple)'],p:[p,'var(--gold)']};
-  Object.entries(m).forEach(([k,[v,col]])=>{
-    const lv=document.getElementById('lv-'+k);
-    const lf=document.getElementById('lf-'+k);
-    const ms=document.getElementById('ms-'+k);
-    if(lv){lv.textContent=v.toFixed(1);lv.style.color=bc(Math.round(v));}
-    if(lf){lf.style.width=(v/9*100)+'%';lf.style.background=col;}
-    if(ms){ms.textContent=v.toFixed(1);}
-  });
-  // Show mobile strip
-  const strip=document.getElementById('mobile-score-strip');
-  if(strip&&window.innerWidth<=600){strip.style.display='flex';}
-}
+
+
+function updateProg(){const pct=Math.min(S.qCount/9*100,100);document.getElementById('prog-fill').style.width=pct+'%';document.getElementById('pt').textContent=`${S.qCount}/9`;}
+function buildQGrid(){document.getElementById('q-grid').innerHTML=Array.from({length:9},(_,i)=>`<div class="qdot" id="qd${i}">${i+1}</div>`).join('');document.getElementById('qd0').classList.add('cur');}
+function advanceDot(){const prev=S.qCount-1;if(prev>=0){const d=document.getElementById('qd'+prev);if(d){d.classList.remove('cur');d.classList.add('done');d.innerHTML=`<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke="var(--green)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;}}if(S.qCount<9){const d=document.getElementById('qd'+S.qCount);if(d)d.classList.add('cur');}}
+function updatePartBadge(){const n=S.scores.length;document.getElementById('part-pill').textContent=n<3?'PART 1':n===3?'PART 2':'PART 3';}
+function resetLive(){['f','l','g','p'].forEach(k=>{document.getElementById('lv-'+k).textContent='—';document.getElementById('lf-'+k).style.width='0%';});}
+function updateLive(f,l,g,p){const m={f:[f,'var(--red)'],l:[l,'var(--blue)'],g:[g,'var(--purple)'],p:[p,'var(--gold)']};Object.entries(m).forEach(([k,[v,col]])=>{document.getElementById('lv-'+k).textContent=v.toFixed(1);document.getElementById('lv-'+k).style.color=bc(Math.round(v));document.getElementById('lf-'+k).style.width=(v/9*100)+'%';document.getElementById('lf-'+k).style.background=col;});}
 function endTest(){if(confirm('Testni yakunlamoqchimisiz?'))finishTest();}
-function finishTest(){if(!S.testActive||!S.scores.length){goDash();return;}S.testActive=false;stopRec();window.speechSynthesis&&window.speechSynthesis.cancel();const avg=arr=>arr.reduce((a,b)=>a+b,0)/arr.length;const f=avg(S.scores.map(s=>s.f)),l=avg(S.scores.map(s=>s.l)),g=avg(S.scores.map(s=>s.g)),p=avg(S.scores.map(s=>s.p));const ov=Math.round(((f+l+g+p)/4)*2)/2;const r={date:new Date().toLocaleDateString('uz-UZ'),ts:Date.now(),topicId:(S.topic&&S.topic.id)||'ai',topic:(S.topic&&S.topic.name)||'AI Test',emoji:(S.topic&&S.topic.e)||'🎯',f:f.toFixed(1),l:l.toFixed(1),g:g.toFixed(1),p:p.toFixed(1),overall:ov,q:S.qCount};S.allTests.push(r);saveData();renderResult(r);showScreen('result');}
-function renderResult(r){const b=Math.round(r.overall);document.getElementById('r-band').textContent=r.overall;document.getElementById('r-band').style.color=bc(b);document.getElementById('r-desc').textContent=`Band ${b} — ${bdesc(b)}`;const crit=[['Fluency & Coherence',r.f,'var(--red)'],['Lexical Resource',r.l,'var(--blue)'],['Grammatical Range',r.g,'var(--purple)'],['Pronunciation',r.p,'var(--gold)']];document.getElementById('r-criteria').innerHTML=crit.map(([n,v,col])=>`<div class="rci"><div class="rci-name">${n}</div><div class="rci-score" style="color:${bc(Math.round(v))}">${v}</div><div class="rci-bar"><div class="rci-fill" style="width:${v/9*100}%;background:${bc(Math.round(v))}"></div></div></div>`).join('');const vs=[r.f,r.l,r.g,r.p].map(parseFloat);const wi=vs.indexOf(Math.min(...vs)),si=vs.indexOf(Math.max(...vs));const nn=['Fluency & Coherence','Lexical Resource','Grammatical Range','Pronunciation'];const tt=["Ko'proq ravon gapiring.","Murakkab so'zlar ishlating.","Complex sentences ishlating.","Intonatsiyaga e'tibor bering."];const reached=r.overall>=S.targetBand;const prev=S.allTests.length>=2?S.allTests[S.allTests.length-2]:null;const diffTxt=prev?`Oldingi testga nisbatan: ${r.overall>=prev.overall?'▲ +'+(r.overall-prev.overall).toFixed(1):'▼ '+(r.overall-prev.overall).toFixed(1)}`:'Birinchi testingiz!';// Calculate accuracy percentage
-  const totalScored=S.scores.length;
-  const avgAll=(parseFloat(r.f)+parseFloat(r.l)+parseFloat(r.g)+parseFloat(r.p))/4;
-  // IELTS band accuracy: how close to official scoring (our AI uses real descriptors)
-  // Accuracy = based on number of evaluations and band consistency
-  const consistency=totalScored>0?(1-Math.min(0.3,(Math.max(...S.scores.map(s=>(s.f+s.l+s.g+s.p)/4))-Math.min(...S.scores.map(s=>(s.f+s.l+s.g+s.p)/4)))/9))*100:85;
-  const accuracyPct=Math.round(Math.min(95,Math.max(72,78+totalScored*1.2+consistency*0.1)));
-  document.getElementById('r-accuracy').textContent=accuracyPct+'%';
-  document.getElementById('r-accuracy-bar').style.width=accuracyPct+'%';
-  document.getElementById('r-eval-count').textContent=totalScored+' ta baholash asosida';
-  document.getElementById('r-feedback').innerHTML=`<div class="rbd-item"><div class="rbd-icon">🏆</div><div><strong>Kuchli:</strong> ${nn[si]}</div></div><div class="rbd-item"><div class="rbd-icon">⚠️</div><div><strong>Yaxshilash:</strong> ${nn[wi]} — ${tt[wi]}</div></div><div class="rbd-item"><div class="rbd-icon">📈</div><div><strong>O'sish:</strong> ${diffTxt}</div></div><div class="rbd-item"><div class="rbd-icon">🎯</div><div><strong>Maqsad Band ${S.targetBand}:</strong> ${reached?'✅ Yetdingiz!':'Davom eting!'}</div></div><div class="rbd-item"><div class="rbd-icon">📊</div><div><strong>Statistika:</strong> ${r.q} savol · ${r.emoji} ${r.topic} · ${r.date}</div></div>`;renderChart('r-chart-svg','r-chart-empty',S.allTests,130);}
+function finishTest(){if(!S.testActive||!S.scores.length){goDash();return;}S.testActive=false;stopRec();const avg=arr=>arr.reduce((a,b)=>a+b,0)/arr.length;const f=avg(S.scores.map(s=>s.f)),l=avg(S.scores.map(s=>s.l)),g=avg(S.scores.map(s=>s.g)),p=avg(S.scores.map(s=>s.p));const ov=Math.round(((f+l+g+p)/4)*2)/2;const r={date:new Date().toLocaleDateString('uz-UZ'),ts:Date.now(),topicId:S.topic.id,topic:S.topic.name,emoji:S.topic.e,f:f.toFixed(1),l:l.toFixed(1),g:g.toFixed(1),p:p.toFixed(1),overall:ov,q:S.qCount};S.allTests.push(r);saveData();renderResult(r);showScreen('result');}
+function renderResult(r){const b=Math.round(r.overall);document.getElementById('r-band').textContent=r.overall;document.getElementById('r-band').style.color=bc(b);document.getElementById('r-desc').textContent=`Band ${b} — ${bdesc(b)}`;const crit=[['Fluency & Coherence',r.f,'var(--red)'],['Lexical Resource',r.l,'var(--blue)'],['Grammatical Range',r.g,'var(--purple)'],['Pronunciation',r.p,'var(--gold)']];document.getElementById('r-criteria').innerHTML=crit.map(([n,v,col])=>`<div class="rci"><div class="rci-name">${n}</div><div class="rci-score" style="color:${bc(Math.round(v))}">${v}</div><div class="rci-bar"><div class="rci-fill" style="width:${v/9*100}%;background:${bc(Math.round(v))}"></div></div></div>`).join('');const vs=[r.f,r.l,r.g,r.p].map(parseFloat);const wi=vs.indexOf(Math.min(...vs)),si=vs.indexOf(Math.max(...vs));const nn=['Fluency & Coherence','Lexical Resource','Grammatical Range','Pronunciation'];const tt=["Ko'proq ravon gapiring.","Murakkab so'zlar ishlating.","Complex sentences ishlating.","Intonatsiyaga e'tibor bering."];const reached=r.overall>=S.targetBand;const prev=S.allTests.length>=2?S.allTests[S.allTests.length-2]:null;const diffTxt=prev?`Oldingi testga nisbatan: ${r.overall>=prev.overall?'▲ +'+(r.overall-prev.overall).toFixed(1):'▼ '+(r.overall-prev.overall).toFixed(1)}`:'Birinchi testingiz!';document.getElementById('r-feedback').innerHTML=`<div class="rbd-item"><div class="rbd-icon">🏆</div><div><strong>Kuchli:</strong> ${nn[si]}</div></div><div class="rbd-item"><div class="rbd-icon">⚠️</div><div><strong>Yaxshilash:</strong> ${nn[wi]} — ${tt[wi]}</div></div><div class="rbd-item"><div class="rbd-icon">📈</div><div><strong>O'sish:</strong> ${diffTxt}</div></div><div class="rbd-item"><div class="rbd-icon">🎯</div><div><strong>Maqsad Band ${S.targetBand}:</strong> ${reached?'✅ Yetdingiz!':'Davom eting!'}</div></div><div class="rbd-item"><div class="rbd-icon">📊</div><div><strong>Statistika:</strong> ${r.q} savol · ${r.emoji} ${r.topic} · ${r.date}</div></div>`;renderChart('r-chart-svg','r-chart-empty',S.allTests,130);}
 function loadData(){try{S.allTests=JSON.parse(localStorage.getItem('ielts_tests')||'[]');}catch(e){S.allTests=[];}}
 function saveData(){localStorage.setItem('ielts_tests',JSON.stringify(S.allTests));}
 function bc(b){if(b>=9)return'#22C47A';if(b>=8)return'#3D8EF0';if(b>=7)return'#8B5CF6';if(b>=6)return'#F0B429';if(b>=5)return'#E67E22';return'#E03040';}
