@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="uz">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="uz"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>IELTS Speaking Pro</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#06080F;--s1:#0D1119;--s2:#131927;--s3:#1A2234;--s4:#202B40;
@@ -16,11 +16,12 @@
   --blue:#3D8EF0;--bluesub:rgba(61,142,240,0.12);
   --purple:#8B5CF6;--purplesub:rgba(139,92,246,0.12);
   --cyan:#06B6D4;--cyansub:rgba(6,182,212,0.12);
+  --tg-vh: 100vh;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min-height:100vh;overflow-x:hidden;}
-.screen{display:none;min-height:100vh;}
+body{background:var(--bg);color:var(--text);font-family:'Manrope','Segoe UI',system-ui,sans-serif;min-height:var(--tg-vh);overflow-x:hidden;}
+.screen{display:none;min-height:var(--tg-vh);}
 .screen.active{display:flex;flex-direction:column;}
 
 /* ── SETUP ─────────────────────────────────── */
@@ -738,21 +739,78 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
 }
 .btn-start-ai:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(224,48,64,0.4);}
 .btn-start-ai:disabled{opacity:.35;cursor:not-allowed;box-shadow:none;transform:none;}
+/* ── CUE CARD ─────────────────────── */
+.cue-card-wrap{display:flex;flex-direction:column;gap:10px;}
+.cue-card-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(135deg,var(--gold),#c9821a);
+  color:#000;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;
+  letter-spacing:1px;padding:4px 12px;border-radius:6px;width:fit-content;
+}
+.cue-card-intro{font-size:13px;color:var(--muted3);line-height:1.6;}
+.cue-card-box{
+  background:var(--s3);border:1.5px solid var(--goldsub);
+  border-left:3px solid var(--gold);
+  border-radius:12px;padding:16px 18px;
+}
+.cue-card-title{font-size:12px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;}
+.cue-card-bullets{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.cue-card-bullets li{
+  display:flex;align-items:flex-start;gap:8px;
+  font-size:14px;color:var(--text);line-height:1.5;
+}
+.cue-card-bullets li::before{
+  content:'▸';color:var(--gold);font-size:13px;flex-shrink:0;margin-top:1px;
+}
+.cue-card-outro{font-size:13px;color:var(--muted2);line-height:1.6;}
+.cue-card-timer-hint{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(240,180,41,0.1);border:1px solid rgba(240,180,41,0.25);
+  border-radius:8px;padding:8px 12px;font-size:12px;color:var(--gold);font-weight:600;
+}
+
 @media(max-width:600px){
   .ai-topic-inner{flex-direction:column;align-items:flex-start;}
   .ai-topic-actions{width:100%;justify-content:stretch;}
   .btn-regen,.btn-start-ai{flex:1;text-align:center;}
+}
+
+/* ── TELEGRAM / MOBILE FIXES ─────────── */
+.test-layout{height:calc(var(--tg-vh) - 52px);}
+.chat-panel{display:flex;flex-direction:column;min-height:0;}
+.chat-feed{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+@media(max-width:700px){
+  .test-layout{flex-direction:column;}
+  .side-col{display:none;}
+  .topbar{padding:10px 14px;}
+  .dash-body{padding:16px 14px 32px;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .topic-grid{grid-template-columns:repeat(2,1fr);}
+  .criteria-bars{grid-template-columns:repeat(2,1fr);}
+  .setup-card{padding:28px 20px;border-radius:16px;}
+  .setup-heading{font-size:28px;}
+  .band-grid{grid-template-columns:repeat(5,1fr);}
+  .result-wrap{padding:20px 16px 40px;}
+  .res-band-num{font-size:80px;}
+  .criteria-grid{grid-template-columns:repeat(2,1fr);}
+  .voice-controls{gap:8px;}
+  .send-voice-btn{padding:10px 14px;font-size:13px;}
+  .mic-hint{display:none;}
+}
+@media(max-width:380px){
+  .topic-grid{grid-template-columns:1fr;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
 }
 </style>
 </head>
 <body>
 
 <!-- ══════════ SETUP ══════════ -->
-<div id="screen-setup" class="screen active">
+<div id="screen-setup" class="screen">
   <div class="setup-card">
     <div class="brand">
       <div class="brand-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"></path></svg>
       </div>
       <div class="brand-text">
         <div class="brand-name">Speaking <span>Pro</span></div>
@@ -776,8 +834,8 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
       <label class="field-label">Groq API Key <span class="field-required">*</span></label>
       <div class="api-wrap">
         <input type="password" id="inp-api" class="field-input" placeholder="gsk_..." autocomplete="off">
-        <button class="eye-btn" onclick="toggleEye()" title="Ko'rish/yashirish">
-          <svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        <button class="eye-btn" onclick="toggleEye()" title="Ko&#39;rish/yashirish">
+          <svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
         </button>
       </div>
       <span class="field-error" id="err-api">To'g'ri Groq API key kiriting</span>
@@ -794,7 +852,7 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
     </div>
 
     <button class="btn-cta" onclick="submitSetup()">
-      <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
       Boshlash
     </button>
     <p class="setup-footer">Bepul API key: <a href="https://console.groq.com/keys" target="_blank">console.groq.com</a></p>
@@ -806,20 +864,20 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
   <div class="topbar">
     <div class="tb-left">
       <div class="tb-logo">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"></path></svg>
       </div>
       <span class="tb-title">Speaking Pro</span>
     </div>
     <div class="tb-right">
       <div class="user-pill">
-        <div class="user-av" id="tb-av">A</div>
-        <span class="user-name-pill" id="tb-name">Foydalanuvchi</span>
+        <div class="user-av" id="tb-av">AR</div>
+        <span class="user-name-pill" id="tb-name">Abubakr Rashidov</span>
       </div>
       <button class="btn-icon" onclick="openVoiceModal()" title="Ovoz sozlamalari" style="color:var(--blue);border-color:rgba(61,142,240,0.3);background:var(--bluesub);">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
       </button>
-      <button class="btn-icon" onclick="showScreen('setup')" title="Sozlamalar">
-        <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path fill-rule="evenodd" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" clip-rule="evenodd"/></svg>
+      <button class="btn-icon" onclick="showScreen(&#39;setup&#39;)" title="Sozlamalar">
+        <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"></path><path fill-rule="evenodd" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" clip-rule="evenodd"></path></svg>
       </button>
     </div>
   </div>
@@ -827,39 +885,39 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
   <div class="dash-body">
     <div class="dash-greet-row">
       <div>
-        <h2 class="dash-greeting">Salom, <span id="d-name">do'stim</span>! 👋</h2>
+        <h2 class="dash-greeting">Salom, <span id="d-name">Abubakr</span>! 👋</h2>
         <p class="dash-sub-txt">Bugun qaysi mavzuda mashq qilamiz?</p>
       </div>
       <div class="today-badge">
         <div class="td-label">Bugun</div>
-        <div class="td-date" id="today-date">—</div>
+        <div class="td-date" id="today-date">2026 M03 23</div>
       </div>
     </div>
 
     <!-- Stats -->
     <div class="stats-grid">
       <div class="stat-card" style="--sc-glow:rgba(224,48,64,0.1)">
-        <div class="sc-icon" style="background:var(--redsub)"><svg viewBox="0 0 24 24" fill="var(--red)"><path d="M9 11H7v9h2v-9zm4-4h-2v13h2V7zm4 8h-2v5h2v-5zM5 21H3V3h2v18z"/></svg></div>
+        <div class="sc-icon" style="background:var(--redsub)"><svg viewBox="0 0 24 24" fill="var(--red)"><path d="M9 11H7v9h2v-9zm4-4h-2v13h2V7zm4 8h-2v5h2v-5zM5 21H3V3h2v18z"></path></svg></div>
         <div class="sc-val" style="color:var(--red)" id="s-tests">0</div>
         <div class="sc-label">Jami testlar</div>
         <div class="sc-change same" id="s-tests-ch">
-          <svg viewBox="0 0 16 16"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" fill="none"/></svg> yangi
+          <svg viewBox="0 0 16 16"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" fill="none"></path></svg> yangi
         </div>
       </div>
       <div class="stat-card" style="--sc-glow:rgba(61,142,240,0.1)">
-        <div class="sc-icon" style="background:var(--bluesub)"><svg viewBox="0 0 24 24" fill="var(--blue)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <div class="sc-icon" style="background:var(--bluesub)"><svg viewBox="0 0 24 24" fill="var(--blue)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg></div>
         <div class="sc-val" style="color:var(--blue)" id="s-avg">—</div>
         <div class="sc-label">O'rtacha ball</div>
         <div class="sc-change" id="s-avg-ch" style="background:var(--s3);color:var(--muted)">barcha vaqt</div>
       </div>
       <div class="stat-card" style="--sc-glow:rgba(34,196,122,0.1)">
-        <div class="sc-icon" style="background:var(--greensub)"><svg viewBox="0 0 24 24" fill="var(--green)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <div class="sc-icon" style="background:var(--greensub)"><svg viewBox="0 0 24 24" fill="var(--green)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg></div>
         <div class="sc-val" style="color:var(--green)" id="s-best">—</div>
         <div class="sc-label">Eng yuqori ball</div>
         <div class="sc-change" id="s-best-ch" style="background:var(--s3);color:var(--muted)">rekord</div>
       </div>
       <div class="stat-card" style="--sc-glow:rgba(240,180,41,0.1)">
-        <div class="sc-icon" style="background:var(--goldsub)"><svg viewBox="0 0 24 24" fill="var(--gold)"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <div class="sc-icon" style="background:var(--goldsub)"><svg viewBox="0 0 24 24" fill="var(--gold)"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg></div>
         <div class="sc-val" style="color:var(--gold)" id="s-goal">7</div>
         <div class="sc-label">Maqsad band</div>
         <div class="sc-change" id="s-goal-pct" style="background:var(--s3);color:var(--muted)">belgilangan</div>
@@ -877,7 +935,7 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
       </div>
       <div class="chart-wrap">
         <svg class="chart-svg" id="chart-svg" viewBox="0 0 600 160" preserveAspectRatio="none"></svg>
-        <div class="chart-empty" id="chart-empty">
+        <div class="chart-empty" id="chart-empty" style="display: flex;">
           <div class="ce-icon">📊</div>
           <span>Birinchi testni tugatgandan so'ng grafik ko'rinadi</span>
         </div>
@@ -895,21 +953,24 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
     <div class="ai-topic-card" id="ai-topic-card">
       <div class="ai-topic-inner">
         <div class="ai-topic-left">
-          <div class="ai-topic-emoji" id="ai-topic-emoji">🎲</div>
+          <div class="ai-topic-emoji" id="ai-topic-emoji">🎯</div>
           <div>
-            <div class="ai-topic-name" id="ai-topic-name">AI mavzu tayyorlamoqda...</div>
-            <div class="ai-topic-desc" id="ai-topic-desc">Bosing va yangi mavzu oling</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <div class="ai-topic-name" id="ai-topic-name">cultural exchange</div>
+              <span id="ai-topic-badge" style="display:none;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--greensub);color:var(--green);border:1px solid rgba(34,196,122,0.3);white-space:nowrap;"></span>
+            </div>
+            <div class="ai-topic-desc" id="ai-topic-desc">IELTS Speaking test</div>
           </div>
         </div>
         <div class="ai-topic-actions">
           <button class="btn-regen" id="btn-gen-topic" onclick="generateAITopic()">🔀 Boshqa mavzu</button>
-          <button class="btn-start-ai" id="btn-start-ai" onclick="startAITest()" disabled>Boshlash →</button>
+          <button class="btn-start-ai" id="btn-start-ai" onclick="startAITest()">Boshlash →</button>
         </div>
       </div>
     </div>
 
     <div class="section-hd">So'nggi natijalar</div>
-    <div id="history-list" class="history-list"></div>
+    <div id="history-list" class="history-list"><div class="empty-state"><div class="es-icon">📋</div><p>Hali hech qanday test topshirilmagan.<br>Birinchi testni boshlang!</p></div></div>
   </div>
 </div>
 
@@ -918,18 +979,18 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
   <div class="test-topbar">
     <div class="tt-left">
       <div class="part-pill" id="part-pill">PART 1</div>
-      <div class="tt-topic" id="tt-topic">—</div>
+      <div class="tt-topic" id="tt-topic">cultural exchange</div>
     </div>
     <div class="tt-mid">
       <span class="prog-txt" id="pt">0/9</span>
       <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
     </div>
     <button class="btn-finish" style="margin-right:8px;background:var(--bluesub);color:var(--blue);border:1px solid rgba(61,142,240,0.3);" onclick="openVoiceModal()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path></svg>
       Ovoz
     </button>
     <button class="btn-finish" onclick="endTest()">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect></svg>
       Tugatish
     </button>
   </div>
@@ -942,35 +1003,35 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
             <div class="wave"></div><div class="wave"></div><div class="wave"></div>
             <div class="wave"></div><div class="wave"></div>
           </div>
-          <div class="vs-txt" id="vs-txt">Mikrofon tugmasini bosing va gapirishni boshlang</div>
+          <div class="vs-txt" id="vs-txt">🎙️ Mikrofon tugmasini bosing → gapiring → yana bosing</div>
         </div>
         <div class="transcript-preview" id="transcript-preview"></div>
         <div class="voice-controls">
           <button class="mic-btn" id="mic-btn" onclick="toggleMic()">
             <div class="mic-ring" id="mic-ring"></div>
-            <svg class="mic-svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            <svg class="mic-svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
           </button>
           <div class="mic-center">
-            <div class="mic-label" id="mic-label">Bosing va gapirishni boshlang</div>
-            <div class="mic-hint">Gapirib bo'lingach, yuborish tugmasini bosing</div>
+            <div class="mic-label" id="mic-label">Bosing → gapiring → yana bosing</div>
+            <div class="mic-hint">Gapirib bo'lgach, yana tugmani bosing → yuborish</div>
           </div>
-          <button class="send-voice-btn" id="send-voice-btn" onclick="sendVoice()" disabled>
-            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          <button class="send-voice-btn" id="send-voice-btn" onclick="sendVoice()" disabled="">
+            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
             Yuborish
           </button>
         </div>
       </div>
     </div>
     <div class="side-col">
-      <div class="sp-block">
+      <div class="sp-block" style="display:none" id="live-scores-block">
         <div class="sp-title">Joriy balllar</div>
-        <div class="lsr"><span class="lsr-name">Fluency</span><span class="lsr-val" id="lv-f" style="background:var(--redsub);color:var(--red)">—</span></div>
+        <div class="lsr"><span class="lsr-name">Fluency</span><span class="lsr-val" id="lv-f" style="background:var(--redsub)">—</span></div>
         <div class="lsr-track"><div class="lsr-fill" id="lf-f" style="width:0%;background:var(--red)"></div></div>
-        <div class="lsr"><span class="lsr-name">Lexical</span><span class="lsr-val" id="lv-l" style="background:var(--bluesub);color:var(--blue)">—</span></div>
+        <div class="lsr"><span class="lsr-name">Lexical</span><span class="lsr-val" id="lv-l" style="background:var(--bluesub)">—</span></div>
         <div class="lsr-track"><div class="lsr-fill" id="lf-l" style="width:0%;background:var(--blue)"></div></div>
-        <div class="lsr"><span class="lsr-name">Grammar</span><span class="lsr-val" id="lv-g" style="background:var(--purplesub);color:var(--purple)">—</span></div>
+        <div class="lsr"><span class="lsr-name">Grammar</span><span class="lsr-val" id="lv-g" style="background:var(--purplesub)">—</span></div>
         <div class="lsr-track"><div class="lsr-fill" id="lf-g" style="width:0%;background:var(--purple)"></div></div>
-        <div class="lsr"><span class="lsr-name">Pronunc.</span><span class="lsr-val" id="lv-p" style="background:var(--goldsub);color:var(--gold)">—</span></div>
+        <div class="lsr"><span class="lsr-name">Pronunc.</span><span class="lsr-val" id="lv-p" style="background:var(--goldsub)">—</span></div>
         <div class="lsr-track"><div class="lsr-fill" id="lf-p" style="width:0%;background:var(--gold)"></div></div>
       </div>
       <div class="sp-block">
@@ -979,7 +1040,7 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
       </div>
       <div class="sp-block">
         <div class="sp-title">Pro maslahat</div>
-        <div class="pro-tip" id="pro-tip">Examiner savol beradi. <strong>To'liq</strong> javob bering — kamida 4-5 gap!</div>
+        <div class="pro-tip" id="pro-tip"><strong>💡</strong> Kamida 5-6 gap bering. Qisqa javob = band 5 dan oshmaydi.</div>
       </div>
     </div>
   </div>
@@ -993,7 +1054,7 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
         <div class="res-badge"><div class="res-badge-dot"></div>Test yakunlandi</div>
       </div>
       <div class="res-band-num" id="r-band">—</div>
-      <div class="res-band-desc" id="r-desc">Band 7</div>
+      <div class="res-band-desc" id="r-desc">Band</div>
       <div class="res-criteria" id="r-criteria"></div>
     </div>
 
@@ -1001,7 +1062,7 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
       <div class="rps-title">📈 Umumiy o'sish jarayoni</div>
       <div class="chart-wrap" style="height:130px">
         <svg class="chart-svg" id="r-chart-svg" viewBox="0 0 600 130" preserveAspectRatio="none"></svg>
-        <div class="chart-empty" id="r-chart-empty">
+        <div class="chart-empty" id="r-chart-empty" style="display:flex">
           <div class="ce-icon">📊</div>
           <span>Birinchi test natijasi</span>
         </div>
@@ -1015,7 +1076,7 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
 
     <!-- AI Deep Analysis Section -->
     <div class="res-breakdown" id="analysis-section" style="display:none">
-      <div class="rbd-title">🔬 AI Chuqur Tahlil <span id="analysis-loading" style="font-size:12px;color:var(--muted);font-weight:400">— tahlil qilinmoqda...</span></div>
+      <div class="rbd-title">🔬 AI Chuqur Tahlil <span id="analysis-loading" style="font-size:12px;color:var(--muted);font-weight:400"></span></div>
       <div id="analysis-content"></div>
     </div>
 
@@ -1036,7 +1097,7 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
         Ovoz sozlamalari
       </div>
       <button class="vm-close" onclick="closeVoiceModalBtn()">
-        <svg viewBox="0 0 24 24" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <svg viewBox="0 0 24 24" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
     </div>
 
@@ -1046,22 +1107,22 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
         ⚠️ Brauzeringizda ingliz ovozlari topilmadi. Chrome ishlatishni tavsiya qilamiz.
       </div>
       <div class="accent-grid">
-        <div class="accent-card sel" id="ac-gb" onclick="selectAccent('en-GB','ac-gb')">
+        <div class="accent-card sel" id="ac-gb" onclick="selectAccent(&#39;en-GB&#39;,&#39;ac-gb&#39;)">
           <div class="ac-flag">🇬🇧</div>
           <div class="ac-name">British</div>
           <div class="ac-desc">RP accent · Daniel</div>
         </div>
-        <div class="accent-card" id="ac-us" onclick="selectAccent('en-US','ac-us')">
+        <div class="accent-card" id="ac-us" onclick="selectAccent(&#39;en-US&#39;,&#39;ac-us&#39;)">
           <div class="ac-flag">🇺🇸</div>
           <div class="ac-name">American</div>
           <div class="ac-desc">US accent · Samantha</div>
         </div>
-        <div class="accent-card" id="ac-au" onclick="selectAccent('en-AU','ac-au')">
+        <div class="accent-card" id="ac-au" onclick="selectAccent(&#39;en-AU&#39;,&#39;ac-au&#39;)">
           <div class="ac-flag">🇦🇺</div>
           <div class="ac-name">Australian</div>
           <div class="ac-desc">AU accent · Karen</div>
         </div>
-        <div class="accent-card" id="ac-in" onclick="selectAccent('en-IN','ac-in')">
+        <div class="accent-card" id="ac-in" onclick="selectAccent(&#39;en-IN&#39;,&#39;ac-in&#39;)">
           <div class="ac-flag">🇮🇳</div>
           <div class="ac-name">Indian</div>
           <div class="ac-desc">IN accent · Rishi</div>
@@ -1073,7 +1134,7 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
       <div class="vm-label">⚡ Gapirish tezligi</div>
       <div class="vm-slider-row">
         <span style="font-size:12px;color:var(--muted)">Sekin</span>
-        <input type="range" class="vm-slider" id="speed-slider" min="0.6" max="1.3" step="0.05" value="0.88" oninput="updateSliderVal('speed-val',this.value,'x')">
+        <input type="range" class="vm-slider" id="speed-slider" min="0.6" max="1.3" step="0.05" value="0.88" oninput="updateSliderVal(&#39;speed-val&#39;,this.value,&#39;x&#39;)">
         <span style="font-size:12px;color:var(--muted)">Tez</span>
         <span class="vm-slider-val" id="speed-val">0.88x</span>
       </div>
@@ -1083,19 +1144,19 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;min
       <div class="vm-label">🎵 Ovoz toni (Pitch)</div>
       <div class="vm-slider-row">
         <span style="font-size:12px;color:var(--muted)">Past</span>
-        <input type="range" class="vm-slider" id="pitch-slider" min="0.7" max="1.3" step="0.05" value="1.0" oninput="updateSliderVal('pitch-val',this.value,'')">
+        <input type="range" class="vm-slider" id="pitch-slider" min="0.7" max="1.3" step="0.05" value="1.0" oninput="updateSliderVal(&#39;pitch-val&#39;,this.value,&#39;&#39;)">
         <span style="font-size:12px;color:var(--muted)">Yuqori</span>
         <span class="vm-slider-val" id="pitch-val">1.0</span>
       </div>
     </div>
 
     <button class="voice-preview-btn" onclick="previewVoice()">
-      <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
       Ovozni sinab ko'ring
     </button>
 
     <button class="vm-save" onclick="saveVoiceSettings()">
-      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
       Saqlash
     </button>
   </div>
@@ -1139,14 +1200,45 @@ const TIPS = [
 
 // band descriptors moved inline
 
+// ══ TELEGRAM WEB APP INIT ══════════════════
+(function initTelegramWebApp(){
+  try{
+    if(window.Telegram && window.Telegram.WebApp){
+      const tg = window.Telegram.WebApp;
+      tg.ready();
+      tg.expand();
+      // Update viewport height CSS variable
+      const setVh = () => {
+        const h = tg.viewportHeight || window.innerHeight;
+        document.documentElement.style.setProperty('--tg-vh', h + 'px');
+      };
+      setVh();
+      tg.onEvent('viewportChanged', setVh);
+      // Force dark theme
+      document.documentElement.style.colorScheme = 'dark';
+      // Pre-fill from Telegram user if available
+      const u = tg.initDataUnsafe?.user;
+      if(u){
+        window._tgUser = {
+          first: u.first_name || '',
+          last: u.last_name || ''
+        };
+      }
+    }
+  }catch(e){}
+})();
+
 // ══ INIT ═══════════════════════════════════
 window.speechSynthesis && window.speechSynthesis.getVoices(); // preload voices
 window.onload = () => {
   loadVoiceSettings();
-  // Request mic permission once silently — no repeated dialogs
-  requestMicOnce();
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('uz-UZ',{day:'2-digit',month:'long',year:'numeric'});
   loadData();
+
+  // Mikrofon ruxsatini HOZIROQ so'ra — faqat bir marta, sahifa yuklanganda
+  // Shunday qilib test paytida qayta so'ralmasin
+  setTimeout(() => initMicStream(), 800);
+
   try {
     const u = JSON.parse(localStorage.getItem('ielts_user')||'null');
     if (u?.first && u?.apiKey) {
@@ -1157,8 +1249,15 @@ window.onload = () => {
       pickBandVal(S.targetBand);
       initDashboard();
       showScreen('dashboard');
+      return;
     }
   } catch(e){}
+  // Pre-fill from Telegram if available
+  if(window._tgUser){
+    document.getElementById('inp-first').value = window._tgUser.first;
+    document.getElementById('inp-last').value  = window._tgUser.last;
+  }
+  showScreen('setup');
 };
 
 // ══ SETUP ══════════════════════════════════
@@ -1197,6 +1296,7 @@ function setErr(errId,inputId,show){
 // ══ DASHBOARD ══════════════════════════════
 function initDashboard(){
   if(S.apiKey && !currentAITopic) setTimeout(generateAITopic, 600);
+  else if(S.apiKey) _updateTopicProgress(getUndonePools().length);
   const full=S.first+' '+S.last;
   document.getElementById('tb-name').textContent=full.trim();
   document.getElementById('tb-av').textContent=(S.first[0]+(S.last[0]||'')).toUpperCase();
@@ -1340,20 +1440,80 @@ function renderChart(svgId, emptyId, tests, h){
 // ══ AI TOPIC GENERATOR ══════════════════════
 let currentAITopic = null;
 
+// 80+ mavzu — IELTS barcha kategoriyalari bo'yicha
 const TOPIC_POOL = [
-  'daily routines and habits','technology and social media','education systems',
-  'environmental challenges','travel and tourism','health and fitness',
-  'work and career','family relationships','food and culture','arts and music',
-  'city vs countryside living','sports and leisure','shopping habits',
-  'transportation and commuting','media and news','fashion and identity',
-  'volunteering and community','science and innovation','money and finance',
-  'language learning','friendship','childhood memories','future plans',
-  'books and reading','cooking and nutrition','mental health awareness',
-  'climate change','local customs and traditions','pets and animals',
-  'architecture and design','public holidays','photography','entrepreneurship',
-  'online learning','social issues','cultural exchange','time management',
-  'hobbies and creativity','gender roles','globalization'
+  // Shaxsiy hayot
+  'daily routines and habits','childhood memories','family relationships',
+  'friendship and social life','personal goals and ambitions','hobbies and creativity',
+  'life skills and independence','decision making','managing stress','personal values',
+  'morning routines','weekend activities','living alone vs with family',
+  // Ta\'lim
+  'education systems','online learning','university life','learning foreign languages',
+  'school subjects and teachers','exams and academic pressure','lifelong learning',
+  'gap year experiences','studying abroad','private vs public schools',
+  // Ish va martaba
+  'work and career','entrepreneurship','job interviews','remote work',
+  'work-life balance','volunteering and community service','career changes',
+  'leadership and teamwork','starting a business','dream jobs',
+  // Texnologiya
+  'technology and social media','artificial intelligence','smartphones and apps',
+  'cybersecurity and privacy','gaming and virtual reality','future of technology',
+  'social media influence','online shopping habits','digital addiction',
+  // Atrof-muhit
+  'environmental challenges','climate change','renewable energy',
+  'wildlife conservation','sustainable living','plastic pollution',
+  'urban gardening','eco-friendly travel','water scarcity',
+  // Sog\'liq
+  'health and fitness','mental health awareness','nutrition and diet',
+  'sleep habits','sports and exercise','meditation and mindfulness',
+  'healthcare systems','preventive medicine','work-related stress',
+  // Sayohat
+  'travel and tourism','adventure travel','cultural exchange',
+  'local tourism','solo travel','travel and technology',
+  'food tourism','volunteering abroad','sustainable tourism',
+  // Iqtisodiyot
+  'money and finance','saving and investing','consumerism',
+  'poverty and inequality','global economy','cryptocurrency',
+  'credit cards and debt','cost of living','financial literacy',
+  // Jamiyat
+  'social issues','gender equality','immigration and multiculturalism',
+  'aging population','crime and justice','freedom of speech',
+  'community and belonging','charity work','social activism',
+  'cultural traditions vs modernity',
+  // San\'at va madaniyat
+  'arts and music','literature and reading','cinema and film',
+  'fashion and identity','architecture and design','public art',
+  'traditional music','street culture','museums and galleries',
+  // Ovqat
+  'food and culture','cooking and nutrition','fast food culture',
+  'vegetarianism and veganism','food waste','street food',
+  'restaurant culture','family meals','food and identity',
+  // Shahar va turmush
+  'city vs countryside living','urban planning','public transport',
+  'housing and homelessness','smart cities','noise pollution',
+  'parks and green spaces','neighbourhood communities',
+  // Media
+  'media and news','fake news','advertising influence',
+  'journalism ethics','celebrity culture','podcasts and streaming',
+  'books vs digital media','media literacy',
+  // Boshqalar
+  'pets and animals','sports and leisure','science and innovation',
+  'space exploration','photography','public holidays and celebrations',
+  'time management','shopping habits','transportation and commuting',
+  'local customs and traditions','globalization','language preservation',
+  'generation gap','optimism and happiness','creativity and innovation'
 ];
+
+// Allaqachon topshirilgan mavzularni qaytaradi (normallashtirilib)
+function getDoneTopics(){
+  return (S.allTests||[]).map(t=>(t.topic||'').toLowerCase().trim());
+}
+
+// Hali topshirilmagan mavzularni qaytaradi
+function getUndonePools(){
+  const done = getDoneTopics();
+  return TOPIC_POOL.filter(t => !done.some(d => d.includes(t) || t.includes(d)));
+}
 
 async function generateAITopic(){
   const btn    = document.getElementById('btn-gen-topic');
@@ -1370,10 +1530,27 @@ async function generateAITopic(){
 
   if(!S.apiKey){ showToast('Avval API key kiriting!'); btn.disabled=false; btn.textContent='🔀 Boshqa mavzu'; return; }
 
-  const hint = TOPIC_POOL[Math.floor(Math.random()*TOPIC_POOL.length)];
-  const prompt = `Generate a creative IELTS Speaking test topic. Theme hint: "${hint}".
+  // Hali topshirilmagan mavzulardan tanlash
+  const undone = getUndonePools();
+  const pool   = undone.length >= 3 ? undone : TOPIC_POOL; // hammasini bajarsaham cheklanmasin
+  const hint   = pool[Math.floor(Math.random() * pool.length)];
+
+  // Allaqachon bajarilgan mavzular ro'yxatini AI ga berish
+  const doneList = getDoneTopics().slice(-20); // oxirgi 20 ta
+  const avoidNote = doneList.length
+    ? `\nIMPORTANT: The student has ALREADY practiced these topics: [${doneList.join(', ')}]. Generate a DIFFERENT, FRESH topic NOT from this list.`
+    : '';
+
+  const remainCount = undone.length;
+  const progressNote = remainCount > 0
+    ? `The student still has ${remainCount} untried topic areas.`
+    : `The student has covered all common topics — generate a creative new angle.`;
+
+  const prompt = `You are an IELTS Speaking test designer. ${progressNote}
+Generate a creative, specific IELTS Speaking test topic. Theme inspiration: "${hint}".${avoidNote}
+Make it specific and interesting — NOT generic. Good examples: "Living with Technology Addiction", "The Future of Remote Work", "Urban Farming Revolution".
 Return ONLY a valid JSON object (no markdown, no extra text):
-{"nameEn":"topic in English (4-7 words)","emoji":"one emoji","desc":"one sentence description in English","p1":"part 1 personal questions theme","p2":"part 2 cue card theme","p3":"part 3 abstract discussion theme"}`;
+{"nameEn":"specific topic title (4-8 words)","emoji":"one relevant emoji","desc":"one engaging sentence describing this topic","p1":"part 1 personal questions theme","p2":"part 2 cue card theme (describe a specific person/place/event/thing)","p3":"part 3 abstract discussion theme"}`;
 
   try{
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions',{
@@ -1382,7 +1559,7 @@ Return ONLY a valid JSON object (no markdown, no extra text):
       body:JSON.stringify({
         model: S.model||'meta-llama/llama-4-scout-17b-16e-instruct',
         messages:[{role:'user',content:prompt}],
-        temperature:1.1, max_tokens:250
+        temperature:1.2, max_tokens:300
       })
     });
     if(!res.ok) throw new Error('API '+res.status);
@@ -1396,6 +1573,8 @@ Return ONLY a valid JSON object (no markdown, no extra text):
     nameEl.textContent = topic.nameEn || hint;
     descEl.textContent = topic.desc || '';
     emEl.textContent   = topic.emoji || '🎯';
+    // Ko'rsatish: qancha mavzu qolganini badge da ko'rsat
+    _updateTopicProgress(remainCount);
     if(startBtn) startBtn.disabled = false;
   }catch(e){
     currentAITopic = {nameEn:hint, emoji:'🎯', desc:'', p1:hint, p2:hint, p3:hint};
@@ -1406,6 +1585,19 @@ Return ONLY a valid JSON object (no markdown, no extra text):
   }
   btn.disabled = false;
   btn.textContent = '🔀 Boshqa mavzu';
+}
+
+function _updateTopicProgress(remainCount){
+  // Dashboard da "qancha yangi mavzu qoldi" badge
+  const el = document.getElementById('ai-topic-badge');
+  if(!el) return;
+  if(remainCount > 0){
+    el.textContent = `🆕 ${remainCount} yangi mavzu`;
+    el.style.display = 'inline-flex';
+  } else {
+    el.textContent = `✅ Barcha mavzular bajarildi`;
+    el.style.display = 'inline-flex';
+  }
 }
 
 async function startAITest(){
@@ -1421,7 +1613,7 @@ async function startAITest(){
   document.getElementById('chat-feed').innerHTML   = '';
   updateProg(); buildQGrid(); resetLive();
   showScreen('test');
-  S.sysPrompt = `You are a certified IELTS Speaking examiner. Candidate: ${S.first} ${S.last}. Target band: ${S.targetBand}. Topic: "${topic.nameEn}".
+  S.sysPrompt = `You are a certified IELTS Speaking examiner conducting a real test. Candidate name: ${S.first} ${S.last} (already verified — do NOT ask for name again). Target band: ${S.targetBand}. Topic: "${topic.nameEn}".
 
 ═══ OFFICIAL IELTS BAND DESCRIPTORS (use these to score EVERY answer) ═══
 
@@ -1492,7 +1684,7 @@ After EVERY candidate answer, respond ONLY in this exact format:
 
 ONLY when ALL 3 parts are fully complete, end NXT with EXACTLY: "That concludes our speaking test today. Thank you for your participation."
 NEVER add text outside [EVAL]...[/EVAL]. NEVER explain the format. Speak ONLY in English.`;
-  await callAI(`Begin the IELTS Speaking test now. Your first words must be a warm professional greeting, then ask for the candidate's full name and where they're from. Do NOT use [EVAL] format for this first message — just speak naturally as the examiner.`);
+  await callAI(`Start the IELTS Speaking test RIGHT NOW. The candidate's name is ${S.first} ${S.last} — you already know this, so do NOT ask for their name. Greet them briefly by first name ("Good morning, ${S.first}." or similar), say you're the examiner, then IMMEDIATELY ask your FIRST Part 1 question about: ${S.topic.p1}. Keep the intro to 1-2 short sentences max. Do NOT use [EVAL] format for this first message.`);
 }
 
 
@@ -1530,7 +1722,7 @@ async function startTest(tid){
   document.getElementById('chat-feed').innerHTML='';
   updateProg(); buildQGrid(); resetLive();
   showScreen('test');
-  S.sysPrompt=`You are a certified IELTS Speaking examiner. Candidate: ${S.first} ${S.last}. Target band: ${S.targetBand}. Topic: "${topic.name}".
+  S.sysPrompt=`You are a certified IELTS Speaking examiner conducting a real test. Candidate name: ${S.first} ${S.last} (already verified — do NOT ask for name again). Target band: ${S.targetBand}. Topic: "${topic.name}".
 
 ═══ OFFICIAL IELTS BAND DESCRIPTORS (use these to score EVERY answer) ═══
 
@@ -1593,145 +1785,201 @@ After EVERY candidate answer respond ONLY in this exact format:
 ONLY when ALL 3 parts fully complete, end NXT with EXACTLY: "That concludes our speaking test today. Thank you for your participation."
 NEVER add text outside [EVAL]...[/EVAL]. NEVER explain the format. Speak ONLY in English.`;
   S.history=[];
-  await callAI(`Start with exactly: "Welcome to the IELTS Speaking Test, ${S.first}." Then introduce Part 1 briefly in English, then ask your first question about: ${topic.p1}. Speak ONLY in English throughout the entire test.`);
+  await callAI(`Start the IELTS Speaking test RIGHT NOW. The candidate's name is ${S.first} ${S.last} — you already know this, do NOT ask for their name. Greet them briefly by first name, then IMMEDIATELY ask your first Part 1 question about: ${topic.p1}. Keep the intro to 1-2 short sentences max. Speak ONLY in English.`);
 }
 
 
-// ══ VOICE RECOGNITION ══════════════════════
-// Strategy: recognizer runs CONTINUOUSLY the whole session — never stopped.
-// _active flag controls whether we collect speech. This way Chrome never
-// re-triggers the permission dialog.
-let recognizer   = null;
-let _active      = false; // are we actively collecting speech?
-let isRecording  = false; // alias used elsewhere
-let recReady     = false;
-let finalTranscript   = '';
-let interimTranscript = '';
-let _keepAliveStream  = null;
+// ══ VOICE RECOGNITION (MediaRecorder + Groq Whisper) ══════════════════
+// Mikrofon ruxsati FAQAT BIR MARTA so'raladi — stream saqlanib qoladi
+let mediaRecorder   = null;
+let audioChunks     = [];
+let isRecording     = false;
+let _micStream      = null;   // bir marta olingan stream, doim tirik saqlanadi
+let _micMimeType    = '';
+let finalTranscript = '';
 
-function initRecognizer(){
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SR || recognizer) return;
-  const r = new SR();
-  r.continuous      = true;
-  r.interimResults  = true;
-  r.lang            = 'en-US';
-
-  r.onstart = () => { recReady = true; };
-
-  r.onresult = (e) => {
-    if(!_active) return; // ignore results when not in listening mode
-    for(let i = e.resultIndex; i < e.results.length; i++){
-      if(e.results[i].isFinal) finalTranscript += e.results[i][0].transcript + ' ';
-      else interimTranscript = e.results[i][0].transcript;
-    }
-    const preview = document.getElementById('transcript-preview');
-    if(preview){
-      preview.classList.add('has-text');
-      preview.innerHTML = finalTranscript + (interimTranscript ? `<span class="interim">${interimTranscript}</span>` : '');
-      preview.scrollTop = preview.scrollHeight;
-    }
-    const svb = document.getElementById('send-voice-btn');
-    if(svb) svb.disabled = !finalTranscript.trim();
-  };
-
-  r.onerror = (e) => {
-    if(e.error === 'no-speech' || e.error === 'aborted') return;
-    if(e.error === 'not-allowed'){
-      showToast('❌ Mikrofon ruxsati rad etildi. Brauzer sozlamalaridan ruxsat bering.');
-      return;
-    }
-  };
-
-  // ALWAYS restart — this is the key: recognizer never truly stops
-  r.onend = () => { try{ r.start(); } catch(err){} };
-
-  recognizer = r;
-  try{ r.start(); } catch(err){}
+function getSupportedMimeType(){
+  const types = [
+    'audio/webm;codecs=opus','audio/webm',
+    'audio/ogg;codecs=opus','audio/ogg',
+    'audio/mp4','audio/mpeg'
+  ];
+  for(const t of types){
+    try{ if(MediaRecorder.isTypeSupported(t)) return t; }catch(e){}
+  }
+  return '';
 }
 
-function requestMicOnce(){
-  if(_keepAliveStream) return;
-  if(!navigator.mediaDevices?.getUserMedia){ initRecognizer(); return; }
-  navigator.mediaDevices.getUserMedia({audio:true})
-    .then(stream => {
-      _keepAliveStream = stream; // keep alive FOREVER — never stop tracks
-      initRecognizer();
-    })
-    .catch(() => {
-      showToast('❌ Mikrofon ruxsati rad etildi. Brauzer sozlamalaridan ruxsat bering.');
-    });
+// Ilova yuklanganda yoki test boshlanishida bir marta chaqiriladi
+async function initMicStream(){
+  if(_micStream) return true;           // allaqachon bor
+  try{
+    _micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    _micMimeType = getSupportedMimeType();
+    // Stream hech qachon to'xtatilmaydi — ruxsat qayta so'ralmasin
+    return true;
+  }catch(err){
+    const msg = err.name === 'NotAllowedError'
+      ? '❌ Mikrofon ruxsati rad etildi. Telegram sozlamalaridan ruxsat bering.'
+      : '❌ Mikrofon ochilmadi: ' + err.message;
+    showToast(msg);
+    return false;
+  }
 }
 
 function toggleMic(){
-  if(!_active){ startRec(); } else { stopRec(); }
+  if(!isRecording) startRec(); else stopRec();
 }
 
-function startRec(){
+async function startRec(){
   if(S.isLoading || isSpeaking) return;
-  finalTranscript = ''; interimTranscript = '';
-  _active = true; isRecording = true;
-  const preview = document.getElementById('transcript-preview');
-  if(preview){ preview.innerHTML = ''; preview.classList.remove('has-text'); }
-  const svb = document.getElementById('send-voice-btn');
-  if(svb) svb.disabled = true;
+  if(!S.apiKey){ showToast('Avval API key kiriting!'); return; }
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+
+  // Stream yo'q bo'lsa — bir marta ruxsat so'ra
+  if(!_micStream){
+    const ok = await initMicStream();
+    if(!ok) return;
+  }
+
+  try{
+    const opts = _micMimeType ? { mimeType: _micMimeType } : {};
+    mediaRecorder = new MediaRecorder(_micStream, opts);
+    audioChunks = [];
+
+    mediaRecorder.ondataavailable = e => {
+      if(e.data && e.data.size > 0) audioChunks.push(e.data);
+    };
+
+    mediaRecorder.onstop = async () => {
+      // Stream ni TO'XTATMAYMIZ — keyingi safar ruxsat so'ralmaydi
+      await processAudio(_micMimeType || 'audio/webm');
+    };
+
+    mediaRecorder.start(100);
+    isRecording = true;
+
+    const mb = document.getElementById('mic-btn');
+    const vs = document.getElementById('voice-status');
+    const vt = document.getElementById('vs-txt');
+    const ml = document.getElementById('mic-label');
+    const svb = document.getElementById('send-voice-btn');
+    const preview = document.getElementById('transcript-preview');
+    if(mb)  mb.classList.add('active');
+    if(vs){ vs.classList.add('recording'); vs.classList.remove('speaking'); }
+    if(vt)  vt.textContent = '🎙️ Yozib olinmoqda... Gapirishni boshlang!';
+    if(ml)  ml.textContent = 'Gapiring...';
+    if(svb) svb.disabled = true;
+    if(preview){ preview.innerHTML = ''; preview.classList.remove('has-text'); }
+
+  }catch(err){
+    // Stream eskirgan bo'lsa — yangilab qayta urinib ko'r
+    _micStream = null;
+    showToast('❌ Mikrofon xatosi, qayta urinib ko\'ring.');
+  }
+}
+
+function stopRec(){
+  if(mediaRecorder && mediaRecorder.state !== 'inactive'){
+    mediaRecorder.stop();
+  }
+  isRecording = false;
+
   // UI
   const mb = document.getElementById('mic-btn');
   const vs = document.getElementById('voice-status');
   const vt = document.getElementById('vs-txt');
   const ml = document.getElementById('mic-label');
-  if(mb) mb.classList.add('active');
-  if(vs){ vs.classList.add('recording'); vs.classList.remove('speaking'); }
-  if(vt) vt.textContent = 'Listening... Speak now!';
-  if(ml) ml.textContent = 'Gapiring...';
-  // If recognizer not init yet (first use before permission granted)
-  if(!recognizer) requestMicOnce();
-}
-
-function stopRec(){
-  _active = false; isRecording = false;
-  // DO NOT call recognizer.stop() — let it keep running silently
-  const mb = document.getElementById('mic-btn');
-  const vs = document.getElementById('voice-status');
-  const vt = document.getElementById('vs-txt');
-  const ml = document.getElementById('mic-label');
   if(mb) mb.classList.remove('active');
   if(vs) vs.classList.remove('recording');
-  if(vt) vt.textContent = finalTranscript ? 'Tayyor. Yuborish tugmasini bosing.' : 'Mikrofon tugmasini bosing';
-  if(ml) ml.textContent = finalTranscript ? 'Tayyor — yuborishingiz mumkin' : 'Bosing va gapirishni boshlang';
+  if(vt) vt.textContent = '⏳ Ovoz tahlil qilinmoqda... Iltimos kuting.';
+  if(ml) ml.textContent = 'Tahlil qilinmoqda...';
 }
+
+async function processAudio(mimeType){
+  if(!audioChunks.length){
+    const vt = document.getElementById('vs-txt');
+    if(vt) vt.textContent = 'Hech narsa eshitilmadi. Qayta urinib ko\'ring.';
+    return;
+  }
+
+  const ext = mimeType.includes('ogg') ? 'ogg' : mimeType.includes('mp4') ? 'mp4' : 'webm';
+  const blob = new Blob(audioChunks, { type: mimeType });
+  audioChunks = [];
+
+  const formData = new FormData();
+  formData.append('file', blob, `speech.${ext}`);
+  formData.append('model', 'whisper-large-v3-turbo');
+  formData.append('language', 'en');
+  formData.append('response_format', 'json');
+
+  try{
+    const res = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + S.apiKey },
+      body: formData
+    });
+    if(!res.ok){
+      const errData = await res.json().catch(()=>({}));
+      throw new Error(errData.error?.message || 'Whisper API xatosi: ' + res.status);
+    }
+    const data = await res.json();
+    const text = (data.text || '').trim();
+
+    finalTranscript = text;
+    const preview = document.getElementById('transcript-preview');
+    const vt = document.getElementById('vs-txt');
+    const ml = document.getElementById('mic-label');
+    const svb = document.getElementById('send-voice-btn');
+
+    if(text){
+      if(preview){ preview.classList.add('has-text'); preview.textContent = text; }
+      if(vt) vt.textContent = '✅ Tayyor. Yuborish tugmasini bosing yoki qayta gapirishingiz mumkin.';
+      if(ml) ml.textContent = 'Tayyor — yuborishingiz mumkin';
+      if(svb) svb.disabled = false;
+    } else {
+      if(vt) vt.textContent = 'Hech narsa eshitilmadi. Qayta urinib ko\'ring.';
+      if(ml) ml.textContent = 'Bosing va gapirishni boshlang';
+    }
+  } catch(err){
+    const vt = document.getElementById('vs-txt');
+    if(vt) vt.textContent = '❌ Xatolik: ' + err.message;
+    showToast('Ovoz tanib olishda xatolik: ' + err.message);
+  }
+}
+
+// requestMicOnce — initMicStream ga yo'naltiradi
+function requestMicOnce(){ initMicStream(); }
 
 async function sendVoice(){
   const txt = finalTranscript.trim();
   if(!txt || S.isLoading) return;
-  _active = false; isRecording = false;
-  // DO NOT stop recognizer — just clear transcripts and update UI
-  finalTranscript = ''; interimTranscript = '';
+
+  finalTranscript = '';
   const preview = document.getElementById('transcript-preview');
-  if(preview){ preview.innerHTML = ''; preview.classList.remove('has-text'); }
   const svb = document.getElementById('send-voice-btn');
+  const vt  = document.getElementById('vs-txt');
+  const mb  = document.getElementById('mic-btn');
+  const vs  = document.getElementById('voice-status');
+  if(preview){ preview.innerHTML = ''; preview.classList.remove('has-text'); }
   if(svb) svb.disabled = true;
-  const vt = document.getElementById('vs-txt');
-  if(vt) vt.textContent = 'Mikrofon tugmasini bosing va gapirishni boshlang';
-  const mb = document.getElementById('mic-btn');
-  const vs = document.getElementById('voice-status');
-  if(mb) mb.classList.remove('active');
-  if(vs) vs.classList.remove('recording');
+  if(vt)  vt.textContent = 'Mikrofon tugmasini bosing va gapirishni boshlang';
+  if(mb)  mb.classList.remove('active');
+  if(vs)  vs.classList.remove('recording');
 
   addMsg('user', txt);
-  S.history.push({role:'user', content:txt});
+  S.history.push({ role:'user', content: txt });
   S.qCount++;
   updateProg();
   advanceDot();
   await callAI(null);
 }
 
-
-
 // Legacy stubs
 async function send(){ await sendVoice(); }
 function onKey(e){}
 function autoH(el){}
+function initRecognizer(){}
 
 
 
@@ -1740,85 +1988,107 @@ function autoH(el){}
 // ══ CALL AI (Groq API — openai/gpt-oss-120b) ════════════════════════════
 async function callAI(override){
   S.isLoading=true;
+  // Hide send button while AI is responding
+  const svb=document.getElementById('send-voice-btn');
+  if(svb) svb.disabled=true;
   const tid=showTyping();
   try{
-    // S.history is already in OpenAI format: {role:'user'|'assistant', content:'...'}
     const msgs=[{role:'system',content:S.sysPrompt||''},...S.history];
     if(override) msgs.push({role:'user',content:override});
 
     const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
       method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'Authorization':'Bearer '+S.apiKey
-      },
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+S.apiKey},
       body:JSON.stringify({
         model:'meta-llama/llama-4-scout-17b-16e-instruct',
         messages:msgs,
         temperature:0.8,
-        max_tokens:800
+        max_tokens:900
       })
     });
     const data=await res.json();
     if(data.error) throw new Error(data.error.message||JSON.stringify(data.error));
-    const raw=data.choices?.[0]?.message?.content||'Xatolik yuz berdi.';
+    const raw=(data.choices?.[0]?.message?.content||'Xatolik yuz berdi.').trim();
     removeTyping(tid);
-    if(raw.includes('[EVAL]')&&raw.includes('[/EVAL]')){
-      const em=raw.match(/\[EVAL\]([\s\S]*?)\[\/EVAL\]/);
-      if(em){
-        const ev=em[1];
-        const f=parseFloat((ev.match(/F:(\d+(?:\.\d+)?)/)||[])[1])||0;
-        const l=parseFloat((ev.match(/L:(\d+(?:\.\d+)?)/)||[])[1])||0;
-        const g=parseFloat((ev.match(/G:(\d+(?:\.\d+)?)/)||[])[1])||0;
-        const p=parseFloat((ev.match(/P:(\d+(?:\.\d+)?)/)||[])[1])||0;
-        const cmt=(ev.match(/CMT:([^|]+)/)||[])[1]?.trim()||'';
-        const tip=(ev.match(/TIP:([^|]+)/)||[])[1]?.trim()||'';
-        const nxt=(ev.match(/NXT:([\s\S]+)/)||[])[1]?.replace(/\[\/EVAL\]/g,'').trim()||'';
-        if(f>0){S.scores.push({f,l,g,p});updateLive(f,l,g,p);}
-        const avg=((f+l+g+p)/4).toFixed(1);
-        const evalHTML=`<div class="eval-card"><div class="eval-scores">${eChip('F',f)}${eChip('L',l)}${eChip('G',g)}${eChip('P',p)}<div class="eval-avg" style="color:${bc(Math.round((f+l+g+p)/4))}">${avg}<span class="eval-avg-lbl">band</span></div></div>${cmt?`<div class="eval-cmt">💬 ${cmt}</div>`:''}${tip?`<div class="eval-tip">💡 ${tip}</div>`:''}</div>`;
-        addMsg('ai',evalHTML,true);
-        if(tip) document.getElementById('pro-tip').innerHTML=`<strong>💡</strong> ${tip}`;
-        else document.getElementById('pro-tip').innerHTML=TIPS[Math.floor(Math.random()*TIPS.length)];
-        updatePartBadge();
-        S.history.push({role:'assistant',content:raw});
-        
-        // Detect official test ending phrase
-        const isTestEnd = nxt && (
-          nxt.toLowerCase().includes('that concludes') ||
-          nxt.toLowerCase().includes('speaking test today') ||
-          nxt.toLowerCase().includes('thank you for') && nxt.toLowerCase().includes('test')
-        );
-        
-        if(nxt){
-          setTimeout(()=>{
-            if(isTestEnd){
-              // Show examiner's closing words first
-              addMsg('ai', fmt(nxt));
-              speakText(nxt);
-              // Show "end of test" warning banner
-              setTimeout(()=>{
-                const f2=document.getElementById('chat-feed');
-                const banner=document.createElement('div');
-                banner.className='end-test-banner';
-                banner.innerHTML=`<div class="end-test-title">🎓 This is the end of the Speaking Test</div><div class="end-test-sub">Natijalar tayyorlanmoqda... Iltimos kuting.</div>`;
-                f2.appendChild(banner);
-                f2.scrollTop=f2.scrollHeight;
-                // Finish after banner is shown
-                setTimeout(()=>finishTest(), 3000);
-              }, 1200);
-            } else {
-              addMsg('ai',fmt(nxt));
-              speakText(nxt);
-            }
-          },500);
-        }
+
+    // ── ROBUST EVAL PARSER ─────────────────────────────────────────────
+    // Works whether [/EVAL] tag is present or not
+    const hasEval = raw.includes('[EVAL]');
+    let evStr = '';
+    if(hasEval){
+      // Try with closing tag first
+      const m1 = raw.match(/\[EVAL\]([\s\S]*?)\[\/EVAL\]/);
+      if(m1){ evStr = m1[1]; }
+      else {
+        // No closing tag — grab everything after [EVAL]
+        const idx = raw.indexOf('[EVAL]');
+        evStr = raw.slice(idx + 6);
       }
+    }
+
+    if(hasEval && evStr){
+      const f=parseFloat((evStr.match(/F:(\d+(?:\.\d+)?)/)||[])[1])||0;
+      const l=parseFloat((evStr.match(/L:(\d+(?:\.\d+)?)/)||[])[1])||0;
+      const g=parseFloat((evStr.match(/G:(\d+(?:\.\d+)?)/)||[])[1])||0;
+      const p=parseFloat((evStr.match(/P:(\d+(?:\.\d+)?)/)||[])[1])||0;
+      const cmt=(evStr.match(/CMT:([^|]+)/)||[])[1]?.trim()||'';
+      const tip=(evStr.match(/TIP:([^|]+)/)||[])[1]?.trim()||'';
+      const nxt=(evStr.match(/NXT:([\s\S]+)/)||[])[1]?.replace(/\[\/EVAL\]/g,'').trim()||'';
+
+      if(f>0){ S.scores.push({f,l,g,p}); updateLive(f,l,g,p); }
+
+      // Ballar faqat sidebar'da ko'rsatiladi — chatda EVAL karta chiqmaydi
+      if(tip) document.getElementById('pro-tip').innerHTML=`<strong>💡</strong> ${tip}`;
+      else document.getElementById('pro-tip').innerHTML=TIPS[Math.floor(Math.random()*TIPS.length)];
+      updatePartBadge();
+      S.history.push({role:'assistant', content:raw});
+
+      const isTestEnd = nxt && (
+        nxt.toLowerCase().includes('that concludes') ||
+        nxt.toLowerCase().includes('speaking test today') ||
+        (nxt.toLowerCase().includes('thank you for') && nxt.toLowerCase().includes('test'))
+      );
+
+      if(nxt){
+        setTimeout(()=>{
+          if(isTestEnd){
+            addMsg('ai', fmt(nxt));
+            speakText(nxt);
+            setTimeout(()=>{
+              const feed=document.getElementById('chat-feed');
+              const banner=document.createElement('div');
+              banner.className='end-test-banner';
+              banner.innerHTML=`<div class="end-test-title">🎓 Test yakunlandi!</div><div class="end-test-sub">Natijalar tayyorlanmoqda... Iltimos kuting.</div>`;
+              feed.appendChild(banner);
+              feed.scrollTop=feed.scrollHeight;
+              setTimeout(()=>finishTest(), 3000);
+            }, 1200);
+          } else {
+            const isCueCard = (nxt.includes('•') || nxt.includes('·') || nxt.includes('-'))
+                           && (nxt.toLowerCase().includes('minut') || nxt.toLowerCase().includes('prepar')
+                               || nxt.toLowerCase().includes('speak') || nxt.toLowerCase().includes('describe'));
+            if(isCueCard){ showCueCard(nxt); } else { addMsg('ai', fmt(nxt)); }
+            speakText(nxt);
+          }
+        }, 500);
+      }
+
     } else {
-      addMsg('ai',fmt(raw));
-      S.history.push({role:'assistant',content:raw});
+      // No EVAL — plain examiner message (intro, Part 2 cue card, etc.)
+      S.history.push({role:'assistant', content:raw});
+
+      // Detect Part 2 cue card in plain message
+      const isCueCard = (raw.includes('•') || raw.includes('·') || raw.includes('- '))
+                     && (raw.toLowerCase().includes('prepar') || raw.toLowerCase().includes('minut') 
+                         || raw.toLowerCase().includes('describe') || raw.toLowerCase().includes('speak for'));
+      if(isCueCard){
+        showCueCard(raw);
+      } else {
+        addMsg('ai', fmt(raw));
+      }
       speakText(raw);
     }
+
   }catch(e){
     removeTyping(tid);
     addMsg('ai',`<span style="color:var(--red)">❌ Xatolik: ${e.message}</span>`);
@@ -1826,9 +2096,62 @@ async function callAI(override){
   }
   S.isLoading=false;
 }
-function eChip(lbl,val){return `<div class="escore"><span class="escore-lbl">${lbl}</span><span class="escore-val" style="color:${bc(Math.round(val))}">${val}</span></div>`;}
-function fmt(t){return t.replace(/\[EVAL\][\s\S]*?\[\/EVAL\]/g,'').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em style="color:var(--gold);font-style:normal">$1</em>').replace(/•\s*/g,'<br>• ').replace(/\n/g,'<br>');}
-function addMsg(role,content,html=false){const f=document.getElementById('chat-feed');const d=document.createElement('div');d.className=`msg ${role}`;d.innerHTML=`<div class="msg-av">${role==='ai'?'🎓':'👤'}</div><div class="msg-col"><div class="msg-sender">${role==='ai'?'IELTS Examiner':S.first+' '+S.last}</div><div class="msg-bub">${html?content:fmt(content)}</div></div>`;f.appendChild(d);f.scrollTop=f.scrollHeight;}
+
+// ── CUE CARD DISPLAY ───────────────────────────────────────────────────
+function showCueCard(text){
+  const feed = document.getElementById('chat-feed');
+  // Parse bullets
+  const lines = text.split(/\n/).map(l=>l.trim()).filter(l=>l);
+  let intro='', bullets=[], outro='';
+  let inBullets=false;
+  for(const ln of lines){
+    if(/^[•·\-\*]\s/.test(ln) || /^\d+[\.\)]\s/.test(ln)){
+      inBullets=true;
+      bullets.push(ln.replace(/^[•·\-\*\d\.\)]\s*/,''));
+    } else if(!inBullets){ intro+=ln+' '; }
+    else { outro+=ln+' '; }
+  }
+  // If no bullets found, split on common delimiters
+  if(!bullets.length){
+    const parts = text.split(/(?<=[.!?])\s+/);
+    addMsg('ai', fmt(text));
+    return;
+  }
+  const cueHTML=`
+    <div class="cue-card-wrap">
+      <div class="cue-card-badge">📋 PART 2 — CUE CARD</div>
+      ${intro?`<div class="cue-card-intro">${fmt(intro.trim())}</div>`:''}
+      <div class="cue-card-box">
+        <div class="cue-card-title">Quyidagilar haqida gapiring:</div>
+        <ul class="cue-card-bullets">
+          ${bullets.map(b=>`<li>${fmt(b)}</li>`).join('')}
+        </ul>
+      </div>
+      ${outro?`<div class="cue-card-outro">${fmt(outro.trim())}</div>`:''}
+      <div class="cue-card-timer-hint">⏱️ 1 daqiqa tayyorlanish • 1-2 daqiqa gapirish</div>
+    </div>`;
+  const d=document.createElement('div');
+  d.className='msg ai';
+  d.innerHTML=`<div class="msg-av">🎓</div><div class="msg-col"><div class="msg-sender">IELTS Examiner</div><div class="msg-bub">${cueHTML}</div></div>`;
+  feed.appendChild(d);
+  feed.scrollTop=feed.scrollHeight;
+}
+
+function eChip(lbl,val){return `<div class="escore"><span class="escore-lbl">${lbl}</span><span class="escore-val" style="color:${bc(Math.round(val))}">${val||'—'}</span></div>`;}
+function fmt(t){return t
+  .replace(/\[EVAL\][\s\S]*?(\[\/EVAL\]|$)/g,'')
+  .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+  .replace(/\*(.*?)\*/g,'<em style="color:var(--gold);font-style:normal">$1</em>')
+  .replace(/•\s*/g,'<br>• ')
+  .replace(/\n/g,'<br>').trim();}
+function addMsg(role,content,html=false){
+  const f=document.getElementById('chat-feed');
+  const d=document.createElement('div');
+  d.className=`msg ${role}`;
+  d.innerHTML=`<div class="msg-av">${role==='ai'?'🎓':'👤'}</div><div class="msg-col"><div class="msg-sender">${role==='ai'?'IELTS Examiner':S.first+' '+S.last}</div><div class="msg-bub">${html?content:fmt(content)}</div></div>`;
+  f.appendChild(d);
+  f.scrollTop=f.scrollHeight;
+}
 function showTyping(){const f=document.getElementById('chat-feed');const id='ty'+Date.now();const d=document.createElement('div');d.className='msg ai';d.id=id;d.innerHTML=`<div class="msg-av">🎓</div><div class="msg-col"><div class="msg-sender">IELTS Examiner</div><div class="dots-bub"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;f.appendChild(d);f.scrollTop=f.scrollHeight;return id;}
 function removeTyping(id){const e=document.getElementById(id);if(e)e.remove();}
 
@@ -1926,11 +2249,17 @@ function speakText(text){
     if(!picked && voices.length) picked = voices[0];
     if(picked) utter.voice = picked;
 
-    isSpeaking = true;
-    const vsEl  = document.getElementById('voice-status');
-    const vsTxt = document.getElementById('vs-txt');
-    if(vsTxt) vsTxt.textContent = '\uD83D\uDD0A Examiner gapirmoqda...';
-    if(vsEl)  vsEl.classList.add('speaking');
+  isSpeaking = true;
+  // Clear any leftover transcript while examiner speaks
+  finalTranscript = '';
+  const prevEl = document.getElementById('transcript-preview');
+  if(prevEl){ prevEl.innerHTML=''; prevEl.classList.remove('has-text'); }
+  const svbEl = document.getElementById('send-voice-btn');
+  if(svbEl) svbEl.disabled = true;
+  const vsEl  = document.getElementById('voice-status');
+  const vsTxt = document.getElementById('vs-txt');
+  if(vsTxt) vsTxt.textContent = '🔊 Examiner gapirmoqda...';
+  if(vsEl)  vsEl.classList.add('speaking');
 
     // Chrome keepalive — prevents silence on long utterances
     let keepAlive;
@@ -1960,9 +2289,9 @@ function speakText(text){
 }
 
 function _autoMicAfterSpeak(){
-  if(S.testActive && !isRecording){
-    setTimeout(() => startRec(), 400);
-  }
+  // Telegram WebView'da avtomatik mikrofon ochmaymiz - foydalanuvchi o'zi bosadi
+  const vt = document.getElementById('vs-txt');
+  if(vt) vt.textContent = 'Mikrofon tugmasini bosing va gapirishni boshlang';
 }
 
 // Preload voices (async on Chrome, instant on iOS/Safari)
@@ -1979,11 +2308,21 @@ function updatePartBadge(){const n=S.scores.length;document.getElementById('part
 function resetLive(){['f','l','g','p'].forEach(k=>{document.getElementById('lv-'+k).textContent='—';document.getElementById('lf-'+k).style.width='0%';});}
 function updateLive(f,l,g,p){const m={f:[f,'var(--red)'],l:[l,'var(--blue)'],g:[g,'var(--purple)'],p:[p,'var(--gold)']};Object.entries(m).forEach(([k,[v,col]])=>{document.getElementById('lv-'+k).textContent=v.toFixed(1);document.getElementById('lv-'+k).style.color=bc(Math.round(v));document.getElementById('lf-'+k).style.width=(v/9*100)+'%';document.getElementById('lf-'+k).style.background=col;});}
 function endTest(){if(confirm('Testni yakunlamoqchimisiz?'))finishTest();}
+function _stopRecNow(){
+  isRecording = false;
+  if(mediaRecorder && mediaRecorder.state !== 'inactive'){
+    try{ mediaRecorder.stop(); }catch(e){}
+  }
+  const mb=document.getElementById('mic-btn');
+  const vs=document.getElementById('voice-status');
+  if(mb) mb.classList.remove('active');
+  if(vs){ vs.classList.remove('recording'); vs.classList.remove('speaking'); }
+}
 function ieltsBandRound(raw){return Math.round(raw*2)/2;}
 function ieltsOverall(f,l,g,p){return ieltsBandRound((parseFloat(f)+parseFloat(l)+parseFloat(g)+parseFloat(p))/4);}
 function finishTest(){
   if(!S.testActive||!S.scores.length){goDash();return;}
-  S.testActive=false;stopRec();
+  S.testActive=false;_stopRecNow();
   const avg=arr=>arr.reduce((a,b)=>a+b,0)/arr.length;
   const fRaw=avg(S.scores.map(s=>s.f)),lRaw=avg(S.scores.map(s=>s.l)),gRaw=avg(S.scores.map(s=>s.g)),pRaw=avg(S.scores.map(s=>s.p));
   // Round each criterion to nearest 0.5 per official IELTS rules
@@ -2217,7 +2556,20 @@ function downloadPDF(){
   const fullHtml = printContent + analysisSection + `<div class="footer">IELTS Speaking Pro · AI tomonidan tahlil qilindi · ${new Date().toLocaleDateString('uz-UZ')}</div></body></html>`;
 
   const win = window.open('','_blank','width=800,height=900');
-  if(!win){ showToast('Pop-up bloklangan! Brauzer ruxsat bering.'); btn.disabled=false; btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;display:inline;margin-right:6px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>PDF Yuklab olish'; return; }
+  if(!win){
+    // Telegram WebView fallback: download as HTML file
+    try{
+      const blob = new Blob([fullHtml], {type:'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'IELTS_Result.html';
+      document.body.appendChild(a); a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }catch(e){ showToast('Yuklab olishda xatolik: ' + e.message); }
+    btn.disabled=false; btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;display:inline;margin-right:6px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>PDF Yuklab olish';
+    return;
+  }
   win.document.write(fullHtml);
   win.document.close();
   setTimeout(()=>{ win.print(); }, 800);
@@ -2235,5 +2587,6 @@ function showToast(msg){
   clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3500);
 }
 </script>
-</body>
-</html>
+
+
+</body></html>
