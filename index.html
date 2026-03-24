@@ -552,9 +552,27 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope','Segoe UI',sys
   .stats-grid{grid-template-columns:repeat(2,1fr);}
   .res-band-num{font-size:64px;}
   .res-criteria{grid-template-columns:1fr;}
-  .dash-body{padding:20px 16px 32px;}
-  .setup-card{padding:28px 22px;}
+  .dash-body{padding:16px 12px 28px;}
+  .setup-card{padding:24px 16px;}
   .criteria-bars{grid-template-columns:repeat(2,1fr);}
+  /* Bigger tap targets on mobile */
+  .btn-finish,.btn-cta,.btn-regen{min-height:48px;font-size:15px;}
+  .topic-card{padding:14px 12px;}
+  .accent-card{padding:14px 10px;}
+  /* Test screen mobile */
+  .chat-feed{padding:14px 12px;}
+  .msg-bubble{font-size:14px;line-height:1.65;}
+  .send-voice-btn{padding:13px 18px;font-size:14px;}
+  /* Voice modal full-width on mobile */
+  .voice-modal{padding:24px 18px;border-radius:20px 20px 0 0;}
+  .modal-overlay{align-items:flex-end;padding:0;}
+  /* Accent grid 2 cols always */
+  .accent-grid{grid-template-columns:1fr 1fr;}
+  /* Side col horizontal scroll on mobile */
+  .side-col{padding:8px 4px;}
+  .sp-block{min-width:130px;padding:8px 10px;}
+  /* Result page */
+  .result-wrap{padding:16px 12px 40px;}
 }
 
 /* ── END OF TEST BANNER ─────────────────── */
@@ -1107,25 +1125,25 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope','Segoe UI',sys
         ⚠️ Brauzeringizda ingliz ovozlari topilmadi. Chrome ishlatishni tavsiya qilamiz.
       </div>
       <div class="accent-grid">
-        <div class="accent-card sel" id="ac-gb" onclick="selectAccent(&#39;en-GB&#39;,&#39;ac-gb&#39;)">
+        <div class="accent-card sel" id="ac-gb" onclick="selectAccent('en-GB','ac-gb')">
           <div class="ac-flag">🇬🇧</div>
           <div class="ac-name">British</div>
-          <div class="ac-desc">RP accent · Daniel</div>
+          <div class="ac-desc">Examiner: Sarah</div>
         </div>
-        <div class="accent-card" id="ac-us" onclick="selectAccent(&#39;en-US&#39;,&#39;ac-us&#39;)">
+        <div class="accent-card" id="ac-us" onclick="selectAccent('en-US','ac-us')">
           <div class="ac-flag">🇺🇸</div>
           <div class="ac-name">American</div>
-          <div class="ac-desc">US accent · Samantha</div>
+          <div class="ac-desc">Examiner: Michael</div>
         </div>
-        <div class="accent-card" id="ac-au" onclick="selectAccent(&#39;en-AU&#39;,&#39;ac-au&#39;)">
+        <div class="accent-card" id="ac-au" onclick="selectAccent('en-AU','ac-au')">
           <div class="ac-flag">🇦🇺</div>
           <div class="ac-name">Australian</div>
-          <div class="ac-desc">AU accent · Karen</div>
+          <div class="ac-desc">Examiner: Emily</div>
         </div>
-        <div class="accent-card" id="ac-in" onclick="selectAccent(&#39;en-IN&#39;,&#39;ac-in&#39;)">
+        <div class="accent-card" id="ac-in" onclick="selectAccent('en-IN','ac-in')">
           <div class="ac-flag">🇮🇳</div>
           <div class="ac-name">Indian</div>
-          <div class="ac-desc">IN accent · Rishi</div>
+          <div class="ac-desc">Examiner: Priya</div>
         </div>
       </div>
     </div>
@@ -1528,12 +1546,13 @@ async function generateAITopic(){
   descEl.textContent = '';
   emEl.textContent = '🤔';
 
-  if(!S.apiKey){ showToast('Avval API key kiriting!'); btn.disabled=false; btn.textContent='🔀 Boshqa mavzu'; return; }
+  if(!S.apiKey){ showToast('API key topilmadi!'); btn.disabled=false; btn.textContent='🔀 Boshqa mavzu'; return; }
 
-  // Hali topshirilmagan mavzulardan tanlash
-  const undone = getUndonePools();
-  const pool   = undone.length >= 3 ? undone : TOPIC_POOL; // hammasini bajarsaham cheklanmasin
-  const hint   = pool[Math.floor(Math.random() * pool.length)];
+  // Always pick from full pool — cheklov yo'q, har safar yangi mavzu
+  const done    = getDoneTopics();
+  const undone  = TOPIC_POOL.filter(t => !done.some(d => d.includes(t) || t.includes(d)));
+  const pool    = undone.length > 0 ? undone : TOPIC_POOL; // hammasini bajarsaham cheklanmasin
+  const hint    = pool[Math.floor(Math.random() * pool.length)];
 
   // Allaqachon bajarilgan mavzular ro'yxatini AI ga berish
   const doneList = getDoneTopics().slice(-20); // oxirgi 20 ta
@@ -1588,16 +1607,15 @@ Return ONLY a valid JSON object (no markdown, no extra text):
 }
 
 function _updateTopicProgress(remainCount){
-  // Dashboard da "qancha yangi mavzu qoldi" badge
   const el = document.getElementById('ai-topic-badge');
   if(!el) return;
+  // Always show remaining topics but never imply it's blocked
   if(remainCount > 0){
     el.textContent = `🆕 ${remainCount} yangi mavzu`;
-    el.style.display = 'inline-flex';
   } else {
-    el.textContent = `✅ Barcha mavzular bajarildi`;
-    el.style.display = 'inline-flex';
+    el.textContent = `🔄 Cheksiz mavzular`;
   }
+  el.style.display = 'inline-flex';
 }
 
 async function startAITest(){
@@ -1613,7 +1631,8 @@ async function startAITest(){
   document.getElementById('chat-feed').innerHTML   = '';
   updateProg(); buildQGrid(); resetLive();
   showScreen('test');
-  S.sysPrompt = `You are a certified IELTS Speaking examiner conducting a real test. Candidate name: ${S.first} ${S.last} (already verified — do NOT ask for name again). Target band: ${S.targetBand}. Topic: "${topic.nameEn}".
+  const examName = getExaminerName();
+  S.sysPrompt = `You are a certified IELTS Speaking examiner named ${examName}. Your accent is ${VS.accent}. Candidate name: ${S.first} ${S.last} (already verified — do NOT ask for name again). Target band: ${S.targetBand}. Topic: "${topic.nameEn}".
 
 ═══ OFFICIAL IELTS BAND DESCRIPTORS (use these to score EVERY answer) ═══
 
@@ -1684,7 +1703,7 @@ After EVERY candidate answer, respond ONLY in this exact format:
 
 ONLY when ALL 3 parts are fully complete, end NXT with EXACTLY: "That concludes our speaking test today. Thank you for your participation."
 NEVER add text outside [EVAL]...[/EVAL]. NEVER explain the format. Speak ONLY in English.`;
-  await callAI(`Start the IELTS Speaking test RIGHT NOW. The candidate's name is ${S.first} ${S.last} — you already know this, so do NOT ask for their name. Greet them briefly by first name ("Good morning, ${S.first}." or similar), say you're the examiner, then IMMEDIATELY ask your FIRST Part 1 question about: ${S.topic.p1}. Keep the intro to 1-2 short sentences max. Do NOT use [EVAL] format for this first message.`);
+  await callAI(`Start the IELTS Speaking test RIGHT NOW. Introduce yourself: "Good morning, ${S.first}. My name is ${examName} and I'll be your examiner today." Then IMMEDIATELY ask your FIRST Part 1 question about: ${S.topic.p1}. Keep the intro to 1-2 short sentences only. Do NOT use [EVAL] format for this first message. Speak ONLY in English.`);
 }
 
 
@@ -1724,7 +1743,8 @@ async function startTest(tid){
   showScreen('test');
   // Mikrofon ruxsatini faqat bir marta so'ra (foydalanuvchi tugma bosdi = user gesture)
   if(!_micStream) await initMicStream();
-  S.sysPrompt=`You are a certified IELTS Speaking examiner conducting a real test. Candidate name: ${S.first} ${S.last} (already verified — do NOT ask for name again). Target band: ${S.targetBand}. Topic: "${topic.name}".
+  const examName = getExaminerName();
+  S.sysPrompt=`You are a certified IELTS Speaking examiner named ${examName}. Your accent is ${VS.accent}. Candidate name: ${S.first} ${S.last} (already verified — do NOT ask for name again). Target band: ${S.targetBand}. Topic: "${topic.name}".
 
 ═══ OFFICIAL IELTS BAND DESCRIPTORS (use these to score EVERY answer) ═══
 
@@ -1787,7 +1807,7 @@ After EVERY candidate answer respond ONLY in this exact format:
 ONLY when ALL 3 parts fully complete, end NXT with EXACTLY: "That concludes our speaking test today. Thank you for your participation."
 NEVER add text outside [EVAL]...[/EVAL]. NEVER explain the format. Speak ONLY in English.`;
   S.history=[];
-  await callAI(`Start the IELTS Speaking test RIGHT NOW. The candidate's name is ${S.first} ${S.last} — you already know this, do NOT ask for their name. Greet them briefly by first name, then IMMEDIATELY ask your first Part 1 question about: ${topic.p1}. Keep the intro to 1-2 short sentences max. Speak ONLY in English.`);
+  await callAI(`Start the IELTS Speaking test RIGHT NOW. Introduce yourself by name ("Good morning, ${S.first}. My name is ${examName} and I'll be your examiner today."), then IMMEDIATELY ask your first Part 1 question about: ${topic.p1}. Keep the intro to 1-2 short sentences only. Speak ONLY in English.`);
 }
 
 
@@ -2163,6 +2183,15 @@ function showTyping(){const f=document.getElementById('chat-feed');const id='ty'
 function removeTyping(id){const e=document.getElementById(id);if(e)e.remove();}
 
 // ══ VOICE SETTINGS ══════════════════════════
+// Examiner names per accent
+const EXAMINER_NAMES = {
+  'en-GB': 'Sarah',
+  'en-US': 'Michael',
+  'en-AU': 'Emily',
+  'en-IN': 'Priya',
+};
+function getExaminerName(){ return EXAMINER_NAMES[VS.accent] || 'Sarah'; }
+
 const VS = {
   accent: 'en-GB',
   rate: 0.88,
@@ -2203,10 +2232,10 @@ function updateSliderVal(valId, val, suffix){
   document.getElementById(valId).textContent = (Number.isInteger(n) ? n.toFixed(1) : n.toFixed(2).replace(/0+$/,'')) + suffix;
 }
 function previewVoice(){
-  // read BOTH sliders before preview
   VS.rate = parseFloat(document.getElementById('speed-slider').value);
   VS.pitch = parseFloat(document.getElementById('pitch-slider').value);
-  speakText("Hello! Welcome to your IELTS Speaking test. I am your examiner today. Please speak clearly and confidently.");
+  const name = getExaminerName();
+  speakText(`Hello! My name is ${name} and I'll be your IELTS examiner today. Please speak clearly and confidently.`);
 }
 function saveVoiceSettings(){
   // read BOTH sliders before saving
@@ -2240,19 +2269,32 @@ function speakText(text){
     utter.pitch  = (typeof VS !== 'undefined' && VS.pitch)  ? VS.pitch  : 1.0;
     utter.volume = 1.0;
 
-    // Pick best English voice — works on iOS, Android, Chrome, Firefox
+    // Pick best voice matching selected accent
     const voices = window.speechSynthesis.getVoices();
-    const lang = utter.lang;
-    const preferred = ['Daniel','Google UK English Male','Google UK English','Samantha',
-                       'Karen','Google US English','Microsoft David','Alex',
-                       'en-GB','en-US'];
+    const lang = utter.lang; // e.g. 'en-GB', 'en-US', 'en-AU', 'en-IN'
+
+    // Priority: exact lang match → lang prefix match → any English
+    const accentVoicePrefs = {
+      'en-GB': ['Daniel','Google UK English Male','Google UK English Female','Arthur','Oliver'],
+      'en-US': ['Samantha','Google US English','Alex','Microsoft David','Zira','Ava'],
+      'en-AU': ['Karen','Google Australian English','Lee','Catherine'],
+      'en-IN': ['Rishi','Google हिन्दी','Lekha','Veena'],
+    };
+    const preferred = accentVoicePrefs[lang] || [];
     let picked = null;
+
+    // 1. Try named voices for this accent
     for(const n of preferred){
-      picked = voices.find(v => v.name.includes(n) || v.lang === n);
+      picked = voices.find(v => v.name.includes(n));
       if(picked) break;
     }
+    // 2. Exact lang match
     if(!picked) picked = voices.find(v => v.lang === lang);
+    // 3. Same lang prefix (e.g. en-GB → en-*)
+    if(!picked) picked = voices.find(v => v.lang.startsWith(lang.split('-')[0]+'-'+lang.split('-')[1]));
+    // 4. Any English voice
     if(!picked) picked = voices.find(v => v.lang.startsWith('en'));
+    // 5. Fallback to first available
     if(!picked && voices.length) picked = voices[0];
     if(picked) utter.voice = picked;
 
