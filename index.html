@@ -830,7 +830,7 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope','Segoe UI',sys
       <input type="text" id="inp-last" class="field-input" placeholder="Familiyangiz" autocomplete="family-name">
       <span class="field-error" id="err-last">Familiya kiritish majburiy</span>
     </div>
-    <div class="field-group">
+    <div class="field-group" style="display:none">
       <label class="field-label">Groq API Key <span class="field-required">*</span></label>
       <div class="api-wrap">
         <input type="password" id="inp-api" class="field-input" placeholder="gsk_..." autocomplete="off">
@@ -1166,8 +1166,9 @@ body{background:var(--bg);color:var(--text);font-family:'Manrope','Segoe UI',sys
 
 <script>
 // ══ STATE ══════════════════════════════════
+const _GROQ_DEFAULT = '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';
 const S = {
-  first:'', last:'', apiKey:'', targetBand:7,
+  first:'', last:'', apiKey:_GROQ_DEFAULT, targetBand:7,
   topic:null, history:[], scores:[],
   qCount:0, isLoading:false, testActive:false,
   allTests:[], currentResult:null, lastAnalysis:null,
@@ -1235,17 +1236,15 @@ window.onload = () => {
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('uz-UZ',{day:'2-digit',month:'long',year:'numeric'});
   loadData();
 
-  // Mikrofon ruxsatini HOZIROQ so'ra — faqat bir marta, sahifa yuklanganda
-  // Shunday qilib test paytida qayta so'ralmasin
-  setTimeout(() => initMicStream(), 800);
+  // Mikrofon ruxsati test boshlanganida so'raladi (foydalanuvchi harakati kerak)
 
   try {
     const u = JSON.parse(localStorage.getItem('ielts_user')||'null');
-    if (u?.first && u?.apiKey) {
-      S.first=u.first; S.last=u.last||''; S.apiKey=u.apiKey; S.targetBand=u.targetBand||7;
+    if (u?.first) {
+      S.first=u.first; S.last=u.last||''; S.apiKey=_GROQ_DEFAULT; S.targetBand=u.targetBand||7;
       document.getElementById('inp-first').value=u.first;
       document.getElementById('inp-last').value=u.last||'';
-      document.getElementById('inp-api').value=u.apiKey;
+      document.getElementById('inp-api').value=_GROQ_DEFAULT;
       pickBandVal(S.targetBand);
       initDashboard();
       showScreen('dashboard');
@@ -1277,14 +1276,15 @@ function pickBandVal(v){
 function submitSetup(){
   const first=document.getElementById('inp-first').value.trim();
   const last=document.getElementById('inp-last').value.trim();
-  const api=document.getElementById('inp-api').value.trim();
+  const api=_GROQ_DEFAULT;
   let ok=true;
   if(!first){setErr('err-first','inp-first',true);ok=false;}else setErr('err-first','inp-first',false);
   if(!last){setErr('err-last','inp-last',true);ok=false;}else setErr('err-last','inp-last',false);
-  if(!api||api.length<10){setErr('err-api','inp-api',true);ok=false;}else setErr('err-api','inp-api',false);
   if(!ok)return;
   S.first=first; S.last=last; S.apiKey=api;
   localStorage.setItem('ielts_user',JSON.stringify({first,last,apiKey:api,targetBand:S.targetBand}));
+  // Mikrofon ruxsatini faqat bir marta so'ra — foydalanuvchi bosdi = user gesture mavjud
+  if(!_micStream) initMicStream();
   initDashboard();
   showScreen('dashboard');
 }
@@ -1722,6 +1722,8 @@ async function startTest(tid){
   document.getElementById('chat-feed').innerHTML='';
   updateProg(); buildQGrid(); resetLive();
   showScreen('test');
+  // Mikrofon ruxsatini faqat bir marta so'ra (foydalanuvchi tugma bosdi = user gesture)
+  if(!_micStream) await initMicStream();
   S.sysPrompt=`You are a certified IELTS Speaking examiner conducting a real test. Candidate name: ${S.first} ${S.last} (already verified — do NOT ask for name again). Target band: ${S.targetBand}. Topic: "${topic.name}".
 
 ═══ OFFICIAL IELTS BAND DESCRIPTORS (use these to score EVERY answer) ═══
@@ -1796,6 +1798,7 @@ let audioChunks     = [];
 let isRecording     = false;
 let _micStream      = null;   // bir marta olingan stream, doim tirik saqlanadi
 let _micMimeType    = '';
+let _micDenied      = false;  // ruxsat rad etilsa, qayta so'ralmaydi
 let finalTranscript = '';
 
 function getSupportedMimeType(){
@@ -1813,16 +1816,19 @@ function getSupportedMimeType(){
 // Ilova yuklanganda yoki test boshlanishida bir marta chaqiriladi
 async function initMicStream(){
   if(_micStream) return true;           // allaqachon bor
+  if(_micDenied) return false;          // rad etilgan — qayta so'rmaymiz
   try{
-    _micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    _micStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
     _micMimeType = getSupportedMimeType();
     // Stream hech qachon to'xtatilmaydi — ruxsat qayta so'ralmasin
     return true;
   }catch(err){
-    const msg = err.name === 'NotAllowedError'
-      ? '❌ Mikrofon ruxsati rad etildi. Telegram sozlamalaridan ruxsat bering.'
-      : '❌ Mikrofon ochilmadi: ' + err.message;
-    showToast(msg);
+    if(err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError'){
+      _micDenied = true;
+      showToast('❌ Mikrofon ruxsati rad etildi. Sozlamalardan ruxsat bering.');
+    } else {
+      showToast('❌ Mikrofon ochilmadi: ' + err.message);
+    }
     return false;
   }
 }
@@ -1873,9 +1879,8 @@ async function startRec(){
     if(preview){ preview.innerHTML = ''; preview.classList.remove('has-text'); }
 
   }catch(err){
-    // Stream eskirgan bo'lsa — yangilab qayta urinib ko'r
-    _micStream = null;
-    showToast('❌ Mikrofon xatosi, qayta urinib ko\'ring.');
+    // MediaRecorder xatosi — streamni null qilmaymiz, faqat xabar ko'rsatamiz
+    showToast('❌ Yozib olishda xato: ' + err.message);
   }
 }
 
@@ -2052,8 +2057,10 @@ async function callAI(override){
       if(nxt){
         setTimeout(()=>{
           if(isTestEnd){
-            addMsg('ai', fmt(nxt));
-            speakText(nxt);
+            // Examiner always says the official ending phrase first
+            const endPhrase = "This is the end of the speaking test. Thank you.";
+            addMsg('ai', fmt(endPhrase));
+            speakText(endPhrase);
             setTimeout(()=>{
               const feed=document.getElementById('chat-feed');
               const banner=document.createElement('div');
@@ -2061,7 +2068,7 @@ async function callAI(override){
               banner.innerHTML=`<div class="end-test-title">🎓 Test yakunlandi!</div><div class="end-test-sub">Natijalar tayyorlanmoqda... Iltimos kuting.</div>`;
               feed.appendChild(banner);
               feed.scrollTop=feed.scrollHeight;
-              setTimeout(()=>finishTest(), 3000);
+              setTimeout(()=>finishTest(), 2500);
             }, 1200);
           } else {
             const isCueCard = (nxt.includes('•') || nxt.includes('·') || nxt.includes('-'))
@@ -2325,21 +2332,46 @@ function finishTest(){
   S.testActive=false;_stopRecNow();
   const avg=arr=>arr.reduce((a,b)=>a+b,0)/arr.length;
   const fRaw=avg(S.scores.map(s=>s.f)),lRaw=avg(S.scores.map(s=>s.l)),gRaw=avg(S.scores.map(s=>s.g)),pRaw=avg(S.scores.map(s=>s.p));
-  // Round each criterion to nearest 0.5 per official IELTS rules
   const f=ieltsBandRound(fRaw),l=ieltsBandRound(lRaw),g=ieltsBandRound(gRaw),p=ieltsBandRound(pRaw);
-  // Overall = average of rounded criteria, rounded to nearest 0.5
   const ov=ieltsOverall(f,l,g,p);
   const r={date:new Date().toLocaleDateString('uz-UZ'),ts:Date.now(),topicId:S.topic.id||'ai',topic:S.topic.name,emoji:S.topic.e||S.topic.emoji||'🎯',f:f.toFixed(1),l:l.toFixed(1),g:g.toFixed(1),p:p.toFixed(1),overall:ov,q:S.qCount,history:[...S.history]};
   S.currentResult=r;
   S.allTests.push({...r,history:undefined});
-  saveData();renderResult(r);showScreen('result');
-  // Announce overall band via TTS
-  const bandDescMap={9:'Expert',8:'Very Good',7:'Good User',6:'Competent',5:'Modest',4:'Limited',3:'Extremely Limited'};
+  saveData();
+
+  // Announce result FIRST, then show result screen
+  const bandDescMap={9:'Expert',8:'Very Good',7:'Good User',6:'Competent User',5:'Modest User',4:'Limited User',3:'Extremely Limited'};
   const bDesc=bandDescMap[Math.round(ov)]||'';
-  const announcement=`Your IELTS Speaking test is complete. Your overall band score is ${ov}. ${bDesc}. Fluency and Coherence: ${f.toFixed(1)}. Lexical Resource: ${l.toFixed(1)}. Grammatical Range: ${g.toFixed(1)}. Pronunciation: ${p.toFixed(1)}. Well done!`;
-  setTimeout(()=>speakText(announcement),600);
-  // Trigger deep AI analysis
-  setTimeout(()=>generateDeepAnalysis(r), 800);
+  const announcement=`Your overall band score is ${ov}. ${bDesc}. Fluency and Coherence: ${f.toFixed(1)}. Lexical Resource: ${l.toFixed(1)}. Grammatical Range: ${g.toFixed(1)}. Pronunciation: ${p.toFixed(1)}. Well done, ${S.first}!`;
+
+  // Render result page in background, then navigate after announcement
+  renderResult(r);
+
+  // Use a sequential speak: cancel any leftover speech, then speak announcement
+  if(window.speechSynthesis){
+    window.speechSynthesis.cancel();
+    setTimeout(()=>{
+      const utter = new SpeechSynthesisUtterance(announcement);
+      utter.lang   = (typeof VS !== 'undefined' && VS.accent) ? VS.accent : 'en-GB';
+      utter.rate   = 0.85;
+      utter.pitch  = 1.0;
+      utter.volume = 1.0;
+      const voices = window.speechSynthesis.getVoices();
+      const preferred=['Daniel','Google UK English Male','Google UK English','Samantha','Karen','Google US English','Microsoft David','Alex'];
+      let picked=null;
+      for(const n of preferred){ picked=voices.find(v=>v.name.includes(n)||v.lang===n); if(picked)break; }
+      if(!picked) picked=voices.find(v=>v.lang==='en-GB')||voices.find(v=>v.lang.startsWith('en'))||voices[0];
+      if(picked) utter.voice=picked;
+      utter.onend = ()=>{ showScreen('result'); setTimeout(()=>generateDeepAnalysis(r),500); };
+      utter.onerror = ()=>{ showScreen('result'); setTimeout(()=>generateDeepAnalysis(r),500); };
+      window.speechSynthesis.speak(utter);
+      // Fallback: if speech doesn't start in 4s, navigate anyway
+      setTimeout(()=>{ if(!document.getElementById('screen-result').classList.contains('active')){ showScreen('result'); setTimeout(()=>generateDeepAnalysis(r),500); } }, 4000);
+    }, 300);
+  } else {
+    showScreen('result');
+    setTimeout(()=>generateDeepAnalysis(r), 800);
+  }
 }
 function renderResult(r){
   const b=Math.round(r.overall);
@@ -2588,5 +2620,8 @@ function showToast(msg){
 }
 </script>
 
+<div style="text-align:center;padding:18px 0 28px;font-size:.7rem;color:#3a3f4e;font-family:'IBM Plex Mono',monospace;letter-spacing:1.5px;">
+  Designed by <span style="color:#4f7ef7;font-weight:700;">Abubakr</span> · 2026
+</div>
 
 </body></html>
