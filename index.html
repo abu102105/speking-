@@ -1693,16 +1693,26 @@ NOTE — You CANNOT hear the candidate. Score P based on written evidence of pro
 
 ═══ TEST STRUCTURE ═══
 - Part 1: 4-5 personal questions about ${topic.p1}
-- Part 2: Cue card about ${topic.p2} — give 4 bullet prompts, tell candidate they have 1 minute to prepare then speak for 1-2 minutes
+- Part 2: Cue card about ${topic.p2} — MUST be sent as a PLAIN MESSAGE with NO [EVAL] tags. Use this EXACT format:
+  "Now we move to Part 2. Here is your task card.
+  Describe [specific subject related to ${topic.p2}].
+  You should say:
+  • [point 1]
+  • [point 2]
+  • [point 3]
+  • [point 4]
+  You have one minute to prepare. Then speak for one to two minutes."
+  Only use [EVAL] AFTER the candidate finishes their Part 2 monologue.
 - Part 3: 4-5 abstract discussion questions about ${topic.p3}
 - Total minimum: 11 exchanges before ending
 
 ═══ RESPONSE FORMAT ═══
-After EVERY candidate answer, respond ONLY in this exact format:
+After EVERY candidate spoken answer, respond ONLY in this exact format:
 [EVAL]F:N|L:N|G:N|P:N|CMT:one specific English sentence citing a concrete example from their answer|TIP:one actionable improvement tip with example|NXT:your next natural examiner words[/EVAL]
 
+CRITICAL EXCEPTION: The Part 2 cue card MUST be a plain message with bullet points (•) and NO [EVAL] wrapper.
 ONLY when ALL 3 parts are fully complete, end NXT with EXACTLY: "That concludes our speaking test today. Thank you for your participation."
-NEVER add text outside [EVAL]...[/EVAL]. NEVER explain the format. Speak ONLY in English.`;
+Speak ONLY in English.`;
   await callAI(`Start the IELTS Speaking test RIGHT NOW. Introduce yourself: "Good morning, ${S.first}. My name is ${examName} and I'll be your examiner today." Then IMMEDIATELY ask your FIRST Part 1 question about: ${S.topic.p1}. Keep the intro to 1-2 short sentences only. Do NOT use [EVAL] format for this first message. Speak ONLY in English.`);
 }
 
@@ -1796,16 +1806,26 @@ Score P based on written evidence: vocabulary complexity, sentence variety, and 
 
 ═══ TEST STRUCTURE ═══
 - Part 1: 4-5 personal questions about ${topic.p1}
-- Part 2: Cue card about ${topic.p2} — give 4 bullet prompts, tell candidate they have 1 minute to prepare then speak for 1-2 minutes
+- Part 2: Cue card about ${topic.p2} — MUST be sent as a PLAIN MESSAGE with NO [EVAL] tags. Use this EXACT format:
+  "Now we move to Part 2. Here is your task card.
+  Describe [specific subject related to ${topic.p2}].
+  You should say:
+  • [point 1]
+  • [point 2]
+  • [point 3]
+  • [point 4]
+  You have one minute to prepare. Then speak for one to two minutes."
+  Only use [EVAL] AFTER the candidate finishes their Part 2 monologue.
 - Part 3: 4-5 abstract discussion questions about ${topic.p3}
 - Total minimum: 11 exchanges before ending
 
 ═══ RESPONSE FORMAT ═══
-After EVERY candidate answer respond ONLY in this exact format:
+After EVERY candidate spoken answer respond ONLY in this exact format:
 [EVAL]F:N|L:N|G:N|P:N|CMT:one specific English sentence citing a concrete example from their answer|TIP:one actionable improvement tip with example|NXT:your next natural examiner words[/EVAL]
 
+CRITICAL EXCEPTION: The Part 2 cue card MUST be a plain message with bullet points (•) and NO [EVAL] wrapper.
 ONLY when ALL 3 parts fully complete, end NXT with EXACTLY: "That concludes our speaking test today. Thank you for your participation."
-NEVER add text outside [EVAL]...[/EVAL]. NEVER explain the format. Speak ONLY in English.`;
+Speak ONLY in English.`;
   S.history=[];
   await callAI(`Start the IELTS Speaking test RIGHT NOW. Introduce yourself by name ("Good morning, ${S.first}. My name is ${examName} and I'll be your examiner today."), then IMMEDIATELY ask your first Part 1 question about: ${topic.p1}. Keep the intro to 1-2 short sentences only. Speak ONLY in English.`);
 }
@@ -2104,11 +2124,16 @@ async function callAI(override){
       // No EVAL — plain examiner message (intro, Part 2 cue card, etc.)
       S.history.push({role:'assistant', content:raw});
 
-      // Detect Part 2 cue card in plain message
-      const isCueCard = (raw.includes('•') || raw.includes('·') || raw.includes('- '))
-                     && (raw.toLowerCase().includes('prepar') || raw.toLowerCase().includes('minut') 
-                         || raw.toLowerCase().includes('describe') || raw.toLowerCase().includes('speak for'));
-      if(isCueCard){
+      // Detect Part 2 cue card — broader detection
+      const lowerRaw = raw.toLowerCase();
+      const hasBullets = /[•·\-\*]\s/.test(raw) || /^\d+[\.\)]\s/m.test(raw);
+      const hasCueKeywords = lowerRaw.includes('part 2') || lowerRaw.includes('task card')
+                          || lowerRaw.includes('cue card') || lowerRaw.includes('you should say')
+                          || lowerRaw.includes('one minute to prepare') || lowerRaw.includes('1 minute to prepare')
+                          || lowerRaw.includes('speak for one') || lowerRaw.includes('speak for 1')
+                          || lowerRaw.includes('speak for two') || lowerRaw.includes('speak for 2')
+                          || (lowerRaw.includes('describe') && (lowerRaw.includes('prepar') || lowerRaw.includes('minut')));
+      if(hasBullets || hasCueKeywords){
         showCueCard(raw);
       } else {
         addMsg('ai', fmt(raw));
@@ -2138,9 +2163,18 @@ function showCueCard(text){
     } else if(!inBullets){ intro+=ln+' '; }
     else { outro+=ln+' '; }
   }
-  // If no bullets found, split on common delimiters
+  // If still no bullets, try splitting on "You should say:" or numbered pattern
   if(!bullets.length){
-    const parts = text.split(/(?<=[.!?])\s+/);
+    const afterShould = text.split(/you should say[:\-]?/i)[1];
+    if(afterShould){
+      afterShould.split(/\n/).map(l=>l.trim()).filter(l=>l && !/^you have/i.test(l)).forEach(l=>{
+        const clean = l.replace(/^[•·\-\*\d\.\)]\s*/,'').trim();
+        if(clean) bullets.push(clean);
+      });
+    }
+  }
+  // Fallback: render as plain message if still no bullets
+  if(!bullets.length){
     addMsg('ai', fmt(text));
     return;
   }
